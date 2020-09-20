@@ -1,10 +1,9 @@
 var pathToPage = {
     '/': 'Home',
-    '/index.html': 'Home',
-    '/about.html': 'About',
-    '/contact.html': 'Contact',
-    '/pricing.html': 'Pricing',
-    '/blog.html': 'Blog',
+    '/about': 'About',
+    '/contact': 'Contact',
+    '/pricing': 'Pricing',
+    '/blog': 'Blog',
 }
 var pageNow = pathToPage[window.location.pathname]
 if (pageNow) {

@@ -1,11 +1,10 @@
 var path = window.location.pathname
 var pathToPage = {
     '/': 'Home',
-    '/index.html': 'Home',
-    '/about.html': 'About',
-    '/contact.html': 'Contact',
-    '/pricing.html': 'Pricing',
-    '/blog.html': 'Blog',
+    '/about': 'About',
+    '/contact': 'Contact',
+    '/pricing': 'Pricing',
+    '/blog': 'Blog',
 }
 if (pathToPage[path] === 'Home') {
     $(window).on("load", function () {
