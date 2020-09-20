@@ -1,87 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, minimum-scale=1" />
-        <title>Kritibuy</title>
-        <style id="themevars"></style>
-        <script src="./js/theme.js"></script>
-
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round" />
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
-        <script src="https://rawgit.com/peacepostman/wavify/master/wavify.js"></script>
-        <script src="https://rawgit.com/peacepostman/wavify/master/jquery.wavify.js"></script>
-        <script defer src="./js/responsive.js"></script>
-        <script defer src="./js/animation.js"></script>
-        <script defer src="./js/navbar.js"></script>
-        <script defer src="./js/loading.js"></script>
-        <link rel="stylesheet" href="./css/keyframes.css" />
-        <link rel="stylesheet" href="./css/media.css" />
-        <link rel="stylesheet" href="./css/other.css" />
-        <link rel="stylesheet" href="./css/navbar.css" />
-        <link rel="stylesheet" href="./css/content.css" />
-        <link rel="stylesheet" href="./css/button.css" />
-        <link rel="stylesheet" href="./css/header.css" />
-        <link rel="stylesheet" href="./css/sign.css" />
-        <link rel="stylesheet" href="./css/radiobtn.css" />
-    </head>
-    <body>
-        <div class="loader-wrapper">
-            <span class="loader"><span class="loader-inner"></span></span>
-        </div>
-        <div class="signUpBody">
-            <div>
-                <div class="user signupBx">
-                    <div class="formBx">
-                        <form spellcheck="false" autocomplete="off" method="POST">
-                            <h2>Create Account</h2>
-                            <label id="errorLine">&nbsp;</label><input required="" type="email" name="email" placeholder="Email..." /><input
-                                required=""
-                                type="text"
-                                name="username"
-                                placeholder="Username..."
-                            /><input required="" type="password" name="pass" placeholder="Password..." /><input required="" type="password" name="passConfirm" placeholder="Confirm Password..." />
-                            <div style="width: fit-content; margin-left: auto; margin-right: auto">
-                                <label class="radiobtn-container col-md-6">
-                                    Personal
-                                    <input required="" type="radio" name="accountType" value="personal" />
-                                    <span class="radiobtn-checkmark"></span>
-                                </label>
-                                <label class="radiobtn-container col-md-6">
-                                    Business
-                                    <input required="" type="radio" name="accountType" value="business" />
-                                    <span class="radiobtn-checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="selects col-md-12 float-left">
-                                <select required name="country" id="country">
-                                    <option value="" hidden>Select country:</option>
-                                    <option value="0">Azerbaijan</option>
-                                    <option value="1">Turkey</option>
-                                    <!-- COUNTRIES HERE -->
-                                </select>
-                                <select disabled required name="country" id="country">
-                                    <option value="" hidden>Select city:</option>
-                                    <!-- CITIES HERE -->
-                                </select>
-                            </div>
-                            <div class="btnBx"><button class="btn btn-primary">Sign Up</button></div>
-                            <p class="signup">Already have an account? <a href="/login">Log In</a></p>
-                            <p class="signup">Want to learn more about us? <a href="/">Home page</a></p>
-                        </form>
-                    </div>
-                    <div class="imgBx"><img src="/assets/signUpIllustration.svg" alt="personal illustration" /></div>
+{%extends "bases/sign.html"%} {%block head%}
+<link rel="stylesheet" href="/css/radiobtn.css" />
+{%endblock%} {%block body%}
+<div>
+    <div class="user signupBx">
+        <div class="formBx">
+            <form spellcheck="false" autocomplete="off" method="POST">
+                <h2>Create Account</h2>
+                <label id="errorLine">&nbsp;</label><input required="" type="email" name="email" placeholder="Email..." /><input
+                    required=""
+                    type="text"
+                    name="username"
+                    placeholder="Username..."
+                /><input required="" type="password" name="pass" placeholder="Password..." /><input required="" type="password" name="passConfirm" placeholder="Confirm Password..." />
+                <div style="width: fit-content; margin-left: auto; margin-right: auto">
+                    <label class="radiobtn-container col-md-6">
+                        Personal
+                        <input required="" type="radio" name="accountType" value="personal" />
+                        <span class="radiobtn-checkmark"></span>
+                    </label>
+                    <label class="radiobtn-container col-md-6">
+                        Business
+                        <input required="" type="radio" name="accountType" value="business" />
+                        <span class="radiobtn-checkmark"></span>
+                    </label>
                 </div>
-            </div>
+                <div class="selects col-md-12 float-left">
+                    <select required name="country" id="country">
+                        <option value="" hidden>Select country:</option>
+                        <option value="0">Azerbaijan</option>
+                        <option value="1">Turkey</option>
+                        <!-- COUNTRIES HERE -->
+                    </select>
+                    <select disabled required name="country" id="country">
+                        <option value="" hidden>Select city:</option>
+                        <!-- CITIES HERE -->
+                    </select>
+                </div>
+                <div class="btnBx"><button class="btn btn-primary">Sign Up</button></div>
+                <p class="signup">Already have an account? <a href="/login">Log In</a></p>
+                <p class="signup">Want to learn more about us? <a href="/">Home page</a></p>
+            </form>
         </div>
-    </body>
-</html>
+        <div class="imgBx"><img src="/assets/signUpIllustration.svg" alt="personal illustration" /></div>
+    </div>
+</div>
+{%endblock%}
