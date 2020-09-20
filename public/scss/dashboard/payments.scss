@@ -1,0 +1,50 @@
+.budget {
+    color: black;
+    display: block;
+    float: left;
+    h1 {
+        width: 100%;
+        float: left;
+        height: fit-content;
+        display: block;
+    }
+    .money-left {
+        color: var(--primary-dark);
+        font-weight: bold;
+        font-size: 5rem;
+        float: left;
+        width: 100%;
+        height: fit-content;
+    }
+}
+.list-of-payments {
+    color: black;
+    float: left;
+    display: block;
+    overflow: scroll;
+    height: 100% !important;
+    .transactions {
+        float: left;
+        border-collapse: collapse;
+        width: 100%;
+        tr:nth-child(even) {
+            background-color: #ccc;
+        }
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        td.positive {
+            color: green !important;
+        }
+        td.negative {
+            color: red !important;
+        }
+    }
+}
+.dashboard-body > div {
+    float: left;
+    display: block;
+}

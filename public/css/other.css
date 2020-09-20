@@ -1,0 +1,51 @@
+* {
+  outline: none !important; }
+  *::selection {
+    color: white;
+    background-color: var(--primary-color); }
+  *::-webkit-scrollbar {
+    width: 10px; }
+  *::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--primary-light), var(--primary-dark));
+    border-radius: 10px; }
+
+body {
+  font-family: "Varela Round", sans-serif;
+  overflow-x: hidden !important;
+  max-width: 100vw; }
+
+.form-control {
+  box-shadow: none;
+  font-weight: normal;
+  font-size: 13px; }
+
+.form-check-label input {
+  position: relative;
+  top: 1px; }
+
+.loader-wrapper {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999999; }
+
+.loader {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  border: 4px solid var(--primary-color);
+  animation: loader 2s infinite ease; }
+
+.loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: var(--primary-color);
+  animation: loader-inner 2s infinite ease-in; }

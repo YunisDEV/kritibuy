@@ -1,0 +1,62 @@
+@media (min-width: 1200px) {
+	.form-inline {
+		.input-group {
+			width: 300px;
+			margin-left: 30px;
+		}
+	}
+}
+@media (min-width:768px){
+	.chat-modal-mobile{
+		display: none!important;
+	}
+}
+@media (max-width: 768px) {
+	.navbar {
+		.dropdown-menu.action-form {
+			width: 100%;
+			padding: 10px 15px;
+			background: transparent;
+			border: none;
+		}
+		.form-inline {
+			display: block;
+		}
+		.input-group {
+			width: 100%;
+		}
+	}
+	.inbox {
+		.messages {
+			width: 100% !important;
+			margin: 0 !important;
+		}
+	}
+	.inbox .chatbox{
+		display: none!important;
+	}
+}
+@media (max-width: 992px) {
+	.mobile-action {
+		margin-top: 15px;
+		margin-bottom: 15px;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+@media (min-width: 992px) {
+	.pricing {
+		.card {
+			&:hover {
+				margin-top: -0.25rem;
+				margin-bottom: 0.25rem;
+				box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+				.btn {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}

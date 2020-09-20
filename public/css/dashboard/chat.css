@@ -1,0 +1,149 @@
+.chat-modal-mobile {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  padding: 0 !important; }
+  .chat-modal-mobile.hide {
+    display: none; }
+  .chat-modal-mobile .body {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: relative;
+    padding: 0 !important; }
+    .chat-modal-mobile .body .chatbox {
+      height: 100%;
+      width: 100%;
+      border-radius: 0 !important; }
+  .chat-modal-mobile span.modal-x {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 20px;
+    padding: 5px;
+    background-color: var(--primary-dark);
+    text-align: center;
+    width: 40px;
+    border-radius: 50%;
+    z-index: 100000;
+    color: white; }
+
+.chatbox {
+  width: calc(100% - 320px);
+  position: relative;
+  float: left;
+  overflow: hidden !important;
+  height: 85%;
+  background-color: var(--primary-dark);
+  border-radius: 20px;
+  padding: 5px; }
+  .chatbox .chat_body {
+    float: left;
+    height: calc(100% - 50px - 70px);
+    width: 100%;
+    background-color: white;
+    border-radius: 20px 20px 0 0;
+    padding: 10px;
+    padding-top: 20px; }
+    .chatbox .chat_body .chat_message_part {
+      width: 100%;
+      float: left;
+      padding: 5px 0; }
+      .chatbox .chat_body .chat_message_part .chat_message.me {
+        position: relative;
+        background-color: var(--primary-dark);
+        padding: 5px 10px;
+        float: right;
+        border-radius: 10px 10px 0 10px;
+        width: fit-content;
+        min-width: 100px; }
+        .chatbox .chat_body .chat_message_part .chat_message.me::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: calc(100% - 1px);
+          z-index: 999999;
+          width: 0;
+          height: 0;
+          border-bottom: 10px solid var(--primary-dark);
+          border-right: 10px solid transparent; }
+        .chatbox .chat_body .chat_message_part .chat_message.me * {
+          color: white; }
+        .chatbox .chat_body .chat_message_part .chat_message.me span {
+          font-size: 11px; }
+        .chatbox .chat_body .chat_message_part .chat_message.me p {
+          font-size: 16px; }
+      .chatbox .chat_body .chat_message_part .chat_message.you {
+        position: relative;
+        background-color: #ccc;
+        padding: 5px 10px;
+        float: left;
+        border-radius: 10px 10px 10px 0px;
+        width: fit-content;
+        min-width: 150px; }
+        .chatbox .chat_body .chat_message_part .chat_message.you::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          right: calc(100% - 1px);
+          z-index: 999999;
+          width: 0;
+          height: 0;
+          border-bottom: 10px solid #ccc;
+          border-left: 10px solid transparent; }
+        .chatbox .chat_body .chat_message_part .chat_message.you * {
+          color: black; }
+        .chatbox .chat_body .chat_message_part .chat_message.you span {
+          font-size: 11px; }
+        .chatbox .chat_body .chat_message_part .chat_message.you p {
+          font-size: 16px; }
+  .chatbox .chat_inputs {
+    float: left;
+    width: 100%;
+    background-color: var(--primary-dark);
+    height: 70px;
+    border-radius: 20px;
+    padding: 10px; }
+    .chatbox .chat_inputs input {
+      width: 100% !important;
+      padding: 10px;
+      border-radius: 20px;
+      border: none; }
+  .chatbox .chat_header {
+    height: 50px;
+    border-radius: 0 0 20px 20px;
+    float: left;
+    padding-left: 10px; }
+    .chatbox .chat_header img {
+      width: 40px;
+      border-radius: 50%;
+      float: left; }
+    .chatbox .chat_header p {
+      color: white;
+      float: left;
+      padding-left: 10px;
+      font-size: 20px;
+      padding-top: 10px; }
+    .chatbox .chat_header .actions {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      color: white;
+      padding-left: 10px;
+      font-size: 30px;
+      width: fit-content;
+      background-color: var(--primary-dark); }
+      .chatbox .chat_header .actions a {
+        text-decoration: none;
+        color: white;
+        float: right;
+        padding: 3px;
+        width: 50px;
+        text-align: center;
+        height: 30px; }
+      .chatbox .chat_header .actions .mobile-show-icon {
+        display: none; }
