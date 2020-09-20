@@ -20,10 +20,10 @@ $(document).ready(function () {
 });
 var navLinks = document.querySelectorAll('.nav-item.nav-link')
 var pathToPage = {
-    '/dashboard_inbox.html': 'Inbox',
-    '/dashboard_stats.html': 'Stats',
-    '/dashboard_payments.html': 'Payments',
-    '/dashboard_contact.html': 'Contact'
+    '/dashboard/inbox': 'Inbox',
+    '/dashboard/stats': 'Stats',
+    '/dashboard/payments': 'Payments',
+    '/dashboard/contact': 'Contact'
 }
 var pageNow = pathToPage[window.location.pathname]
 if (pageNow) {
