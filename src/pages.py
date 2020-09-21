@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template
+import json
+from src.methods import getContentHTML
 
 pages = Blueprint('pages', __name__, template_folder='../public')
 
 
 @pages.route('/')
 def index():
-    return render_template('views/index.html')
+    with open('./src/page_contents/contents.json','rt') as source:
+        h = getContentHTML(json.load(source)['index'])
+        return render_template('views/index.html',htmlFromContent=h)
 
 
 @pages.route('/about')
