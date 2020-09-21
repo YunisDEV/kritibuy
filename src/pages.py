@@ -14,7 +14,9 @@ def index():
 
 @pages.route('/about')
 def about():
-    return render_template('views/about.html')
+    with open('./src/page_contents/contents.json','rt') as source:
+        h = getContentHTML(json.load(source)['about'])
+        return render_template('views/about.html',htmlFromContent=h)
 
 
 @pages.route('/blog')
@@ -29,7 +31,9 @@ def contact():
 
 @pages.route('/pricing')
 def pricing():
-    return render_template('views/pricing.html')
+    with open('./src/page_contents/contents.json','rt') as source:
+        h = getContentHTML(json.load(source)['pricing'])
+        return render_template('views/pricing.html',htmlFromContent=h)
 
 
 @pages.route('/login')
