@@ -8,44 +8,19 @@
 <div>
     <h1>Posts</h1>
     <div class="cards-div">
+        {%for blogs in _blogs%}
         <div class="card-block">
+            {%for blog in blogs%}
             <div class="col-md-4">
                 <div class="card spec-card">
-                    <img class="card-img-top" src="https://via.placeholder.com/728x400.png" alt="cardIcon" />
-                    <div class="card-body"><p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></div>
+                    <img class="card-img-top" src="{{blog.image}}" alt="cardIcon" />
+                    <div class="card-body" style="display: block; width: 100%; float: left"><p class="card-text">{{blog.title}}</p></div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card spec-card">
-                    <img class="card-img-top" src="https://via.placeholder.com/728x400.png" alt="cardIcon" />
-                    <div class="card-body"><p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card spec-card">
-                    <img class="card-img-top" src="https://via.placeholder.com/728x400.png" alt="cardIcon" />
-                    <div class="card-body"><p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card spec-card">
-                    <img class="card-img-top" src="https://via.placeholder.com/728x400.png" alt="cardIcon" />
-                    <div class="card-body"><p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card spec-card">
-                    <img class="card-img-top" src="https://via.placeholder.com/728x400.png" alt="cardIcon" />
-                    <div class="card-body"><p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card spec-card">
-                    <img class="card-img-top" src="https://via.placeholder.com/728x400.png" alt="cardIcon" />
-                    <div class="card-body"><p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></div>
-                </div>
-            </div>
+            {%endfor%}
         </div>
+        {%endfor%}
     </div>
 </div>
+
 {%endblock%}

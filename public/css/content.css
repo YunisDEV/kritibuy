@@ -42,7 +42,8 @@
 
 .spec-card {
   cursor: pointer;
-  transition: ease-out color 0.3s, background-color 0.3s, box-shadow 0.3s; }
+  transition: ease-out color 0.3s, background-color 0.3s, box-shadow 0.3s;
+  min-height: 350px !important; }
   .spec-card:hover {
     background-color: var(--primary-dark);
     color: white;

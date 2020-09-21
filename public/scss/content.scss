@@ -55,7 +55,8 @@
 		background-color: var(--primary-dark);
 		color: white;
 		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
-	}
+    }
+    min-height: 350px!important;
 }
 .cards-div {
 	width: 100%;

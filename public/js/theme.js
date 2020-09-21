@@ -27,5 +27,6 @@ document.querySelector('meta[name="viewport"]').insertAdjacentHTML('afterend',`
     <meta property="og:image" content="" />
     <meta property="og:site_name" content="kritibuy.com" />
     <meta name="keywords" content="buy, chat, order, sell, ai assistan, brand, business, business plus, personal" />
-    <meta http-equiv="expires" content="3600" />
+    
 `)
+// {/* <meta http-equiv="expires" content="3600" /> */}
