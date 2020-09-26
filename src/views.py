@@ -1,25 +1,25 @@
 from flask import Blueprint, render_template
 import json
-from src.methods import getContentHTML
+from .methods import getContentHTML
 
-pages = Blueprint('pages', __name__, template_folder='../public')
+views = Blueprint('views', __name__,template_folder='../views')
 
 
-@pages.route('/')
+@views.route('/')
 def index():
     with open('./src/page_contents/contents_en.json', 'rt') as source:
         h = getContentHTML(json.load(source)['index'])
-        return render_template('views/index.html', htmlFromContent=h)
+        return render_template('index.html', htmlFromContent=h)
 
 
-@pages.route('/about')
+@views.route('/about')
 def about():
     with open('./src/page_contents/contents_en.json', 'rt') as source:
         h = getContentHTML(json.load(source)['about'])
-        return render_template('views/about.html', htmlFromContent=h)
+        return render_template('about.html', htmlFromContent=h)
 
 
-@pages.route('/blog')
+@views.route('/blog')
 def blog():
     fetched_blogs = [
         {
@@ -56,26 +56,26 @@ def blog():
             temp = []
     _blogs.append(temp)
     print(_blogs)
-    return render_template('views/blog.html', _blogs=_blogs)
+    return render_template('blog.html', _blogs=_blogs)
 
 
-@pages.route('/contact')
+@views.route('/contact')
 def contact():
-    return render_template('views/contact.html')
+    return render_template('contact.html')
 
 
-@pages.route('/pricing')
+@views.route('/pricing')
 def pricing():
     with open('./src/page_contents/contents_en.json', 'rt') as source:
         h = getContentHTML(json.load(source)['pricing'])
-        return render_template('views/pricing.html', htmlFromContent=h)
+        return render_template('pricing.html', htmlFromContent=h)
 
 
-@pages.route('/login')
+@views.route('/login')
 def login():
-    return render_template('views/login.html')
+    return render_template('login.html')
 
 
-@pages.route('/signup')
+@views.route('/signup')
 def signup():
-    return render_template('views/signup.html')
+    return render_template('signup.html')

@@ -93,7 +93,7 @@ CREATE TABLE Messages(
     
     CONSTRAINT message_user
         FOREIGN KEY (from_user,to_user)
-        REFERENCES Users(id)
+        REFERENCES Users(id,id)
 );
 
 CREATE TABLE Wallets(
@@ -116,7 +116,7 @@ CREATE TABLE Orders(
     
     CONSTRAINT order_user
         FOREIGN KEY (ordered_by,ordered_to)
-        REFERENCES Users(id)
+        REFERENCES Users(id,id)
 );
 
 CREATE TABLE OrderRating(
@@ -132,5 +132,5 @@ CREATE TABLE OrderRating(
 
     CONSTRAINT rating_user
         FOREIGN KEY (by_user,to_user)
-        REFERENCES Users(id)
+        REFERENCES Users(id,id)
 );

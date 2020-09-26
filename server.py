@@ -1,4 +1,5 @@
-from src.main import app
-
-if __name__=="__main__":
-    app.run(debug=True)
+from src import create_app
+import config
+app = create_app()
+if __name__ == "__main__":
+    app.run(debug=config.DEBUG)

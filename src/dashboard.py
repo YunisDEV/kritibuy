@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect
 
-dashboard = Blueprint('dashboard', __name__, template_folder='../public')
+dashboard = Blueprint('dashboard', __name__, template_folder='../views')
 
 
 @dashboard.route('/')
@@ -10,19 +10,19 @@ def dashboard_main():
 
 @dashboard.route('/inbox')
 def dashboard_inbox():
-    return render_template('views/dashboard/inbox.html')
+    return render_template('dashboard/inbox.html')
 
 
 @dashboard.route('/stats')
 def dashboard_stats():
-    return render_template('views/dashboard/stats.html')
+    return render_template('dashboard/stats.html')
 
 
 @dashboard.route('/payments')
 def dashboard_payments():
-    return render_template('views/dashboard/payments.html')
+    return render_template('dashboard/payments.html')
 
 
 @dashboard.route('/contact')
 def dashboard_contact():
-    return render_template('views/dashboard/contact.html')
+    return render_template('dashboard/contact.html')
