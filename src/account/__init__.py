@@ -21,7 +21,7 @@ def signup():
         conn = sqlite3.connect('data.db')
         c = conn.cursor()
         data = json.loads(request.data)
-        c.execute(f"""INSERT INTO Users
+        c.execute(f"""INSERT INTO Users()
         """)
         conn.commit()
 
