@@ -8,7 +8,7 @@ CREATE TABLE Countries(
     name TEXT NOT NULL,
     alpha2 VARCHAR(5) NOT NULL,
     alpha3 VARCHAR(5) NOT NULL,
-    flag_path TEXT NOT NULL
+    flag_path TEXT NOT NULL 
 );
 
 CREATE TABLE Cities(

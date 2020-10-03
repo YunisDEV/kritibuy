@@ -21,9 +21,20 @@ def signup():
         conn = sqlite3.connect('data.db')
         c = conn.cursor()
         data = json.loads(request.data)
-        c.execute(f"""INSERT INTO Users()
+        c.execute(f"""INSERT INTO Users(username,email,permission,country,city,account_created_at,active)
+        VALUES
+        (
+            '{data["username"]}',
+            '{data["email"]}',
+            (SELECT id FROM Permissions WHERE name='{data["permission"]}'),
+            (SELECT id FROM Countries WHERE name='{data["country"]}'),
+            (SELECT id FROM Cities WHERE name='{data["city"]}'),
+            '{data["createdAt"]}',
+            false
+        )
         """)
         conn.commit()
+        return {"success":True}
 
 
 @account.route('/get-cities', methods=['POST'])
