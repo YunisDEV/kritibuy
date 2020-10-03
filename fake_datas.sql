@@ -12,3 +12,8 @@ VALUES
 ('Ankara',(SELECT id from Countries WHERE name='Turkey')),
 ('San Francisco',(SELECT id from Countries WHERE name='United States')),
 ('Los Angeles',(SELECT id from Countries WHERE name='United States'));
+
+INSERT INTO Permissions(name)
+VALUES
+('Business'),
+('Personal');

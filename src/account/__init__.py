@@ -10,12 +10,20 @@ def login():
     return render_template('login.html')
 
 
-@account.route('/signup')
+@account.route('/signup',methods=['GET','POST'])
 def signup():
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute('SELECT name FROM Countries')
-    return render_template('signup.html', countries=[country[0] for country in c.fetchall()])
+    if request.method == 'GET':
+        conn = sqlite3.connect('data.db')
+        c = conn.cursor()
+        c.execute('SELECT name FROM Countries')
+        return render_template('signup.html', countries=[country[0] for country in c.fetchall()])
+    if request.method == 'POST':
+        conn = sqlite3.connect('data.db')
+        c = conn.cursor()
+        data = json.loads(request.data)
+        c.execute(f"""INSERT INTO Users
+        """)
+        conn.commit()
 
 
 @account.route('/get-cities', methods=['POST'])
