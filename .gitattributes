@@ -1,4 +1,0 @@
-* linguist-vendored
-*.py linguist-vendored=true
-*.js linguist-vendored=true
-*.sql linguist-vendored=true
