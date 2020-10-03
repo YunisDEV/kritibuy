@@ -2,19 +2,19 @@ from flask import Blueprint, render_template
 import json
 from .methods import getContentHTML
 
-views = Blueprint('views', __name__,template_folder='../views')
+views = Blueprint('views', __name__, template_folder='./templates')
 
 
 @views.route('/')
 def index():
-    with open('./src/page_contents/contents_en.json', 'rt') as source:
+    with open('./src/views/contents_en.json', 'rt') as source:
         h = getContentHTML(json.load(source)['index'])
         return render_template('index.html', htmlFromContent=h)
 
 
 @views.route('/about')
 def about():
-    with open('./src/page_contents/contents_en.json', 'rt') as source:
+    with open('./src/views/contents_en.json', 'rt') as source:
         h = getContentHTML(json.load(source)['about'])
         return render_template('about.html', htmlFromContent=h)
 
@@ -55,7 +55,6 @@ def blog():
             _blogs.append(temp)
             temp = []
     _blogs.append(temp)
-    print(_blogs)
     return render_template('blog.html', _blogs=_blogs)
 
 
@@ -66,16 +65,6 @@ def contact():
 
 @views.route('/pricing')
 def pricing():
-    with open('./src/page_contents/contents_en.json', 'rt') as source:
+    with open('./src/views/contents_en.json', 'rt') as source:
         h = getContentHTML(json.load(source)['pricing'])
         return render_template('pricing.html', htmlFromContent=h)
-
-
-@views.route('/login')
-def login():
-    return render_template('login.html')
-
-
-@views.route('/signup')
-def signup():
-    return render_template('signup.html')

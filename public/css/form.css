@@ -1,0 +1,93 @@
+form.contact-form .selects {
+  display: flex;
+  justify-content: center; }
+  form.contact-form .selects select {
+    padding: 5px;
+    margin: 10px;
+    background-color: #f5f5f5;
+    border: #f5f5f5 2px solid; }
+
+form.contact-form > h2 {
+  font-size: 25px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #555;
+  position: relative;
+  width: fit-content;
+  margin-right: auto;
+  margin-left: auto; }
+  form.contact-form > h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-dark), var(--primary-light)); }
+
+form.contact-form > label#errorLine {
+  color: red !important;
+  font-size: 14px;
+  width: 100% !important;
+  text-align: center !important; }
+
+form.contact-form > input {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  background: #f5f5f5;
+  color: #333;
+  border: #f5f5f5 2px solid;
+  outline: none;
+  box-shadow: none;
+  margin: 8px 0px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 300;
+  transition: 0.3s border ease-out; }
+
+form.contact-form > input.errorAlertInput {
+  border: red 2px solid; }
+
+form.contact-form > textarea {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  background: #f5f5f5;
+  color: #333;
+  border: #f5f5f5 2px solid;
+  outline: none;
+  box-shadow: none;
+  margin: 8px 0px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 300;
+  transition: 0.3s border ease-out; }
+
+form.contact-form > textarea.errorAlertInput {
+  border: red 2px solid; }
+
+form.contact-form > .btnBx {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center; }
+  form.contact-form > .btnBx > button {
+    width: 100px;
+    height: 40px; }
+
+form.contact-form .signup {
+  position: relative;
+  margin-top: 20px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #555; }
+  form.contact-form .signup a {
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--primary-dark); }

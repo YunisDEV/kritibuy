@@ -12,24 +12,25 @@
       content: "";
       height: 5px;
       width: 70px;
-      background: linear-gradient(90deg, var(--primary-dark), var(--primary-light));
+      background: var(--primary-color);
       position: absolute;
       left: 0;
       z-index: -1;
       bottom: 0;
-      transition: ease-out all 0.2s;
+      transition: ease-out all 0.5s;
       border-radius: 20px; }
     .content h1:hover::before {
       content: "";
       height: 5px;
-      width: 100%;
+      width: 100px;
       position: absolute;
       left: 0;
       bottom: 0; }
   .content p {
     float: left;
     font-size: 12pt;
-    margin-bottom: 50px; }
+    margin-bottom: 50px;
+    width: 100%; }
   .content .card-block {
     float: left;
     padding: 0 !important;

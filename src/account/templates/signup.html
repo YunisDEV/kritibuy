@@ -1,5 +1,6 @@
-{%extends "templates/sign.html"%} {%block head%}
+{%extends "sign_base.html"%} {%block head%}
 <link rel="stylesheet" href="/css/radiobtn.css" />
+<script defer src="/js/signup.js"></script>
 {%endblock%} {%block body%}
 <div>
     <div class="user signupBx">
@@ -27,13 +28,12 @@
                 <div class="selects col-md-12 float-left">
                     <select required name="country" id="country">
                         <option value="" hidden>Select country:</option>
-                        <option value="0">Azerbaijan</option>
-                        <option value="1">Turkey</option>
-                        <!-- COUNTRIES HERE -->
+                        {%for country in countries%}
+                            <option value="{{country}}">{{country}}</option>
+                        {%endfor%}
                     </select>
-                    <select disabled required name="country" id="country">
+                    <select disabled required name="cities" id="cities">
                         <option value="" hidden>Select city:</option>
-                        <!-- CITIES HERE -->
                     </select>
                 </div>
                 <div class="btnBx"><button class="btn btn-primary">Sign Up</button></div>
