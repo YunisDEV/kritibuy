@@ -5,4 +5,3 @@
 *.pyx    text diff=python
 *.pyz    text diff=python
 *.pyi    text diff=python
-*.js    text diff=javascript
