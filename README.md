@@ -1,1 +1,1 @@
-<img src="schema.png">
+<img src="schema.svg">
