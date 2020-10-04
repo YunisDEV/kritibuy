@@ -3,9 +3,10 @@ import os
 import config
 import bcrypt
 import sqlite3
-
+import datetime
 
 def encodeToken(payload):
+    payload["createdAt"] = datetime.today().strftime('%Y-%m-%d-%H:%M:%S')
     encodedJWT = jwt.encode(payload, config.SECRET_KEY,
                             algorithm='HS256').decode()
     return encodedJWT
@@ -22,7 +23,7 @@ def hashPassword(password):
 
 
 def checkPassword(password, hashedPassword):
-    return bool(bcrypt.checkpw(password, hashedPassword.encode()))
+    return bool(bcrypt.checkpw(password.encode(), hashedPassword.encode()))
 
 
 def isauth(request):
@@ -32,7 +33,7 @@ def isauth(request):
         conn = sqlite3.connect('data.db')
         c = conn.cursor()
         c.execute(
-            f"""SELECT token FROM AuthTokens WHERE username='{token_body["username"]}'""")
+            f"""SELECT token FROM AuthTokens WHERE user=(SELECT id FROM Users WHERE username='{token_body["username"]}')""")
         fetchedToken = c.fetchone()[0]
         if token == fetchedToken:
             return True

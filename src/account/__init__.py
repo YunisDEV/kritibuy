@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, make_response
 import json
 import sqlite3
-from .security import decodeToken, encodeToken, hashPassword, checkPassword
+from .security import decodeToken, encodeToken, hashPassword, checkPassword, isauth
 
 
 account = Blueprint('account', __name__, template_folder='./templates')
@@ -28,11 +28,18 @@ def login():
                 "permission": user[1]
             })
             resp.set_cookie('auth_token', authToken)
+            c.execute(f"""INSERT INTO AuthTokens(username,token)
+            VALUES
+            (
+                (SELECT id from Users WHERE username='{data["username"]}'),
+                '{authToken}'
+            )
+            """)
+            conn.commit()
         else:
             resp = make_response({"success": False, "error": {
                 "type": "WRONG_CREDENTIALS"
             }})
-        resp.set_cookie('auth_token', )
         return resp
 
 
@@ -68,7 +75,7 @@ def signup():
             c.execute(f"""INSERT INTO AuthTokens(username,token)
             VALUES
             (
-                '{data["username"]}',
+                (SELECT id from Users WHERE username='{data["username"]}'),
                 '{authToken}'
             )
             """)
@@ -116,10 +123,12 @@ def gettokenencoded():
         return 'Not logged in'
 
 
-
-
 @account.route('/logout')
 def logout():
     resp = make_response("Logged out<script>window.open('/','_self')</script>")
     resp.set_cookie('auth_token', '', max_age=0)
     return resp
+
+@account.route('/isauth',methods=['POST'])
+def isAuth():
+    return {"isAuth":isauth(request)}

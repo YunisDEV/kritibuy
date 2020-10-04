@@ -53,8 +53,12 @@ CREATE TABLE Users(
 
 CREATE TABLE AuthTokens(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
-    token TEXT NOT NULL
+    user INTEGER NOT NULL,
+    token TEXT NOT NULL,
+
+    CONSTRAINT auth_user
+        FOREIGN KEY (user)
+        REFERENCES Users(id)
 );
 
 CREATE TABLE Blogs(
