@@ -28,12 +28,21 @@ document.querySelector('form#signupForm').addEventListener('submit', (e) => {
     axios.post('/signup', {
         username: f.username.value,
         email: f.email.value,
-        permission: f.accountType.value,
+        password:f.password.value,
+        permission: f.permission.value,
         country: f.country.value,
         city: f.city.value
     }).then(data => {
         if (data.data.success) {
-            window.open('/dashboard','_self')
+            window.open('/dashboard', '_self')
+        } else {
+            const { error } = data.data
+            var text = ''
+            if (error.type == 'UNIQUE') {
+                text = error.value + ' should be unique.'
+            }
+            console.log(text)
+            document.querySelector('#errorLine').innerHTML = text
         }
     }).finally(() => {
         e.target.submitBtn.disabled = false

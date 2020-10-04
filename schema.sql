@@ -23,8 +23,9 @@ CREATE TABLE Cities(
 
 CREATE TABLE Users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username VARCHAR(255) NOT NULL,
-    email TEXT NOT NULL,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
     permission INTEGER NOT NULL,
     fullName TEXT NULL,
     address TEXT NULL,
@@ -32,7 +33,7 @@ CREATE TABLE Users(
     country INTEGER NOT NULL,
     city INTEGER NOT NULL,
     brandLogoPath TEXT NULL,
-    brandName TEXT NULL,
+    brandName TEXT UNIQUE NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     brandProductTypes TEXT NULL,
     active BOOLEAN DEFAULT false NOT NULL,
@@ -48,6 +49,12 @@ CREATE TABLE Users(
     CONSTRAINT user_city
         FOREIGN KEY (city)
         REFERENCES Cities(id)
+);
+
+CREATE TABLE AuthTokens(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    token TEXT NOT NULL
 );
 
 CREATE TABLE Blogs(
@@ -66,6 +73,7 @@ CREATE TABLE Payments(
     fromUser INTEGER NOT NULL,
     toUser INTEGER NOT NULL,
     amount FLOAT NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     
     CONSTRAINT payment_user
         FOREIGN KEY (fromUser,toUser)
@@ -77,7 +85,7 @@ CREATE TABLE Reports(
     reporter INTEGER NOT NULL,
     header TEXT NOT NULL,
     body TEXT NOT NULL,
-    date DATETIME NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     
     CONSTRAINT report_reporter
         FOREIGN KEY (reporter)
@@ -89,7 +97,7 @@ CREATE TABLE Messages(
     fromUser INTEGER NOT NULL,
     toUser INTEGER NOT NULL,
     message INTEGER NOT NULL,
-    date DATETIME NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     
     CONSTRAINT message_user
         FOREIGN KEY (fromUser,toUser)
@@ -113,6 +121,7 @@ CREATE TABLE Orders(
     orderText TEXT NOT NULL,
     orderPrice FLOAT NOT NULL,
     paid BOOLEAN DEFAULT false NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     
     CONSTRAINT order_user
         FOREIGN KEY (orderedBy,orderedTo)
@@ -124,7 +133,8 @@ CREATE TABLE OrderRating(
     value INTEGER NOT NULL,
     byUser INTEGER NOT NULL,
     toUser INTEGER NOT NULL,
-    forOrder INTEGER NOT NULL,    
+    forOrder INTEGER NOT NULL, 
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,   
     
     CONSTRAINT rating_order
         FOREIGN KEY (forOrder)
