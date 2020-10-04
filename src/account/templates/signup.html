@@ -5,23 +5,25 @@
 <div>
     <div class="user signupBx">
         <div class="formBx">
-            <form spellcheck="false" autocomplete="off" method="POST">
+            <form id="signupForm" spellcheck="false" >
                 <h2>Create Account</h2>
                 <label id="errorLine">&nbsp;</label><input required="" type="email" name="email" placeholder="Email..." /><input
-                    required=""
+                    required
                     type="text"
                     name="username"
                     placeholder="Username..."
-                /><input required="" type="password" name="pass" placeholder="Password..." /><input required="" type="password" name="passConfirm" placeholder="Confirm Password..." />
+                />
+                <input required type="password" name="password" placeholder="Password..." />
+                <input required type="password" name="passwordConfirm" placeholder="Confirm Password..." />
                 <div style="width: fit-content; margin-left: auto; margin-right: auto">
                     <label class="radiobtn-container col-md-6">
                         Personal
-                        <input required="" type="radio" name="accountType" value="Personal" />
+                        <input required type="radio" name="accountType" value="Personal" />
                         <span class="radiobtn-checkmark"></span>
                     </label>
                     <label class="radiobtn-container col-md-6">
                         Business
-                        <input required="" type="radio" name="accountType" value="Business" />
+                        <input required type="radio" name="accountType" value="Business" />
                         <span class="radiobtn-checkmark"></span>
                     </label>
                 </div>
@@ -29,7 +31,7 @@
                     <select required name="country" id="country">
                         <option value="" hidden>Select country:</option>
                         {%for country in countries%}
-                            <option value="{{country}}">{{country}}</option>
+                        <option value="{{country}}">{{country}}</option>
                         {%endfor%}
                     </select>
                     <select disabled required name="cities" id="cities">

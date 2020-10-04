@@ -5,12 +5,15 @@ import sqlite3
 account = Blueprint('account', __name__, template_folder='./templates')
 
 
-@account.route('/login')
+@account.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        return {"success": True}
 
 
-@account.route('/signup',methods=['GET','POST'])
+@account.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
         conn = sqlite3.connect('data.db')
@@ -21,20 +24,18 @@ def signup():
         conn = sqlite3.connect('data.db')
         c = conn.cursor()
         data = json.loads(request.data)
-        c.execute(f"""INSERT INTO Users(username,email,permission,country,city,account_created_at,active)
+        c.execute(f"""INSERT INTO Users(username,email,permission,country,city)
         VALUES
         (
             '{data["username"]}',
             '{data["email"]}',
             (SELECT id FROM Permissions WHERE name='{data["permission"]}'),
             (SELECT id FROM Countries WHERE name='{data["country"]}'),
-            (SELECT id FROM Cities WHERE name='{data["city"]}'),
-            '{data["createdAt"]}',
-            false
+            (SELECT id FROM Cities WHERE name='{data["city"]}')
         )
         """)
         conn.commit()
-        return {"success":True}
+        return {"success": True}
 
 
 @account.route('/get-cities', methods=['POST'])

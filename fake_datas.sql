@@ -1,4 +1,4 @@
-INSERT INTO Countries(name,alpha2,alpha3,flag_path)
+INSERT INTO Countries(name,alpha2,alpha3,flagPath)
 VALUES 
 ('Azerbaijan','AZ','AZE','aze_flag.png'),
 ('Turkey','TR','TUR','tur_flag.png'),

@@ -8,7 +8,7 @@ CREATE TABLE Countries(
     name TEXT NOT NULL,
     alpha2 VARCHAR(5) NOT NULL,
     alpha3 VARCHAR(5) NOT NULL,
-    flag_path TEXT NOT NULL 
+    flagPath TEXT NOT NULL
 );
 
 CREATE TABLE Cities(
@@ -26,16 +26,16 @@ CREATE TABLE Users(
     username VARCHAR(255) NOT NULL,
     email TEXT NOT NULL,
     permission INTEGER NOT NULL,
-    full_name TEXT NULL,
+    fullName TEXT NULL,
     address TEXT NULL,
     phone TEXT NULL,
     country INTEGER NOT NULL,
     city INTEGER NOT NULL,
-    brand_logo_path TEXT NULL,
-    brand_name TEXT NULL,
-    account_created_at DATETIME NOT NULL,
-    brand_product_types TEXT NULL,
-    active BOOLEAN NOT NULL,
+    brandLogoPath TEXT NULL,
+    brandName TEXT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    brandProductTypes TEXT NULL,
+    active BOOLEAN DEFAULT false NOT NULL,
 
     CONSTRAINT user_permission
         FOREIGN KEY (permission)
@@ -63,12 +63,12 @@ CREATE TABLE Blogs(
 
 CREATE TABLE Payments(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    from_user INTEGER NOT NULL,
-    to_user INTEGER NOT NULL,
+    fromUser INTEGER NOT NULL,
+    toUser INTEGER NOT NULL,
     amount FLOAT NOT NULL,
     
     CONSTRAINT payment_user
-        FOREIGN KEY (from_user,to_user)
+        FOREIGN KEY (fromUser,toUser)
         REFERENCES Users(id,id)
 );
 
@@ -86,19 +86,19 @@ CREATE TABLE Reports(
 
 CREATE TABLE Messages(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    from_user INTEGER NOT NULL,
-    to_user INTEGER NOT NULL,
+    fromUser INTEGER NOT NULL,
+    toUser INTEGER NOT NULL,
     message INTEGER NOT NULL,
     date DATETIME NOT NULL,
     
     CONSTRAINT message_user
-        FOREIGN KEY (from_user,to_user)
+        FOREIGN KEY (fromUser,toUser)
         REFERENCES Users(id,id)
 );
 
 CREATE TABLE Wallets(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    balance FLOAT NOT NULL, -- DEFAULT 0.0
+    balance FLOAT DEFAULT 0.0 NOT NULL,
     owner INTEGER NOT NULL,
     
     CONSTRAINT wallet_user
@@ -108,29 +108,29 @@ CREATE TABLE Wallets(
 
 CREATE TABLE Orders(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    ordered_to INTEGER NOT NULL,
-    ordered_by INTEGER NOT NULL,
-    order_text TEXT NOT NULL,
-    order_price FLOAT NOT NULL,
-    paid BOOLEAN NOT NULL, -- DEFAULT FALSE
+    orderedTo INTEGER NOT NULL,
+    orderedBy INTEGER NOT NULL,
+    orderText TEXT NOT NULL,
+    orderPrice FLOAT NOT NULL,
+    paid BOOLEAN DEFAULT false NOT NULL,
     
     CONSTRAINT order_user
-        FOREIGN KEY (ordered_by,ordered_to)
+        FOREIGN KEY (orderedBy,orderedTo)
         REFERENCES Users(id,id)
 );
 
 CREATE TABLE OrderRating(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     value INTEGER NOT NULL,
-    by_user INTEGER NOT NULL,
-    to_user INTEGER NOT NULL,
-    for_order INTEGER NOT NULL,    
+    byUser INTEGER NOT NULL,
+    toUser INTEGER NOT NULL,
+    forOrder INTEGER NOT NULL,    
     
     CONSTRAINT rating_order
-        FOREIGN KEY (for_order)
+        FOREIGN KEY (forOrder)
         REFERENCES Orders(id)
 
     CONSTRAINT rating_user
-        FOREIGN KEY (by_user,to_user)
+        FOREIGN KEY (byUser,toUser)
         REFERENCES Users(id,id)
 );
