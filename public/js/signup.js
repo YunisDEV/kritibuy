@@ -41,7 +41,6 @@ document.querySelector('form#signupForm').addEventListener('submit', (e) => {
             if (error.type == 'UNIQUE') {
                 text = error.value + ' should be unique.'
             }
-            console.log(text)
             document.querySelector('#errorLine').innerHTML = text
         }
     }).finally(() => {

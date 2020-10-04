@@ -1,15 +1,17 @@
-{%extends "sign_base.html"%} {%block body%}
+{%extends "sign_base.html"%} {%block head%}
+<script defer src="/js/login.js"></script>
+{%endblock%}{%block body%}
 <div>
     <div class="user signinBx">
         <div class="imgBx"><img src="/assets/loginIllustration.svg" alt="business illustration" /></div>
         <div class="formBx">
-            <form method="POST" spellcheck="false">
+            <form method="POST" spellcheck="false" id="loginForm">
                 <h2>Log In</h2>
                 <label id="errorLine">&nbsp;</label>
-                <input required="" type="text" name="username" placeholder="Username..." />
-                <input required="" type="password" name="pass" placeholder="Password..." />
-                <div class="btnBx"><button class="btn btn-primary" type="submit">Log in</button></div>
-                <p class="signup">Forgotten password? <a href="/pass-recover">Recover password</a></p>
+                <input required type="text" name="username" placeholder="Username..." />
+                <input required type="password" name="password" placeholder="Password..." />
+                <div class="btnBx"><button name="submitBtn" class="btn btn-primary" type="submit">Log in</button></div>
+                <p class="signup">Forgotten password? <a href="/password-recover">Recover password</a></p>
                 <p class="signup">Don't have an account? <a href="/signup">Sign Up</a></p>
                 <p class="signup">Want to learn more about us? <a href="/">Home page</a></p>
             </form>

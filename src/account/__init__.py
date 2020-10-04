@@ -28,7 +28,7 @@ def login():
                 "permission": user[1]
             })
             resp.set_cookie('auth_token', authToken)
-            c.execute(f"""INSERT INTO AuthTokens(username,token)
+            c.execute(f"""INSERT INTO AuthTokens(user,token)
             VALUES
             (
                 (SELECT id from Users WHERE username='{data["username"]}'),
@@ -72,7 +72,7 @@ def signup():
                 "username": data["username"],
                 "permission": data["permission"]
             })
-            c.execute(f"""INSERT INTO AuthTokens(username,token)
+            c.execute(f"""INSERT INTO AuthTokens(user,token)
             VALUES
             (
                 (SELECT id from Users WHERE username='{data["username"]}'),
@@ -129,6 +129,6 @@ def logout():
     resp.set_cookie('auth_token', '', max_age=0)
     return resp
 
-@account.route('/isauth',methods=['POST'])
+@account.route('/isauth',methods=['POST','GET'])
 def isAuth():
     return {"isAuth":isauth(request)}

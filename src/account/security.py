@@ -6,7 +6,7 @@ import sqlite3
 import datetime
 
 def encodeToken(payload):
-    payload["createdAt"] = datetime.today().strftime('%Y-%m-%d-%H:%M:%S')
+    payload["createdAt"] = datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S')
     encodedJWT = jwt.encode(payload, config.SECRET_KEY,
                             algorithm='HS256').decode()
     return encodedJWT
