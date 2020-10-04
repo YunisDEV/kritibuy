@@ -20,6 +20,7 @@ $(document).ready(function () {
 });
 var navLinks = document.querySelectorAll('.nav-item.nav-link')
 var pathToPage = {
+    '/dashboard/': 'Inbox',
     '/dashboard/inbox': 'Inbox',
     '/dashboard/stats': 'Stats',
     '/dashboard/payments': 'Payments',

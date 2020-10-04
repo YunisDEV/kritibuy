@@ -4,7 +4,7 @@ document.querySelector('#country').addEventListener('change', (e) => {
         country
     }).then(({ data }) => {
         if (data.success) {
-            var citySelect = document.querySelector('#cities')
+            var citySelect = document.querySelector('#city')
             var cities = data.data
             var citiesHTML = ''
             for (var i = 0; i < cities.length; i++) {
@@ -24,13 +24,18 @@ document.querySelector('#country').addEventListener('change', (e) => {
 document.querySelector('form#signupForm').addEventListener('submit', (e) => {
     e.preventDefault()
     var f = e.target
+    e.target.submitBtn.disabled = true
     axios.post('/signup', {
         username: f.username.value,
         email: f.email.value,
         permission: f.accountType.value,
         country: f.country.value,
         city: f.city.value
-    }).then(({ data }) => {
-        console.log(data)
+    }).then(data => {
+        if (data.data.success) {
+            window.open('/dashboard','_self')
+        }
+    }).finally(() => {
+        e.target.submitBtn.disabled = false
     })
 })

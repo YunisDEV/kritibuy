@@ -5,7 +5,7 @@
 <div>
     <div class="user signupBx">
         <div class="formBx">
-            <form id="signupForm" spellcheck="false" >
+            <form id="signupForm" spellcheck="false" autocomplete="off">
                 <h2>Create Account</h2>
                 <label id="errorLine">&nbsp;</label><input required="" type="email" name="email" placeholder="Email..." /><input
                     required
@@ -34,11 +34,11 @@
                         <option value="{{country}}">{{country}}</option>
                         {%endfor%}
                     </select>
-                    <select disabled required name="cities" id="cities">
+                    <select disabled required name="city" id="city">
                         <option value="" hidden>Select city:</option>
                     </select>
                 </div>
-                <div class="btnBx"><button class="btn btn-primary">Sign Up</button></div>
+                <div class="btnBx"><button name="submitBtn" type="submit" class="btn btn-primary">Sign Up</button></div>
                 <p class="signup">Already have an account? <a href="/login">Log In</a></p>
                 <p class="signup">Want to learn more about us? <a href="/">Home page</a></p>
             </form>
