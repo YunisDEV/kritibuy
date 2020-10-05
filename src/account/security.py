@@ -43,12 +43,19 @@ def authorize(*allowed):
                 c.execute(
                     f"""SELECT token FROM AuthTokens WHERE user=(SELECT id FROM Users WHERE username='{token_body["username"]}')""")
                 tokens = [i[0] for i in c.fetchall()]
-                print(tokens)
-                print(token)
                 if token in tokens and token_body["permission"].lower() in allowed:
                     isauth = True
             if not isauth:
                 abort(401)
             return f(token_body["permission"].lower(), *args, **kwargs)
+        return wrapper
+    return dec
+
+def webhook_authorize():
+    def dec(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            abort(401)
+            return f(*args, **kwargs)
         return wrapper
     return dec
