@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, make_response
 import json
 import sqlite3
-from .security import decodeToken, encodeToken, hashPassword, checkPassword, isauth
+from .security import authorize, encodeToken, hashPassword, checkPassword
 
 
 account = Blueprint('account', __name__, template_folder='./templates')
@@ -109,26 +109,8 @@ def getCities():
         return {"success": False}
 
 
-@account.route('/gettoken', methods=['GET'])
-def getusername():
-    return request.cookies.get('auth_token', 'Not logged in')
-
-
-@account.route('/gettokenencoded', methods=['GET'])
-def gettokenencoded():
-    token = request.cookies.get('auth_token', False)
-    if token:
-        return decodeToken(token)
-    else:
-        return 'Not logged in'
-
-
 @account.route('/logout')
 def logout():
     resp = make_response("Logged out<script>window.open('/','_self')</script>")
     resp.set_cookie('auth_token', '', max_age=0)
     return resp
-
-@account.route('/isauth',methods=['POST','GET'])
-def isAuth():
-    return {"isAuth":isauth(request)}

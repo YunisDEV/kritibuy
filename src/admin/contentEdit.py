@@ -1,7 +1,8 @@
 from flask import Flask, Blueprint
 
-contentEdit = Blueprint('contentEdit',__name__)
+admin = Blueprint('admin', __name__)
 
-@contentEdit.route('/')
-def index():
-    return 'Hello'
+
+@admin.route('/content')
+def content():
+    return 'aaaa'

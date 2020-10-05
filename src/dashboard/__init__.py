@@ -1,11 +1,16 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, make_response, request
+from ..account.security import authorize
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
 
 @dashboard.route('/')
-def dashboard_main():
-    return render_template('inbox.html')
+@authorize('admin', 'personal', 'business')
+def dashboard_main(permission):
+    print(permission)
+    if permission == 'personal':
+        return render_template('inbox.html')
+    return 'blabla'
 
 
 @dashboard.route('/inbox')
