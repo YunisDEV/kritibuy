@@ -6,6 +6,9 @@ from .webhook import webhook
 
 def create_app():
     app = Flask(__name__, static_folder='../public', static_url_path='/')
+    import logging
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.ERROR)
     app.register_blueprint(views)
     app.register_blueprint(dashboard, url_prefix="/dashboard")
     app.register_blueprint(account)

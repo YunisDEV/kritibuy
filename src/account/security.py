@@ -7,7 +7,6 @@ import datetime
 from functools import wraps
 from flask import abort, request
 
-
 def encodeToken(payload):
     payload["createdAt"] = datetime.datetime.now().strftime(
         '%Y-%m-%d-%H:%M:%S')
@@ -30,12 +29,14 @@ def checkPassword(password, hashedPassword):
     return bool(bcrypt.checkpw(password.encode(), hashedPassword.encode()))
 
 
+
 def authorize(*allowed):
     def dec(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
             token = request.cookies.get('auth_token', False)
             isauth = False
+            permissionName = None
             if token:
                 token_body = decodeToken(token)
                 conn = sqlite3.connect('data.db')
@@ -43,13 +44,19 @@ def authorize(*allowed):
                 c.execute(
                     f"""SELECT token FROM AuthTokens WHERE user=(SELECT id FROM Users WHERE username='{token_body["username"]}')""")
                 tokens = [i[0] for i in c.fetchall()]
-                if token in tokens and token_body["permission"].lower() in allowed:
+                if token in tokens and token_body["permission"] in allowed:
                     isauth = True
+                    c.execute(
+                        f"""SELECT * FROM Users WHERE username='{token_body["username"]}'""")
+                    userDATA = c.fetchone()
+                    c.execute(f"""SELECT name FROM Permissions WHERE id={userDATA[4]}""")
+                    permissionName = c.fetchone()[0]
             if not isauth:
                 abort(401)
-            return f(token_body["permission"].lower(), *args, **kwargs)
+            return f(userDATA,permissionName, *args, **kwargs)
         return wrapper
     return dec
+
 
 def webhook_authorize():
     def dec(f):

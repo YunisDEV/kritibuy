@@ -1,0 +1,125 @@
+{%extends "business/dashboard_base.html"%} {%block head%}
+<link rel="stylesheet" href="/css/dashboard/chat.css" />
+<link rel="stylesheet" href="/css/dashboard/messages.css" />
+{%endblock%} {%block body%}
+<div class="inbox">
+    <h1>Messages</h1>
+    <div class="messages">
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Kritibuy Assistant</p>
+        </div>
+        <div class="message new">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+        <div class="message">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+        </div>
+    </div>
+    <div class="chatbox">
+        <div class="chat_header">
+            <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+            <p>Domino's Pizza</p>
+            <div class="actions">
+                <a href="/business/dominospizza" target="_blank"><i class="fas fa-info-circle"></i></a>
+            </div>
+        </div>
+        <div class="chat_body">
+            <div class="chat_message_part">
+                <div class="chat_message you">
+                    <div>
+                        <p>Recieved order</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat_message_part">
+                <div class="chat_message me">
+                    <div>
+                        <p>Hello</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chat_inputs">
+            <form autocomplete="off" action="#" method="POST">
+                <input spellcheck="false" type="text" name="message" placeholder="Enter your message..." />
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%} {%block afterbody%}
+<div class="chat-modal-mobile hide">
+    <span class="modal-x" onclick="ToggleChatPage()"><i class="fas fa-arrow-left"></i></span>
+    <div class="body">
+        <div class="chatbox">
+            <div class="chat_header">
+                <img src="https://logos-download.com/wp-content/uploads/2016/04/Dominos_Pizza_logo-700x700.png" width="50px" alt="" />
+                <p>Domino's Pizza</p>
+            </div>
+            <div class="chat_body">
+                <div class="chat_message_part">
+                    <div class="chat_message you">
+                        <div>
+                            <p>Recieved order</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat_message_part">
+                    <div class="chat_message me">
+                        <div>
+                            <p>Hello</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat_inputs">
+                <form autocomplete="off" action="#" method="POST">
+                    <input spellcheck="false" type="text" name="message" placeholder="Enter your message..." />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

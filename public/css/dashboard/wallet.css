@@ -1,0 +1,52 @@
+.budget {
+  color: black;
+  display: block;
+  float: left; }
+  .budget h1 {
+    width: 100%;
+    float: left;
+    height: fit-content;
+    display: block; }
+  .budget .money-left {
+    color: var(--primary-dark);
+    font-weight: bold;
+    font-size: 5rem;
+    float: left;
+    width: 100%;
+    height: fit-content; }
+
+table {
+  color: black;
+  text-align: left;
+  border-collapse: collapse;
+  width: 100%;
+  height: 100px;
+  position: relative;
+  overflow: scroll !important; }
+  table thead {
+    position: sticky;
+    top: 0;
+    background-color: var(--primary-color);
+    color: white; }
+    table thead th:nth-child(1) {
+      border-right: 1px solid var(--primary-dark);
+      padding: 8px; }
+  table tbody {
+    width: 100% !important;
+    height: 200px; }
+    table tbody tr:nth-child(even) {
+      background-color: whitesmoke; }
+    table tbody th,
+    table tbody td {
+      padding: 8px;
+      text-align: left; }
+    table tbody td:nth-child(1) {
+      border-right: 1px solid #eee; }
+    table tbody td.positive {
+      color: green !important; }
+    table tbody td.negative {
+      color: red !important; }
+
+.dashboard-body > div {
+  float: left;
+  display: block; }

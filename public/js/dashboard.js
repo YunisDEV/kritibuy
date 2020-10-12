@@ -23,7 +23,7 @@ var pathToPage = {
     '/dashboard/': 'Inbox',
     '/dashboard/inbox': 'Inbox',
     '/dashboard/stats': 'Stats',
-    '/dashboard/payments': 'Payments',
+    '/dashboard/wallet': 'Wallet',
     '/dashboard/contact': 'Contact'
 }
 var pageNow = pathToPage[window.location.pathname]

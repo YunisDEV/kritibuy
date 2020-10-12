@@ -1,0 +1,15 @@
+autopep8==1.5.4
+bcrypt==3.2.0
+cffi==1.14.3
+click==7.1.2
+cryptography==2.9.2
+Flask==1.1.2
+itsdangerous==1.1.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+pycodestyle==2.6.0
+pycparser==2.20
+PyJWT==1.7.1
+six==1.15.0
+toml==0.10.1
+Werkzeug==1.0.1

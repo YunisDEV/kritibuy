@@ -5,10 +5,13 @@ dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
 
 @dashboard.route('/')
-@authorize('admin', 'personal', 'business')
-def dashboard_main(permission):
-    if permission == 'personal':
-        return render_template('personal/inbox.html')
+@authorize('Admin', 'Personal', 'Business')
+def dashboard_main(user,uPermission):
+    if uPermission == 'Personal':
+        return render_template('personal/index.html')
+    if uPermission == 'Business':
+        print('rendering business UI')
+        return render_template('business/index.html')
     return 'blabla'
 
 
