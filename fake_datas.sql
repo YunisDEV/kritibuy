@@ -11,7 +11,6 @@ VALUES
 ('Sumgayit',(SELECT id from Countries WHERE name='Azerbaijan')),
 ('Guba',(SELECT id from Countries WHERE name='Azerbaijan')),
 ('Gabala',(SELECT id from Countries WHERE name='Azerbaijan')),
-('Guba',(SELECT id from Countries WHERE name='Azerbaijan')),
 ('Istanbul',(SELECT id from Countries WHERE name='Turkey')),
 ('Ankara',(SELECT id from Countries WHERE name='Turkey')),
 ('San Francisco',(SELECT id from Countries WHERE name='United States')),

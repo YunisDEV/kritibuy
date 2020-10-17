@@ -55,3 +55,6 @@ body {
 	background-color: var(--primary-color);
 	animation: loader-inner 2s infinite ease-in;
 }
+*{
+	box-sizing: border-box!important;
+}

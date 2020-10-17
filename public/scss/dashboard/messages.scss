@@ -9,13 +9,13 @@
 
 .message {
     position: relative;
-    .dot{
+    .dot {
         position: absolute;
-        background-color:var(--primary-dark);
-        width:10px!important;
-        height:10px!important;
-        top:calc(50% - 5px);
-        right:10px;
+        background-color: var(--primary-dark);
+        width: 10px !important;
+        height: 10px !important;
+        top: calc(50% - 5px);
+        right: 10px;
         border-radius: 50%;
     }
     padding: 0;
@@ -49,4 +49,12 @@
         background-color: #ccc;
         transition: all ease-out 0.2s;
     }
+}
+.inbox {
+    display: flex !important;
+}
+.inbox__main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }

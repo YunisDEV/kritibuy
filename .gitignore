@@ -2,3 +2,4 @@
 .vscode
 .venv
 config.py
+google_services_key.json

@@ -20,8 +20,8 @@ $(document).ready(function () {
 });
 var navLinks = document.querySelectorAll('.nav-item.nav-link')
 var pathToPage = {
-    '/dashboard/': 'Inbox',
-    '/dashboard/inbox': 'Inbox',
+    '/dashboard/': 'Order',
+    '/dashboard/order': 'Order',
     '/dashboard/stats': 'Stats',
     '/dashboard/wallet': 'Wallet',
     '/dashboard/contact': 'Contact'

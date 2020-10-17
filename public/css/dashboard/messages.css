@@ -43,3 +43,11 @@
     left: 0;
     background-color: #ccc;
     transition: all ease-out 0.2s; }
+
+.inbox {
+  display: flex !important; }
+
+.inbox__main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; }

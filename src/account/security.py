@@ -6,6 +6,7 @@ import sqlite3
 import datetime
 from functools import wraps
 from flask import abort, request
+from src.schema import User
 
 def encodeToken(payload):
     payload["createdAt"] = datetime.datetime.now().strftime(
@@ -49,20 +50,9 @@ def authorize(*allowed):
                     c.execute(
                         f"""SELECT * FROM Users WHERE username='{token_body["username"]}'""")
                     userDATA = c.fetchone()
-                    c.execute(f"""SELECT name FROM Permissions WHERE id={userDATA[4]}""")
-                    permissionName = c.fetchone()[0]
+                    UserData = User(userDATA,convert=['permission'])
             if not isauth:
                 abort(401)
-            return f(userDATA,permissionName, *args, **kwargs)
-        return wrapper
-    return dec
-
-
-def webhook_authorize():
-    def dec(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            abort(401)
-            return f(*args, **kwargs)
+            return f(UserData, *args, **kwargs)
         return wrapper
     return dec

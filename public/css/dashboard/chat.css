@@ -1,54 +1,20 @@
-.chat-modal-mobile {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100000;
-  padding: 0 !important; }
-  .chat-modal-mobile.hide {
-    display: none; }
-  .chat-modal-mobile .body {
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    position: relative;
-    padding: 0 !important; }
-    .chat-modal-mobile .body .chatbox {
-      height: 100%;
-      width: 100%;
-      border-radius: 0 !important; }
-  .chat-modal-mobile span.modal-x {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    font-size: 20px;
-    padding: 5px;
-    background-color: var(--primary-dark);
-    text-align: center;
-    width: 40px;
-    border-radius: 50%;
-    z-index: 100000;
-    color: white; }
-
 .chatbox {
-  width: calc(100% - 320px);
+  width: 100%;
   position: relative;
-  float: left;
   overflow: hidden !important;
-  height: 85%;
-  background-color: var(--primary-dark);
+  height: calc(100% - 68px);
   border-radius: 20px;
-  padding: 5px; }
+  border: 5px solid var(--primary-dark);
+  background-color: var(--primary-dark); }
   .chatbox .chat_body {
-    float: left;
-    height: calc(100% - 50px - 70px);
+    height: calc(100% - 70px);
     width: 100%;
     background-color: white;
     border-radius: 20px 20px 0 0;
     padding: 10px;
-    padding-top: 20px; }
+    flex-grow: 1;
+    width: 100%;
+    overflow-y: scroll; }
     .chatbox .chat_body .chat_message_part {
       width: 100%;
       float: left;
@@ -102,48 +68,20 @@
         .chatbox .chat_body .chat_message_part .chat_message.you p {
           font-size: 16px; }
   .chatbox .chat_inputs {
-    float: left;
-    width: 100%;
+    width: 100% !important;
     background-color: var(--primary-dark);
-    height: 70px;
-    border-radius: 20px;
-    padding: 10px; }
+    height: 60px;
+    border-radius: 20px 20px 0px 0px;
+    padding: 5px 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0 !important;
+    flex-shrink: 0; }
+    .chatbox .chat_inputs form {
+      width: 100%; }
     .chatbox .chat_inputs input {
       width: 100% !important;
       padding: 10px;
       border-radius: 20px;
       border: none; }
-  .chatbox .chat_header {
-    height: 50px;
-    border-radius: 0 0 20px 20px;
-    float: left;
-    padding-left: 10px; }
-    .chatbox .chat_header img {
-      width: 40px;
-      border-radius: 50%;
-      float: left; }
-    .chatbox .chat_header p {
-      color: white;
-      float: left;
-      padding-left: 10px;
-      font-size: 20px;
-      padding-top: 10px; }
-    .chatbox .chat_header .actions {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      color: white;
-      padding-left: 10px;
-      font-size: 30px;
-      width: fit-content;
-      background-color: var(--primary-dark); }
-      .chatbox .chat_header .actions a {
-        text-decoration: none;
-        color: white;
-        float: right;
-        padding: 3px;
-        width: 50px;
-        text-align: center;
-        height: 30px; }
-      .chatbox .chat_header .actions .mobile-show-icon {
-        display: none; }

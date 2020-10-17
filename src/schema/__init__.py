@@ -109,17 +109,15 @@ class Report:
 class Message:
     def __init__(self, data, convert=[]):
         self.id = data[0]
-        self.fromUser = data[1]
-        self.toUser = data[2]
+        self.user = data[1]
+        self.type = data[2]
         self.message = data[3]
         self.date = data[4]
         if 'user' in convert:
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Users WHERE id={data[1]}""")
-            self.FromUser = User(c.fetchone())
-            c.execute(f"""SELECT * FROM Users WHERE id={data[2]}""")
-            self.ToUser = User(c.fetchone())
+            self.User = User(c.fetchone())
 
 
 class Wallet:

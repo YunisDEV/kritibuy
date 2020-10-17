@@ -6,11 +6,6 @@
 		}
 	}
 }
-@media (min-width:768px){
-	.chat-modal-mobile{
-		display: none!important;
-	}
-}
 @media (max-width: 768px) {
 	.navbar {
 		.dropdown-menu.action-form {
@@ -25,15 +20,6 @@
 		.input-group {
 			width: 100%;
 		}
-	}
-	.inbox {
-		.messages {
-			width: 100% !important;
-			margin: 0 !important;
-		}
-	}
-	.inbox .chatbox{
-		display: none!important;
 	}
 }
 @media (max-width: 992px) {

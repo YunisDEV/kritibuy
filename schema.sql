@@ -61,17 +61,6 @@ CREATE TABLE AuthTokens(
         REFERENCES Users(id)
 );
 
-CREATE TABLE Blogs(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    body TEXT NOT NULL,
-    creator INTEGER NOT NULL,
-
-    CONSTRAINT blog_creator
-        FOREIGN KEY (creator)
-        REFERENCES Users(id)
-);
-
 CREATE TABLE Payments(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     fromUser INTEGER NOT NULL,
@@ -98,14 +87,14 @@ CREATE TABLE Reports(
 
 CREATE TABLE Messages(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fromUser INTEGER NOT NULL,
-    toUser INTEGER NOT NULL,
+    user INTEGER NOT NULL,
+    type VARCHAR(10) NOT NULL,
     message TEXT NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     
     CONSTRAINT message_user
-        FOREIGN KEY (fromUser,toUser)
-        REFERENCES Users(id,id)
+        FOREIGN KEY (user)
+        REFERENCES Users(id)
 );
 
 CREATE TABLE Wallets(
