@@ -21,5 +21,6 @@ VALUES
 
 INSERT INTO Permissions(name)
 VALUES
+('Admin'),
 ('Business'),
 ('Personal');

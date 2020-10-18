@@ -112,7 +112,6 @@ CREATE TABLE Orders(
     orderedTo INTEGER NOT NULL,
     orderedBy INTEGER NOT NULL,
     orderText TEXT NOT NULL,
-    orderPrice FLOAT NOT NULL,
     paid BOOLEAN DEFAULT false NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     

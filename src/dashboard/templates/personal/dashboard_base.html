@@ -19,7 +19,7 @@
         <script src="/lib/js/wavify.js"></script>
         <script src="/lib/js/jquery.wavify.js"></script>
         <script src="/lib/js/axios.min.js"></script>
-        <script defer src="/js/dashboard.js"></script>
+        <script defer src="/js/dashboard/personal/dashboard.js"></script>
         <script defer src="/js/loading.js"></script>
         <link rel="stylesheet" href="/css/keyframes.css" />
         <link rel="stylesheet" href="/css/media.css" />
@@ -28,7 +28,7 @@
         <link rel="stylesheet" href="/css/content.css" />
         <link rel="stylesheet" href="/css/button.css" />
         <link rel="stylesheet" href="/css/header.css" />
-        <link rel="stylesheet" href="/css/dashboard/dashboard.css" />
+        <link rel="stylesheet" href="/css/dashboard/personal/dashboard.css" />
         {%block head%}{%endblock%}
     </head>
     <body>
@@ -58,9 +58,9 @@
             </button>
             <div id="navbarCollapse" class="collapse navbar-collapse justify-content-center">
                 <div class="navbar-nav justify-content-center" style="width: 100%">
-                    <a href="/dashboard/order" class="nav-item nav-link hvr-underline-from-left">Order</a>
-                    <a href="/dashboard/stats" class="nav-item nav-link hvr-underline-from-left">Stats</a>
-                    <a href="/dashboard/wallet" class="nav-item nav-link hvr-underline-from-left">Wallet</a>
+                    <a href="{{url_for('dashboard.personal_main_order')}}" class="nav-item nav-link hvr-underline-from-left">Order</a>
+                    <a href="{{url_for('dashboard.personal_stats')}}" class="nav-item nav-link hvr-underline-from-left">Stats</a>
+                    <a href="{{url_for('dashboard.personal_wallet')}}" class="nav-item nav-link hvr-underline-from-left">Wallet</a>
                     <a href="/contact" class="nav-item nav-link hvr-underline-from-left">Contact</a>
                 </div>
                 <div id="actionbtns" class="ml-auto nav-item action-buttons navbar-nav">

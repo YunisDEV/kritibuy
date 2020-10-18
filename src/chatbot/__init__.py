@@ -6,7 +6,7 @@ from .dialogflow_client import DialogflowClient, DialogflowResponse
 from ..account.security import authorize
 import sqlite3
 
-dialogflow = Blueprint('dialogflow', __name__)
+chatbot = Blueprint('chatbot', __name__)
 
 
 class WebhookRequest:
@@ -24,9 +24,9 @@ def auth_webhook(f):
     return wrapper
 
 
-@dialogflow.route('/query', methods=['POST'])
+@chatbot.route('/query', methods=['POST'])
 @authorize('Personal')
-def dialogflow_query(user):
+def chatbot_query(user):
     data = json.loads(request.data)
     cli = DialogflowClient(
         project_id='kritibuy-mbhb',
@@ -45,7 +45,7 @@ def dialogflow_query(user):
     conn.commit()
     return {"response":response.fulfillmentText}
 
-@dialogflow.route('/webhook', methods=['POST', 'GET'])
+@chatbot.route('/webhook', methods=['POST', 'GET'])
 @auth_webhook
 def webhook_main():
     data = WebhookRequest(json.loads(request.data))
