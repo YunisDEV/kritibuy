@@ -1,0 +1,42 @@
+{%extends "admin/database/database_base.html"%} {%block table%}
+<thead>
+    <tr>
+        <th>id</th>
+        <th>orderedTo</th>
+        <th>orderedBy</th>
+        <th>orderedProduct</th>
+        <th>orderText</th>
+        <th>info</th>
+        <th>paid</th>
+        <th>date</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+    {%for i in data["body"]%}
+    <tr key="{{i.id}}">
+        <td>{{i.id}}</td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.OrderedTo.username}}"> {{i.orderedTo}} </a>
+        </td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.OrderedBy.username}}"> {{i.orderedBy}} </a>
+        </td>
+        <td>{{i.orderedProduct}}</td>
+        <td>{{i.orderText}}</td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.Info.email}}"> {{i.info}} </a>
+        </td>
+        <td>
+            <span class="badge {%if i.paid%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.paid}}</span>
+        </td>
+        <td>{{i.date}}</td>
+        <td>
+            <a href=""><i class="far fa-edit text-info mr-1"></i></a>
+            <a href=""><i class="far fa-trash-alt text-danger"></i></a>
+        </td>
+    </tr>
+    {%endfor%}
+</tbody>
+{%endblock%}

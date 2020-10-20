@@ -16,6 +16,8 @@
         <th>createdAt</th>
         <th>brandProductTypes</th>
         <th>active</th>
+        <th>confirmationKey</th>
+        <th>confirmed</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -45,6 +47,10 @@
         <td>{{i.brandProductTypes}}</td>
         <td>
             <span class="badge {%if i.active%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.active}}</span>
+        </td>
+        <td>{{i.confirmationKey}}</td>
+        <td>
+            <span class="badge {%if i.confirmed%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.confirmed}}</span>
         </td>
         <td>
             <a href=""><i class="far fa-edit text-info mr-1"></i></a>

@@ -24,3 +24,24 @@ VALUES
 ('Admin'),
 ('Business'),
 ('Personal');
+
+INSERT INTO Users(
+    username,
+    password,
+    email,
+    permission,
+    country,
+    city,
+    active,
+    confirmed)
+VALUES
+(
+    'admin',
+    '$2b$12$SsmnopkAVDZI/7QQjXa6XeoW6p8IqzI3OUsJyWEOVn0Tw23U7YbYm',
+    'admin@kritibuy.com',
+    (SELECT id FROM Permissions WHERE name='Admin'),
+    (SELECT id FROM Countries WHERE name='Azerbaijan'),
+    (SELECT id FROM Cities WHERE name='Baku'),
+    true,
+    true
+)

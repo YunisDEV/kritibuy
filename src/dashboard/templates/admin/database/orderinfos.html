@@ -1,0 +1,38 @@
+{%extends "admin/database/database_base.html"%} {%block table%}
+<thead>
+    <tr>
+        <th>id</th>
+        <th>user</th>
+        <th>address</th>
+        <th>city</th>
+        <th>country</th>
+        <th>phone</th>
+        <th>email</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+    {%for i in data["body"]%}
+    <tr key="{{i.id}}">
+        <td>{{i.id}}</td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.User.username}}"> {{i.user}} </a>
+        </td>
+        <td>{{i.address}}</td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.City.name}}"> {{i.city}} </a>
+        </td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.Country.name}}"> {{i.country}} </a>
+        </td>
+        <td>{{i.phone}}</td>
+        <td><a href="mailto:{{i.email}}">{{i.email}}</a></td>
+        <td>
+            <a href=""><i class="far fa-edit text-info mr-1"></i></a>
+            <a href=""><i class="far fa-trash-alt text-danger"></i></a>
+        </td>
+    </tr>
+    {%endfor%}
+</tbody>
+{%endblock%}

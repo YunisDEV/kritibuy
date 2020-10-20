@@ -142,6 +142,23 @@ def wallets(sql=""):
         "body": l,
         "query": query
     }
+
+
+def orderinfos(sql=""):
+    query = 'SELECT * FROM OrderInfos'
+    if not sql == "":
+        query += f' WHERE {sql}'
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+    c.execute(query)
+    l = c.fetchall()
+    l = list(map(lambda x: OrderInfo(x, convert='*'), l))
+    return {
+        "body": l,
+        "query": query
+    }
+
+
 def orders(sql=""):
     query = 'SELECT * FROM Orders'
     if not sql == "":
@@ -155,8 +172,10 @@ def orders(sql=""):
         "body": l,
         "query": query
     }
-def orderrating(sql=""):
-    query = 'SELECT * FROM OrderRating'
+
+
+def orderratings(sql=""):
+    query = 'SELECT * FROM OrderRatings'
     if not sql == "":
         query += f' WHERE {sql}'
     conn = sqlite3.connect('data.db')
@@ -168,6 +187,8 @@ def orderrating(sql=""):
         "body": l,
         "query": query
     }
+
+
 db_data_get = {
     "Permissions": permissions,
     "Countries": countries,
@@ -178,8 +199,9 @@ db_data_get = {
     "Reports": reports,
     "Messages": messages,
     "Wallets": wallets,
+    "OrderInfos":orderinfos,
     "Orders": orders,
-    "OrderRating": orderrating
+    "OrderRatings": orderratings
 }
 
 db_data_post = {

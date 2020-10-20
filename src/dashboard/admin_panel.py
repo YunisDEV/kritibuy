@@ -64,13 +64,18 @@ panelTree = {
                 "icon": 'dripicons-wallet'
             },
             {
+                "name": 'OrderInfos',
+                "url": '/orderinfos',
+                "icon": 'dripicons-list'
+            },
+            {
                 "name": 'Orders',
                 "url": '/orders',
                 "icon": 'dripicons-cart'
             },
             {
-                "name": 'OrderRating',
-                "url": '/orderrating',
+                "name": 'OrderRatings',
+                "url": '/orderratings',
                 "icon": 'dripicons-star'
             }
         ]
