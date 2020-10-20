@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box !important; }
+
+body {
+  background-color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box !important; }
+
+.container {
+  display: block;
+  position: relative;
+  width: 500px; }
+  .container p {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    font-family: "Varela Round";
+    font-size: 40px;
+    padding: 0;
+    margin: 0; }
+    .container p a {
+      color: var(--primary-light);
+      text-decoration: none; }
+    .container p a:hover,
+    .container p a:link,
+    .container p a:active {
+      color: var(--primary-color); }
+  .container img {
+    width: 100%; }

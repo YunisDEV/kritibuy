@@ -1,0 +1,36 @@
+{%extends "admin/database/database_base.html"%} {%block table%}
+<thead>
+    <tr>
+        <th>id</th>
+        <th>value</th>
+        <th>byUser</th>
+        <th>toUser</th>
+        <th>forOrder</th>
+        <th>date</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+    {%for i in data["body"]%}
+    <tr key="{{i.id}}">
+        <td>{{i.id}}</td>
+        <td>{{i.value}}</td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.ByUser.username}}"> {{i.byUser}} </a>
+        </td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.ToUser.username}}"> {{i.toUser}} </a>
+        </td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.ForOrder.orderedBy}} --> {{i.ForOrder.orderedTo}}"> {{i.forOrder}} </a>
+        </td>
+        <td>{{i.date}}</td>
+        <td>
+            <a href=""><i class="far fa-edit text-info mr-1"></i></a>
+            <a href=""><i class="far fa-trash-alt text-danger"></i></a>
+        </td>
+    </tr>
+    {%endfor%}
+</tbody>
+{%endblock%}

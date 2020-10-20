@@ -37,6 +37,8 @@ CREATE TABLE Users(
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     brandProductTypes TEXT NULL,
     active BOOLEAN DEFAULT false NOT NULL,
+    confirmationKey TEXT NOT NULL,
+    confirmed BOOLEAN DEFAULT false NOT NULL,
 
     CONSTRAINT user_permission
         FOREIGN KEY (permission)
@@ -107,17 +109,31 @@ CREATE TABLE Wallets(
         REFERENCES Users(id)
 );
 
+CREATE TABLE OrderInfos(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    address TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    email TEXT NOT NULL,
+    
+);
+
 CREATE TABLE Orders(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     orderedTo INTEGER NOT NULL,
     orderedBy INTEGER NOT NULL,
     orderText TEXT NOT NULL,
+    orderPrice FLOAT NOT NULL DEFAULT 0.0,
+    info INTEGER NOT NULL,
     paid BOOLEAN DEFAULT false NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     
     CONSTRAINT order_user
         FOREIGN KEY (orderedBy,orderedTo)
         REFERENCES Users(id,id)
+    
+    CONSTRAINT order_info
+        FOREIGN KEY (info)
+        REFERENCES OrderInfo(id)
 );
 
 CREATE TABLE OrderRating(

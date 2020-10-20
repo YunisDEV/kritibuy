@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, make_response, request
+from flask import Blueprint, render_template, make_response, request, abort, url_for
 from ..account.security import authorize
 import sqlite3
 from ..schema import Message
+from .admin_panel import panelTree, db_data_get
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
@@ -55,7 +56,37 @@ def business_main(user):
 
 
 #! Admin
-@dashboard.route('/admin')
+@dashboard.route('/admin/')
 @authorize('Admin')
 def admin_main(user):
-    return f"""{user.id} {user.username}"""
+    return render_template('admin/index.html', pageTitle="Index", tree=panelTree)
+
+
+@dashboard.route('/admin/<folder>/')
+@authorize('Admin')
+def admin_folder(user, folder):
+    return render_template(f'admin/page_index.html', pageTitle=folder, tree=panelTree)
+
+
+@dashboard.route('/admin/database/<table>/',methods=['GET','POST'])
+@authorize('Admin')
+def admin_database_page(user, table):
+    db_name = None
+    for i in panelTree["database"]["indexes"]:
+        if i["name"].lower() == table.lower():
+            db_name = i["name"]
+    if request.method == 'GET':
+        data = db_data_get[db_name]()
+    else:
+        data = db_data_get[db_name](request.form["sql"])
+    return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database',tree=panelTree, data=data)
+
+
+@dashboard.route('/admin/<folder>/<page>/')
+@authorize('Admin')
+def admin_page(user, folder, page):
+    try:
+        return render_template(f'admin/{folder}/{page}.html', pageTitle=page, pageParent=folder, tree=panelTree)
+    except Exception as e:
+        print(e)
+        abort(404)

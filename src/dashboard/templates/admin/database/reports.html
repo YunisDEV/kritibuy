@@ -1,0 +1,30 @@
+{%extends "admin/database/database_base.html"%} {%block table%}
+<thead>
+    <tr>
+        <th>id</th>
+        <th>reporter</th>
+        <th>header</th>
+        <th>body</th>
+        <th>date</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+    {%for i in data["body"]%}
+    <tr key="{{i.id}}">
+        <td>{{i.id}}</td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.Reporter.username}}"> {{i.reporter}} </a>
+        </td>
+        <td>{{i.header}}</td>
+        <td>{{i.body}}</td>
+        <td>{{i.date}}</td>
+        <td>
+            <a href=""><i class="far fa-edit text-info mr-1"></i></a>
+            <a href=""><i class="far fa-trash-alt text-danger"></i></a>
+        </td>
+    </tr>
+    {%endfor%}
+</tbody>
+{%endblock%}

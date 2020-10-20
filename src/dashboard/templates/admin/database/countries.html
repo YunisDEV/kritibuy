@@ -1,0 +1,28 @@
+{%extends "admin/database/database_base.html"%} {%block table%}
+<thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>alpha2</th>
+        <th>alpha3</th>
+        <th>flagPath</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+    {%for i in data["body"]%}
+    <tr key="{{i.id}}">
+        <td>{{i.id}}</td>
+        <td>{{i.name}}</td>
+        <td>{{i.alpha2}}</td>
+        <td>{{i.alpha3}}</td>
+        <td><a href="/assets/countries/{{i.flagPath}}">{{i.flagPath}}</a></td>
+        <td>
+            <a href=""><i class="far fa-edit text-info mr-1"></i></a>
+            <a href=""><i class="far fa-trash-alt text-danger"></i></a>
+        </td>
+    </tr>
+    {%endfor%}
+</tbody>
+{%endblock%}

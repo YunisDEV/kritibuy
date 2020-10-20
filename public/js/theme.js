@@ -19,14 +19,18 @@ document.querySelector('#themevars').insertAdjacentHTML('afterend', `
     <meta name="msapplication-TileColor" content="#00aba9" />
     <meta name="theme-color" content="#2ab4a6" />
 `)
-document.querySelector('meta[name="viewport"]').insertAdjacentHTML('afterend',`
-    <meta name="description" content="Buy/Sell everything through texting" />
-    <meta property="og:type" content="webpage" />
-    <meta property="og:title" content="Kritibuy" />
-    <meta property="og:description" content="Buy/Sell everything through texting" />
-    <meta property="og:image" content="" />
+document.querySelector('meta[name="viewport"]').insertAdjacentHTML('afterend', `
+    <meta name="description" content="Buy and Sell almost everything with help of Artificial Intelligence." />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kritibuy.com/">
+    <meta property="og:title" content="Kritibuy - AI Assisted Shopping">
+    <meta property="og:description" content="Buy and Sell almost everything with help of Artificial Intelligence.">
+    <meta property="og:image" content="/meta/Banner.png">
     <meta property="og:site_name" content="kritibuy.com" />
-    <meta name="keywords" content="buy, chat, order, sell, ai assistan, brand, business, business plus, personal" />
-    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kritibuy.com/">
+    <meta property="twitter:title" content="Kritibuy - AI Assisted Shopping">
+    <meta property="twitter:description" content="Buy and Sell almost everything with help of Artificial Intelligence.">
+    <meta property="twitter:image" content="/meta/Banner.png">
+    <meta name="keywords" content="buy, chat, order, sell, ai assistant, brand, business, personal" />
 `)
-// {/* <meta http-equiv="expires" content="3600" /> */}

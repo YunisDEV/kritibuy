@@ -1,0 +1,32 @@
+{%extends "admin/database/database_base.html"%} {%block table%}
+<thead>
+    <tr>
+        <th>id</th>
+        <th>user</th>
+        <th>type</th>
+        <th>message</th>
+        <th>date</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+    {%for i in data["body"]%}
+    <tr key="{{i.id}}">
+        <td>{{i.id}}</td>
+        <td>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.User.username}}"> {{i.user}} </a>
+        </td>
+        <td>
+            <span class="badge {%if i.type=='you'%}badge-soft-success{%else%}badge-soft-primary{%endif%}">{%if i.type=='you'%}bot{%else%}user{%endif%}</span>
+        </td>
+        <td>{{i.message}}</td>
+        <td>{{i.date}}</td>
+        <td>
+            <a href=""><i class="far fa-edit text-info mr-1"></i></a>
+            <a href=""><i class="far fa-trash-alt text-danger"></i></a>
+        </td>
+    </tr>
+    {%endfor%}
+</tbody>
+{%endblock%}

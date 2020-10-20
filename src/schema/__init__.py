@@ -6,6 +6,7 @@ class Permission:
         self.id = data[0]
         self.name = data[1]
 
+
 class Country:
     def __init__(self, data):
         self.id = data[0]
@@ -20,7 +21,7 @@ class City:
         self.id = data[0]
         self.name = data[1]
         self.country = data[2]
-        if 'country' in convert:
+        if 'country' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Countries WHERE id={data[2]}""")
@@ -43,19 +44,19 @@ class User:
         self.brandName = data[11]
         self.createdAt = data[12]
         self.brandProductTypes = data[13]
-        self.active = data[14]
-        if 'permission' in convert:
+        self.active = bool(data[14])
+        if 'permission' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Permissions WHERE id={data[4]}""")
             self.Permission = Permission(c.fetchone())
-        if 'country' in convert:
+        if 'country' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(
                 f"""SELECT * FROM Countries WHERE id={data[8]}""")
             self.Country = Country(c.fetchone())
-        if 'city' in convert:
+        if 'city' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(
@@ -68,7 +69,7 @@ class AuthToken:
         self.id = data[0]
         self.user = data[1]
         self.token = data[2]
-        if 'user' in convert:
+        if 'user' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(
@@ -83,7 +84,7 @@ class Payment:
         self.toUser = data[2]
         self.amount = data[3]
         self.date = data[3]
-        if 'user' in convert:
+        if 'user' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Users WHERE id={data[1]}""")
@@ -99,7 +100,7 @@ class Report:
         self.header = data[2]
         self.body = data[3]
         self.date = data[4]
-        if 'user' in convert:
+        if 'user' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Users WHERE id={data[1]}""")
@@ -113,7 +114,7 @@ class Message:
         self.type = data[2]
         self.message = data[3]
         self.date = data[4]
-        if 'user' in convert:
+        if 'user' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Users WHERE id={data[1]}""")
@@ -125,12 +126,15 @@ class Wallet:
         self.id = data[0]
         self.balance = data[1]
         self.owner = data[2]
-        if 'user' in convert:
+        if 'user' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Users WHERE id={data[2]}""")
             self.Owner = User(c.fetchone())
 
+class OrderInfo:
+    def __init__(self, data, convert=[]):
+        self.id = data[0]
 
 class Order:
     def __init__(self, data, convert=[]):
@@ -139,16 +143,22 @@ class Order:
         self.orderedBy = data[2]
         self.orderText = data[3]
         self.orderPrice = data[4]
-        self.paid = data[5]
-        self.date = data[6]
-        if 'user' in convert:
+        self.info = data[5]
+        self.paid = data[6]
+        self.date = data[7]
+        if 'user' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Users WHERE id={data[1]}""")
             self.OrderedTo = User(c.fetchone())
             c.execute(f"""SELECT * FROM Users WHERE id={data[2]}""")
             self.OrderedBy = User(c.fetchone())
-
+        if 'info' in convert or convert == "*":
+            conn = sqlite3.connect('data.db')
+            c = conn.cursor()
+            c.execute(f"""SELECT * FROM OrderInfos WHERE id={data[5]}""")
+            self.Info = OrderInfo(c.fetchone())
+            
 
 class OrderRating:
     def __init__(self, data, convert=[]):
@@ -158,14 +168,14 @@ class OrderRating:
         self.toUser = data[3]
         self.forOrder = data[4]
         self.date = data[5]
-        if 'user' in convert:
+        if 'user' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Users WHERE id={data[2]}""")
             self.ByUser = User(c.fetchone())
             c.execute(f"""SELECT * FROM Users WHERE id={data[3]}""")
             self.ToUser = User(c.fetchone())
-        if 'order' in convert:
+        if 'order' in convert or convert == "*":
             conn = sqlite3.connect('data.db')
             c = conn.cursor()
             c.execute(f"""SELECT * FROM Orders WHERE id={data[4]}""")

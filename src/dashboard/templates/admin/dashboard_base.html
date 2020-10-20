@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Kritibuy Admin</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta content="A premium admin dashboard template by Mannatthemes" name="description" />
+        <meta content="Mannatthemes" name="author" />
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="/admin/images/favicon.ico" />
+        {%block css%}{%endblock%}
+        
+        <!-- App css -->
+        <link href="/admin/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/admin/css/icons.css" rel="stylesheet" type="text/css" />
+        <link href="/admin/css/metisMenu.min.css" rel="stylesheet" type="text/css" />
+        <link href="/admin/css/style.css" rel="stylesheet" type="text/css" />
+        <style>
+            body{
+                overflow-x: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="topbar">
+            <!-- LOGO -->
+            <div class="topbar-left">
+                <a href="../projects/projects-index.html" class="logo">
+                    <span>
+                        <img src="/admin/images/logo-sm.png" alt="logo-small" class="logo-sm" />
+                    </span>
+                    <span>
+                        <img src="/admin/images/logo-dark.png" alt="logo-large" class="logo-lg" />
+                    </span>
+                </a>
+            </div>
+            <!--end logo-->
+            <!-- Navbar -->
+            <nav class="navbar-custom">
+                <ul class="list-unstyled topbar-nav float-right mb-0">
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <img src="/assets/kritibuylogo.svg" alt="profile-user" class="rounded-circle" />
+                            <span class="ml-1 nav-user-name hidden-sm">Admin <i class="mdi mdi-chevron-down"></i> </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="/logout"><i class="dripicons-exit text-muted mr-2"></i> Logout</a>
+                        </div>
+                    </li>
+                </ul>
+                <!--end topbar-nav-->
+
+                <ul class="list-unstyled topbar-nav mb-0">
+                    <li>
+                        <button class="button-menu-mobile nav-link waves-effect waves-light">
+                            <i class="dripicons-menu nav-icon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <!-- end navbar-->
+        </div>
+        <!-- Top Bar End -->
+
+        <div class="page-wrapper">
+            <!-- Left Sidenav -->
+            <div class="left-sidenav">
+                <div class="main-icon-menu">
+                    <nav class="nav">
+                        {%for i in tree.items()%}
+                        <a href="#{{i[0]}}-menu-tab" class="nav-link" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i[0].capitalize()}}">
+                            {{i[1]["icon"]|safe}}
+                        </a>
+                        {%endfor%}
+                    </nav>
+                    <!--end nav-->
+                </div>
+                <!--end main-icon-menu-->
+
+                <div class="main-menu-inner">
+                    <div class="menu-body slimscroll">
+                        {%for i in tree.items()%}
+                        <div id="{{i[0]}}-menu-tab" class="main-icon-menu-pane">
+                            <div class="title-box">
+                                <h6 class="menu-title">{{i[0].capitalize()}}</h6>
+                            </div>
+                            <ul class="nav">
+                                {%for j in i[1]["indexes"]%}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/dashboard/admin/{{i[0].lower()}}{{j['url']}}/"><i class="{{j['icon']}}"></i>{{j["name"]}}</a>
+                                </li>
+                                {%endfor%}
+                            </ul>
+                        </div>
+                        {%endfor%}
+                    </div>
+                    <!--end menu-body-->
+                </div>
+                <!-- end main-menu-inner-->
+            </div>
+            <!-- end left-sidenav-->
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+                                <div class="float-right">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/dashboard/admin">Kritibuy Admin</a></li>
+                                        {%if pageParent%}
+                                        <li class="breadcrumb-item"><a href="{{url_for('dashboard.admin_folder',folder=pageParent)}}">{{pageParent.capitalize()}}</a></li>
+                                        {%endif%}
+                                        <li class="breadcrumb-item active">{{pageTitle.capitalize()}}</li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">{{pageTitle.capitalize()}}</h4>
+                            </div>
+                            <!--end page-title-box-->
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!-- end page title end breadcrumb -->
+                    {%block content%}{%endblock%}
+                </div>
+                <!-- container -->
+
+                <footer class="footer text-center text-sm-left">&copy; 2020 Kritibuy.com</footer>
+                <!--end footer-->
+            </div>
+        </div>
+        <script src="/admin/js/jquery.min.js"></script>
+        <script src="/admin/js/bootstrap.bundle.min.js"></script>
+        <script src="/admin/js/metisMenu.min.js"></script>
+        <script src="/admin/js/waves.min.js"></script>
+        <script src="/admin/js/jquery.slimscroll.min.js"></script>
+        {%block scripts%}
+        {%endblock%}
+        <!-- App js -->
+        <script src="/admin/js/app.js"></script>
+
+        {%block bodyend%}{%endblock%}
+    </body>
+</html>
