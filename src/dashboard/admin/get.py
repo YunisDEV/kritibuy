@@ -1,9 +1,8 @@
 import sqlite3
-from ..schema import *
-from flask import make_response
+from ...schema import *
 
 
-def permissions(sql=""):
+def permissions_get(sql=""):
     query = 'SELECT * FROM Permissions'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -19,12 +18,7 @@ def permissions(sql=""):
     }
 
 
-def permissions_post(request):
-    resp = make_response()
-    return resp
-
-
-def countries(sql=""):
+def countries_get(sql=""):
     query = 'SELECT * FROM Countries'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -39,7 +33,7 @@ def countries(sql=""):
     }
 
 
-def cities(sql=""):
+def cities_get(sql=""):
     query = 'SELECT * FROM Cities'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -54,7 +48,7 @@ def cities(sql=""):
     }
 
 
-def users(sql=""):
+def users_get(sql=""):
     query = 'SELECT * FROM Users'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -69,7 +63,7 @@ def users(sql=""):
     }
 
 
-def authtokens(sql=""):
+def authtokens_get(sql=""):
     query = 'SELECT * FROM AuthTokens'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -84,7 +78,7 @@ def authtokens(sql=""):
     }
 
 
-def payments(sql=""):
+def payments_get(sql=""):
     query = 'SELECT * FROM Payments'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -99,7 +93,7 @@ def payments(sql=""):
     }
 
 
-def reports(sql=""):
+def reports_get(sql=""):
     query = 'SELECT * FROM Reports'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -114,7 +108,7 @@ def reports(sql=""):
     }
 
 
-def messages(sql=""):
+def messages_get(sql=""):
     query = 'SELECT * FROM Messages'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -129,7 +123,7 @@ def messages(sql=""):
     }
 
 
-def wallets(sql=""):
+def wallets_get(sql=""):
     query = 'SELECT * FROM Wallets'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -144,7 +138,7 @@ def wallets(sql=""):
     }
 
 
-def orderinfos(sql=""):
+def orderinfos_get(sql=""):
     query = 'SELECT * FROM OrderInfos'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -159,7 +153,7 @@ def orderinfos(sql=""):
     }
 
 
-def orders(sql=""):
+def orders_get(sql=""):
     query = 'SELECT * FROM Orders'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -174,7 +168,7 @@ def orders(sql=""):
     }
 
 
-def orderratings(sql=""):
+def orderratings_get(sql=""):
     query = 'SELECT * FROM OrderRatings'
     if not sql == "":
         query += f' WHERE {sql}'
@@ -187,23 +181,3 @@ def orderratings(sql=""):
         "body": l,
         "query": query
     }
-
-
-db_data_get = {
-    "Permissions": permissions,
-    "Countries": countries,
-    "Cities": cities,
-    "Users": users,
-    "AuthTokens": authtokens,
-    "Payments": payments,
-    "Reports": reports,
-    "Messages": messages,
-    "Wallets": wallets,
-    "OrderInfos":orderinfos,
-    "Orders": orders,
-    "OrderRatings": orderratings
-}
-
-db_data_post = {
-    "Permissions": ''
-}

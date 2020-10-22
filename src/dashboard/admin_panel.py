@@ -1,4 +1,4 @@
-from .admin_database import db_data_get
+from .admin import db_data_get, db_data_post, db_data_delete, db_data_update
 
 panelTree = {
     "analytics": {
