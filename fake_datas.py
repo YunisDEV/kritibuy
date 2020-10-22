@@ -1,14 +1,72 @@
-from src.db import Permission, session
-# Creating Admin permission
-admin = Permission(name="Admin")
-session.add(admin)
+from src.db import (
+    session,
+    Permission,
+    Country,
+    City,
+    User
+)
 
-# Creating Personal permission
-personal = Permission(name="Personal")
-session.add(personal)
 
-# Creating Business permission
-business = Permission(name="Business")
-session.add(business)
+# Creating Permissions
+permissions = ['Admin', 'Personal', 'Business']
+
+for i in permissions:
+    session.add(Permission(name=i))
+
+# Creating Countries
+countries = {
+    "Azerbaijan": ['AZ', 'AZE', 'aze_flag.png'],
+    "Turkey": ['TR', 'TUR', 'tur_flag.png'],
+    "United States": ['US', 'USA', 'usa_flag.png']
+}
+
+for i in countries.items():
+    session.add(Country(
+        name=i[0],
+        alpha2=i[1][0],
+        alpha3=i[1][1],
+        flagPath=i[1][2],
+    ))
+
+# Creating Cities
+cities = {
+    "Baku": "Azerbaijan",
+    "Ganja": "Azerbaijan",
+    "Sumgayit": "Azerbaijan",
+    "Guba": "Azerbaijan",
+    "Gabala": "Azerbaijan",
+    "Istanbul": "Turkey",
+    "Ankara": "Turkey",
+    "Trabzon": "Turkey",
+    "San Francisco": "United States",
+    "Washington D.C.": "United States",
+    "San Jose": "United States",
+    "Los Angeles": "United States"
+}
+
+for i in cities.items():
+    session.add(City(
+        name=i[0],
+        country=session.query(Country).filter(Country.name == i[1]).one().id
+    ))
+
+adminProfile = User(
+    username='admin',
+    password='$2b$12$SsmnopkAVDZI/7QQjXa6XeoW6p8IqzI3OUsJyWEOVn0Tw23U7YbYm',
+    email='admin@kritibuy.com',
+    permission=session.query(Permission).filter(
+        Permission.name == 'Admin'
+    ).one().id,
+    country=session.query(Country).filter(
+        Country.name == 'Azerbaijan'
+    ).one().id,
+    city=session.query(City).filter(
+        City.name == 'Baku'
+    ).one().id,
+    active=True,
+    confirmed=True
+)
+
+session.add(adminProfile)
 
 session.commit()
