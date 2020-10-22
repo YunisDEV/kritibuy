@@ -4,7 +4,8 @@ from functools import wraps
 import json
 from .dialogflow_client import DialogflowClient, DialogflowResponse
 from ..account.security import authorize
-import sqlite3
+from ..db import session, Message
+
 
 chatbot = Blueprint('chatbot', __name__)
 
@@ -35,15 +36,21 @@ def chatbot_query(user):
     )
     response = cli.query(data["queryText"])
     response = DialogflowResponse(response)
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(f"""INSERT INTO Messages(user,type,message)
-    VALUES
-    ({user.id},'me','{data["queryText"]}'),
-    ({user.id},'you','{response.fulfillmentText}')
-    """)
-    conn.commit()
-    return {"response":response.fulfillmentText}
+    session.add_all([
+        Message(
+            user=user.id,
+            type='me',
+            message=data["queryText"]
+        ),
+        Message(
+            user=user.id,
+            type='you',
+            message=response.fulfillmentText
+        )
+    ])
+    session.commit()
+    return {"response": response.fulfillmentText}
+
 
 @chatbot.route('/webhook', methods=['POST', 'GET'])
 @auth_webhook

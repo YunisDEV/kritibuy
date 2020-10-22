@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, make_response
 import json
-import sqlite3
 from .security import authorize, encodeToken, hashPassword, checkPassword
-
+from ..db import session, Country, City, User, Permission, AuthToken
 
 account = Blueprint('account', __name__, template_folder='./templates')
 
@@ -13,29 +12,21 @@ def login():
         return render_template('login.html')
     if request.method == 'POST':
         data = json.loads(request.data)
-        conn = sqlite3.connect('data.db')
-        c = conn.cursor()
-        c.execute(f"""SELECT Users.password,Permissions.name 
-        FROM 
-        Users INNER JOIN Permissions on Users.permission = Permissions.id 
-        WHERE username='{data["username"]}'
-        """)
-        user = c.fetchone()
-        if checkPassword(data["password"], user[0]):
-            resp = make_response({"success": True})
+        user = session.query(User.password, Permission.name).join(
+            Permission).filter(User.username == data["username"]).one()
+        if checkPassword(data["password"], user.password):
             authToken = encodeToken({
                 "username": data["username"],
-                "permission": user[1]
+                "permission": user.name
             })
+            resp = make_response({"success": True})
             resp.set_cookie('auth_token', authToken)
-            c.execute(f"""INSERT INTO AuthTokens(user,token)
-            VALUES
-            (
-                (SELECT id from Users WHERE username='{data["username"]}'),
-                '{authToken}'
-            )
-            """)
-            conn.commit()
+            session.add(AuthToken(
+                user=session.query(User).filter(
+                    User.username == data["username"]).one().id,
+                token=authToken
+            ))
+            session.commit()
         else:
             resp = make_response({"success": False, "error": {
                 "type": "WRONG_CREDENTIALS"
@@ -46,43 +37,36 @@ def login():
 @account.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        conn = sqlite3.connect('data.db')
-        c = conn.cursor()
-        c.execute('SELECT name FROM Countries')
-        return render_template('signup.html', countries=[country[0] for country in c.fetchall()])
+        countries = list(map(lambda x: x.name, session.query(Country.name)))
+        return render_template('signup.html', countries=countries)
     if request.method == 'POST':
         try:
-            conn = sqlite3.connect('data.db')
-            c = conn.cursor()
             data = json.loads(request.data)
             hashedPassword = hashPassword(data["password"])
-            c.execute(f"""INSERT INTO Users(username,password,email,permission,country,city)
-            VALUES
-            (
-                '{data["username"]}',
-                '{hashedPassword}',
-                '{data["email"]}',
-                (SELECT id FROM Permissions WHERE name='{data["permission"]}'),
-                (SELECT id FROM Countries WHERE name='{data["country"]}'),
-                (SELECT id FROM Cities WHERE name='{data["city"]}')
-            )
-            """)
-            resp = make_response({"success": True})
+            session.add(User(
+                username=data["username"],
+                password=hashedPassword,
+                email=data["email"],
+                permission=session.query(Permission).filter(
+                    Permission.name == data["permission"]).one().id,
+                country=session.query(Country).filter(
+                    Country.name == data["country"]).one().id,
+                city=session.query(City).filter(
+                    City.name == data["city"]).one().id
+            ))
             authToken = encodeToken({
                 "username": data["username"],
                 "permission": data["permission"]
             })
-            c.execute(f"""INSERT INTO AuthTokens(user,token)
-            VALUES
-            (
-                (SELECT id from Users WHERE username='{data["username"]}'),
-                '{authToken}'
-            )
-            """)
-            conn.commit()
+            session.add(AuthToken(
+                user=session.query(User).filter(User.username == data["username"]).one().id,
+                token=authToken
+            ))
+            session.commit()
+            resp = make_response({"success": True})
             resp.set_cookie('auth_token', authToken)
             return resp
-        except sqlite3.Error as e:
+        except Exception as e:
             err = {}
             print(e)
             if str(e).startswith('UNIQUE'):
@@ -96,14 +80,12 @@ def getCities():
     try:
         if request.method == 'POST':
             country = json.loads(request.data)["country"]
-            conn = sqlite3.connect('data.db')
-            c = conn.cursor()
-            c.execute(f"""SELECT name FROM Cities 
-            WHERE country=(
-                SELECT id from Countries WHERE name='{country}'
-            );
-            """)
-            return {"data": [city[0] for city in c.fetchall()], "success": True}
+            q = session.query(City).filter(
+                City.country == session.query(Country).filter(
+                    Country.name == country
+                ).one().id
+            )
+            return {"data": [city.name for city in q.all()], "success": True}
     except Exception as e:
         print(e)
         return {"success": False}
@@ -111,6 +93,6 @@ def getCities():
 
 @account.route('/logout')
 def logout():
-    resp = make_response("Logged out<script>window.open('/','_self')</script>")
+    resp = make_response("<script>window.open('/','_self')</script>")
     resp.set_cookie('auth_token', '', max_age=0)
     return resp

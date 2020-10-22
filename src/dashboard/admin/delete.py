@@ -1,3 +1,3 @@
-import sqlite3
-from ...schema import *
+from sqlalchemy import text
+from ...db import *
 from flask import make_response

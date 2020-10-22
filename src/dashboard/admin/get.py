@@ -1,183 +1,133 @@
-import sqlite3
-from ...schema import *
-
+from sqlalchemy import text
+from ...db import *
 
 def permissions_get(sql=""):
-    query = 'SELECT * FROM Permissions'
+    q = session.query(Permission)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: Permission(x), l))
+        q = session.query(Permission).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "rows": len(l),
-        "query": query
+        "query": q
     }
 
 
 def countries_get(sql=""):
-    query = 'SELECT * FROM Countries'
+    q = session.query(Country)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: Country(x), l))
+        q = session.query(Country).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def cities_get(sql=""):
-    query = 'SELECT * FROM Cities'
+    q = session.query(City)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: City(x, convert='*'), l))
+        q = session.query(City).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def users_get(sql=""):
-    query = 'SELECT * FROM Users'
+    q = session.query(User)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: User(x, convert='*'), l))
+        q = session.query(User).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def authtokens_get(sql=""):
-    query = 'SELECT * FROM AuthTokens'
+    q = session.query(AuthToken)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: AuthToken(x, convert='*'), l))
+        q = session.query(AuthToken).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def payments_get(sql=""):
-    query = 'SELECT * FROM Payments'
+    q = session.query(Payment)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: Payment(x, convert='*'), l))
+        q = session.query(Payment).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def reports_get(sql=""):
-    query = 'SELECT * FROM Reports'
+    q = session.query(Report)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: Report(x, convert='*'), l))
+        q = session.query(Report).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def messages_get(sql=""):
-    query = 'SELECT * FROM Messages'
+    q = session.query(Message)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: Message(x, convert='*'), l))
+        q = session.query(Message).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def wallets_get(sql=""):
-    query = 'SELECT * FROM Wallets'
+    q = session.query(Wallet)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: Wallet(x, convert='*'), l))
+        q = session.query(Wallet).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def orderinfos_get(sql=""):
-    query = 'SELECT * FROM OrderInfos'
+    q = session.query(OrderInfo)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: OrderInfo(x, convert='*'), l))
+        q = session.query(OrderInfo).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def orders_get(sql=""):
-    query = 'SELECT * FROM Orders'
+    q = session.query(Order)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: Order(x, convert='*'), l))
+        q = session.query(Order).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }
 
 
 def orderratings_get(sql=""):
-    query = 'SELECT * FROM OrderRatings'
+    q = session.query(OrderRating)
     if not sql == "":
-        query += f' WHERE {sql}'
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    c.execute(query)
-    l = c.fetchall()
-    l = list(map(lambda x: OrderRating(x, convert='*'), l))
+        q = session.query(OrderRating).filter(text(sql))
+    l = q.all()
     return {
         "body": l,
-        "query": query
+        "query": q
     }

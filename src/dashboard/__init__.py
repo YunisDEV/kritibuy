@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, make_response, request, abort, url_for
 from ..account.security import authorize
 import sqlite3
-from ..schema import Message
 from .admin_panel import panelTree, db_data_get
+from ..db import session, Message,Permission
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
@@ -10,11 +10,12 @@ dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 @dashboard.route('/')
 @authorize('Admin', 'Personal', 'Business')
 def dashboard_main(user):
-    if user.Permission.name == 'Personal':
+    permissionName = session.query(Permission).filter(Permission.id==user.permission).one().name
+    if permissionName == 'Personal':
         return f"""<script>window.open('/dashboard/personal','_self')</script>"""
-    if user.Permission.name == 'Business':
+    if permissionName == 'Business':
         return f"""<script>window.open('/dashboard/business','_self')</script>"""
-    if user.Permission.name == 'Admin':
+    if permissionName == 'Admin':
         return f"""<script>window.open('/dashboard/admin','_self')</script>"""
 
 
@@ -23,16 +24,7 @@ def dashboard_main(user):
 @dashboard.route('/personal/order')
 @authorize('Personal')
 def personal_main_order(user):
-    conn = sqlite3.connect('data.db')
-    c = conn.cursor()
-    print(user.id)
-    c.execute(f"""SELECT * FROM Messages WHERE user={user.id}""")
-    messages_list = c.fetchall()
-    print(messages_list)
-    messages = []
-    for i in messages_list:
-        messages.append(Message(i))
-    print(messages)
+    messages = session.query(Message).filter(Message.user==user.id).all()
     return render_template('personal/index.html', messages=messages)
 
 
@@ -68,18 +60,15 @@ def admin_folder(user, folder):
     return render_template(f'admin/page_index.html', pageTitle=folder, tree=panelTree)
 
 
-@dashboard.route('/admin/database/<table>/',methods=['GET','POST'])
+@dashboard.route('/admin/database/<table>/', methods=['GET', 'POST'])
 @authorize('Admin')
 def admin_database_page(user, table):
     db_name = None
     for i in panelTree["database"]["indexes"]:
         if i["name"].lower() == table.lower():
             db_name = i["name"]
-    if request.method == 'GET':
-        data = db_data_get[db_name]()
-    else:
-        data = db_data_get[db_name](request.form["sql"])
-    return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database',tree=panelTree, data=data)
+    data = db_data_get[db_name](request.form.get('sql',""))
+    return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database', tree=panelTree, data=data)
 
 
 @dashboard.route('/admin/<folder>/<page>/')

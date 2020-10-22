@@ -2,11 +2,11 @@ import jwt
 import os
 import config
 import bcrypt
-import sqlite3
 import datetime
 from functools import wraps
 from flask import abort, request
-from src.schema import User
+from ..db import session, User, AuthToken
+
 
 def encodeToken(payload):
     payload["createdAt"] = datetime.datetime.now().strftime(
@@ -30,7 +30,6 @@ def checkPassword(password, hashedPassword):
     return bool(bcrypt.checkpw(password.encode(), hashedPassword.encode()))
 
 
-
 def authorize(*allowed):
     def dec(f):
         @wraps(f)
@@ -40,19 +39,14 @@ def authorize(*allowed):
             permissionName = None
             if token:
                 token_body = decodeToken(token)
-                conn = sqlite3.connect('data.db')
-                c = conn.cursor()
-                c.execute(
-                    f"""SELECT token FROM AuthTokens WHERE user=(SELECT id FROM Users WHERE username='{token_body["username"]}')""")
-                tokens = [i[0] for i in c.fetchall()]
+                q = session.query(AuthToken).filter(AuthToken.user==session.query(User).filter(User.username==token_body["username"]).one().id)
+                tokens = [i.token for i in q.all()]
                 if token in tokens and token_body["permission"] in allowed:
                     isauth = True
-                    c.execute(
-                        f"""SELECT * FROM Users WHERE username='{token_body["username"]}'""")
-                    userDATA = c.fetchone()
-                    UserData = User(userDATA,convert=['permission'])
+                    q = session.query(User).filter(User.username==token_body["username"])
+                    user_data = q.one()
             if not isauth:
                 abort(401)
-            return f(UserData, *args, **kwargs)
+            return f(user_data, *args, **kwargs)
         return wrapper
     return dec
