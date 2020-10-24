@@ -4,6 +4,8 @@
         <th>id</th>
         <th>user</th>
         <th>token</th>
+        <th>createdAt</th>
+        <th>updatedAt</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -13,9 +15,11 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.User.username}}"> {{i.user}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.user}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['User'][i.id]}}"> {{i.user}} </a>
         </td>
         <td>$*********</td>
+        <td>{{i.createdAt}}</td>
+        <td>{{i.updatedAt}}</td>
         <td>
             <a href=""><i class="far fa-edit text-info mr-1"></i></a>
             <a href=""><i class="far fa-trash-alt text-danger"></i></a>

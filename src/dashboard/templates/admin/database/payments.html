@@ -15,10 +15,10 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.FromUser.username}}"> {{i.fromUser}} </a>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['FromUser'][i.id]}}"> {{i.fromUser}} </a>
         </td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.ToUser.username}}"> {{i.toUser}} </a>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['ToUser'][i.id]}}"> {{i.toUser}} </a>
         </td>
         <td>$ {{i.amount}}</td>
         <td>{{i.date}}</td>

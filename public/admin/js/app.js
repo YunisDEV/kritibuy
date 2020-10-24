@@ -21,7 +21,7 @@
         });
     }
 
-   
+
     function initMetisMenu() {
         //metis menu
         $("#main_menu_side_nav").metisMenu();
@@ -45,7 +45,7 @@
         }
     }
 
-   
+
 
     function initSerach() {
         $('.search-btn').on('click', function () {
@@ -60,7 +60,7 @@
 
 
     function initMainIconMenu() {
-        $('.main-icon-menu .nav-link').on('click', function(e){
+        $('.main-icon-menu .nav-link').on('click', function (e) {
             e.preventDefault();
             $(this).addClass('active');
             $(this).siblings().removeClass('active');
@@ -71,35 +71,36 @@
         });
     }
 
-    function initTooltipPlugin(){
+    function initTooltipPlugin() {
         $.fn.tooltip && $('[data-toggle="tooltip"]').tooltip()
         $('[data-toggle="tooltip-custom"]').tooltip({
             template: '<div class="tooltip tooltip-custom" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
         });
     }
-    
+
 
     function initActiveMenu() {
         // === following js will activate the menu in left side bar based on url ====
         $(".left-sidenav a").each(function () {
             var pageUrl = window.location.href;
-            if (this.href.replace(/[#|/]/g,'') == pageUrl.replace(/[#|/]/g,'')) {
+            if (this.href.replace(/[#|/]/g, '') == pageUrl.replace(/[#|/]/g, '').split('?')[0]) {
+                console.log(this)
                 $(this).addClass("active");
                 $(this).parent().parent().addClass("in");
                 $(this).parent().parent().addClass("mm-show");
                 $(this).parent().parent().prev().addClass("active");
                 $(this).parent().parent().parent().addClass("active");
                 $(this).parent().parent().parent().addClass("mm-active");
-                $(this).parent().parent().parent().parent().addClass("in");  
-                $(this).parent().parent().parent().parent().parent().addClass("active");  
-                $(this).parent().parent().parent().parent().parent().parent().addClass("active");              
-                var menu =  $(this).closest('.main-icon-menu-pane').attr('id');
-                $("a[href='#"+menu+"']").addClass('active');
+                $(this).parent().parent().parent().parent().addClass("in");
+                $(this).parent().parent().parent().parent().parent().addClass("active");
+                $(this).parent().parent().parent().parent().parent().parent().addClass("active");
+                var menu = $(this).closest('.main-icon-menu-pane').attr('id');
+                $("a[href='#" + menu + "']").addClass('active');
             }
         });
     }
 
-    
+
 
     function init() {
         initSlimscroll();

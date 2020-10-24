@@ -17,13 +17,13 @@
         <td>{{i.id}}</td>
         <td>{{i.value}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.ByUser.username}}"> {{i.byUser}} </a>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['ByUser'][i.id]}}"> {{i.byUser}} </a>
         </td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.ToUser.username}}"> {{i.toUser}} </a>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['ToUser'][i.id]}}"> {{i.toUser}} </a>
         </td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.ForOrder.orderedBy}} --> {{i.ForOrder.orderedTo}}"> {{i.forOrder}} </a>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['ForOrder'][i.id]}}"> {{i.forOrder}} </a>
         </td>
         <td>{{i.date}}</td>
         <td>

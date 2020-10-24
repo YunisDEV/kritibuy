@@ -85,16 +85,12 @@ class Payment(base):
     fromUser = Column(Integer, ForeignKey(User.id), nullable=False)
     toUser = Column(Integer, ForeignKey(User.id), nullable=False)
     amount = Column(Float, nullable=False)
-    date = Column(DateTime, default=datetime.datetime.utcnow(), nullable=False)
-
 
 class Report(base):
     __tablename__ = 'Reports'
     reporter = Column(Integer, ForeignKey(User.id), nullable=False)
     header = Column(String, nullable=False)
     body = Column(String, nullable=False)
-    date = Column(DateTime, default=datetime.datetime.utcnow(), nullable=False)
-
 
 class Message(base):
     __tablename__ = 'Messages'

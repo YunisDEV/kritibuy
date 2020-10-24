@@ -4,6 +4,8 @@
         <th>id</th>
         <th>name</th>
         <th>country</th>
+        <th>createdAt</th>
+        <th>updatedAt</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -13,7 +15,9 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>{{i.name}}</td>
-        <td><a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.Country.name}}">{{i.country}}</a> </td>
+        <td><a href="/dashboard/admin/database/countries/?sql=id%3D{{i.country}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}">{{i.country}}</a></td>
+        <td>{{i.createdAt}}</td>
+        <td>{{i.updatedAt}}</td>
         <td>
             <a href=""><i class="far fa-edit text-info mr-1"></i></a>
             <a href=""><i class="far fa-trash-alt text-danger"></i></a>

@@ -17,14 +17,14 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.User.username}}"> {{i.user}} </a>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['User'][i.id]}}"> {{i.user}} </a>
         </td>
         <td>{{i.address}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.City.name}}"> {{i.city}} </a>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['City'][i.id]}}"> {{i.city}} </a>
         </td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i.Country.name}}"> {{i.country}} </a>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}"> {{i.country}} </a>
         </td>
         <td>{{i.phone}}</td>
         <td><a href="mailto:{{i.email}}">{{i.email}}</a></td>

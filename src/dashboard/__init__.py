@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, make_response, request, abort, url
 from ..account.security import authorize
 import sqlite3
 from .admin_panel import panelTree, db_data_get
-from ..db import session, Message,Permission
+from ..db import session, Message, Permission
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
@@ -10,7 +10,9 @@ dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 @dashboard.route('/')
 @authorize('Admin', 'Personal', 'Business')
 def dashboard_main(user):
-    permissionName = session.query(Permission).filter(Permission.id==user.permission).one().name
+    permissionName = session.query(Permission).filter(
+        Permission.id == user.permission
+    ).one().name
     if permissionName == 'Personal':
         return f"""<script>window.open('/dashboard/personal','_self')</script>"""
     if permissionName == 'Business':
@@ -24,7 +26,7 @@ def dashboard_main(user):
 @dashboard.route('/personal/order')
 @authorize('Personal')
 def personal_main_order(user):
-    messages = session.query(Message).filter(Message.user==user.id).all()
+    messages = session.query(Message).filter(Message.user == user.id).all()
     return render_template('personal/index.html', messages=messages)
 
 
@@ -67,7 +69,7 @@ def admin_database_page(user, table):
     for i in panelTree["database"]["indexes"]:
         if i["name"].lower() == table.lower():
             db_name = i["name"]
-    data = db_data_get[db_name](request.form.get('sql',""))
+    data = db_data_get[db_name](request.args.get('sql', ""))
     return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database', tree=panelTree, data=data)
 
 
