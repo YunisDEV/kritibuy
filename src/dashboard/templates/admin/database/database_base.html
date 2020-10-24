@@ -3,9 +3,10 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="mt-0 header-title" style="text-transform:none;">{{data["query"]}}</h4>
+                <button id="show-query" class="btn btn-primary mb-4">Show query</button>
+                <h4 class="mt-0 header-title d-none" id="raw-sql-query" style="text-transform: none">{{data["query"]}}</h4>
                 <p class="text-muted mb-4 font-13">Download as <a onclick="table2csv(this,1)" data-table="datatable" href="#">CSV</a></p>
-                <form method="GET" class="font-12 mb-4"><input name="sql" placeholder="Enter manual SQL condition..." class="form-control"></form>
+                <form method="GET" class="font-12 mb-4"><input name="sql" placeholder="Enter manual SQL condition..." class="form-control" /></form>
                 <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%">
                     {%block table%}{%endblock%}
                 </table>
@@ -24,5 +25,10 @@
 {%endblock%} {%block bodyend%}
 <script>
     $("#datatable").DataTable();
+</script>
+<script>
+    document.querySelector("#show-query").addEventListener("click", () => {
+        document.querySelector('#raw-sql-query').classList.toggle('d-none')
+    });
 </script>
 {%endblock%}

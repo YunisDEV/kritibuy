@@ -5,7 +5,8 @@
         <th>user</th>
         <th>type</th>
         <th>message</th>
-        <th>date</th>
+        <th>createdAt</th>
+        <th>updatedAt</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -21,7 +22,8 @@
             <span class="badge {%if i.type=='you'%}badge-soft-success{%else%}badge-soft-primary{%endif%}">{%if i.type=='you'%}bot{%else%}user{%endif%}</span>
         </td>
         <td>{{i.message}}</td>
-        <td>{{i.date}}</td>
+        <td>{{i.createdAt}}</td>
+        <td>{{i.updatedAt}}</td>
         <td>
             <a href=""><i class="far fa-edit text-info mr-1"></i></a>
             <a href=""><i class="far fa-trash-alt text-danger"></i></a>

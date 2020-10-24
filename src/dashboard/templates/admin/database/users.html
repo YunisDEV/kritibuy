@@ -13,11 +13,12 @@
         <th>city</th>
         <th>brandLogoPath</th>
         <th>brandName</th>
-        <th>createdAt</th>
         <th>brandProductTypes</th>
         <th>active</th>
         <th>confirmationKey</th>
         <th>confirmed</th>
+        <th>createdAt</th>
+        <th>updatedAt</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -35,13 +36,10 @@
         <td>{{i.phone}}</td>
         <td>{{i.country}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['City'][i.id]}}"> 
-            {{i.city}}
-            </a>
+            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['City'][i.id]}}"> {{i.city}}</a>
         </td>
         <td>{{i.brandLogoPath}}</td>
         <td>{{i.brandName}}</td>
-        <td>{{i.createdAt}}</td>
         <td>{{i.brandProductTypes}}</td>
         <td>
             <span class="badge {%if i.active%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.active}}</span>
@@ -50,6 +48,8 @@
         <td>
             <span class="badge {%if i.confirmed%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.confirmed}}</span>
         </td>
+        <td>{{i.createdAt}}</td>
+        <td>{{i.updatedAt}}</td>
         <td>
             <a href=""><i class="far fa-edit text-info mr-1"></i></a>
             <a href=""><i class="far fa-trash-alt text-danger"></i></a>

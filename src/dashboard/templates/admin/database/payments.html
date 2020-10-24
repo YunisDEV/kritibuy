@@ -5,7 +5,8 @@
         <th>fromUser</th>
         <th>toUser</th>
         <th>amount</th>
-        <th>date</th>
+        <th>createdAt</th>
+        <th>updatedAt</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -21,7 +22,8 @@
             <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['ToUser'][i.id]}}"> {{i.toUser}} </a>
         </td>
         <td>$ {{i.amount}}</td>
-        <td>{{i.date}}</td>
+        <td>{{i.createdAt}}</td>
+        <td>{{i.updatedAt}}</td>
         <td>
             <a href=""><i class="far fa-edit text-info mr-1"></i></a>
             <a href=""><i class="far fa-trash-alt text-danger"></i></a>
