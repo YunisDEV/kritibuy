@@ -16,13 +16,14 @@
     </div>
 </div>
 {%endblock%} {%block css%}
-<link href="/admin/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<link href="/admin/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/template/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/template/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
 {%endblock%} {%block scripts%}
-<script src="/admin/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/admin/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/template/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/template/plugins/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="https://yunisdev.github.io/table2csv/table2csv.min.js"></script>
+<script src="/js/dashboard/admin/database.js"></script>
 {%endblock%} {%block bodyend%}
 <script>
     $("#datatable").DataTable();

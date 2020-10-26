@@ -30,7 +30,9 @@
         <td>{{i.username}}</td>
         <td>********</td>
         <td>{{i.email}}</td>
-        <td>{{i.permission}}</td>
+        <td>
+            <a href="/dashboard/admin/database/permissions/?sql=id%3D{{i.permission}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Permission'][i.id]}}"> {{i.permission}}</a>
+        </td>
         <td>{{i.fullName}}</td>
         <td>{{i.address}}</td>
         <td>{{i.phone}}</td>
@@ -53,8 +55,8 @@
         <td>{{i.createdAt}}</td>
         <td>{{i.updatedAt}}</td>
         <td>
-            <a href=""><i class="far fa-edit text-info mr-1"></i></a>
-            <a href=""><i class="far fa-trash-alt text-danger"></i></a>
+            <a href="#" class="edit-row-btn"><i class="far fa-edit text-info mr-1"></i></a>
+            <a href="#" class="delete-row-btn"><i class="far fa-trash-alt text-danger"></i></a>
         </td>
     </tr>
     {%endfor%}
