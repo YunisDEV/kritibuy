@@ -36,7 +36,7 @@ db_data_post = {
 
 db_data_delete = {
     # "Permissions": permissions_delete,
-    # "Countries": countries_delete,
+    "Countries": countries_delete,
     # "Cities": cities_delete,
     # "Users": users_delete,
     # "AuthTokens": authtokens_delete,

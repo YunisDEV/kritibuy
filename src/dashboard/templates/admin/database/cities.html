@@ -16,15 +16,15 @@
         <td>{{i.id}}</td>
         <td>{{i.name}}</td>
         <td>
-            <a href="/dashboard/admin/database/countries/?sql=id%3D{{i.country}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}"
-                >{{i.country}}</a
-            >
+            <a href="/dashboard/admin/database/countries/?sql=id%3D{{i.country}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}">
+                {{i.country}}
+            </a>
         </td>
         <td>{{i.createdAt}}</td>
         <td>{{i.updatedAt}}</td>
         <td>
-            <a href=""><i class="far fa-edit text-info mr-1"></i></a>
-            <a href=""><i class="far fa-trash-alt text-danger"></i></a>
+            <a href="#" class="update-row-btn"><i class="far fa-edit text-info mr-1"></i></a>
+            <a href="#" class="delete-row-btn"><i class="far fa-trash-alt text-danger"></i></a>
         </td>
     </tr>
     {%endfor%}
@@ -41,14 +41,17 @@
     </select>
     <script defer>
         var select = document.querySelector('select[name="country"]');
-        fetch('/get-countries')
-            .then(res=>res.json())
-            .then(({data})=>{
-                for(var i=0;i<data.length;i++)
-                select.insertAdjacentHTML('beforeend',`
+        fetch("/get-countries")
+            .then((res) => res.json())
+            .then(({ data }) => {
+                for (var i = 0; i < data.length; i++)
+                    select.insertAdjacentHTML(
+                        "beforeend",
+                        `
                 <option value="${data[i]}">${data[i]}</option>
-                `)
-            })
+                `
+                    );
+            });
     </script>
 </div>
 {%endblock%}

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, make_response, request, abort, url_for
 from ..account.security import authorize
 import sqlite3
-from .admin_panel import panelTree, db_data_get,db_data_post
+from .admin_panel import panelTree, db_data_get, db_data_post, db_data_delete
 from ..db import session, Message, Permission
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
@@ -62,7 +62,7 @@ def admin_folder(user, folder):
     return render_template(f'admin/page_index.html', pageTitle=folder, tree=panelTree)
 
 
-@dashboard.route('/admin/database/<table>/', methods=['GET', 'POST'])
+@dashboard.route('/admin/database/<table>/', methods=['GET', 'POST', 'DELETE'])
 @authorize('Admin')
 def admin_database_page(user, table):
     db_name = None
@@ -74,6 +74,9 @@ def admin_database_page(user, table):
         return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database', tree=panelTree, data=data)
     elif request.method == 'POST':
         resp = db_data_post[db_name](request)
+        return resp
+    elif request.method == 'DELETE':
+        resp = db_data_delete[db_name](request)
         return resp
 
 
