@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, make_response, request, abort, url_for
 from ..account.security import authorize
 import sqlite3
-from .admin_panel import panelTree, db_data_get
+from .admin_panel import panelTree, db_data_get,db_data_post
 from ..db import session, Message, Permission
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
@@ -69,8 +69,12 @@ def admin_database_page(user, table):
     for i in panelTree["database"]["indexes"]:
         if i["name"].lower() == table.lower():
             db_name = i["name"]
-    data = db_data_get[db_name](request.args.get('sql', ""))
-    return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database', tree=panelTree, data=data)
+    if request.method == 'GET':
+        data = db_data_get[db_name](request.args.get('sql', ""))
+        return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database', tree=panelTree, data=data)
+    elif request.method == 'POST':
+        resp = db_data_post[db_name](request)
+        return resp
 
 
 @dashboard.route('/admin/<folder>/<page>/')

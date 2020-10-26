@@ -84,7 +84,6 @@
         $(".left-sidenav a").each(function () {
             var pageUrl = window.location.href;
             if (this.href.replace(/[#|/]/g, '') == pageUrl.replace(/[#|/]/g, '').split('?')[0]) {
-                console.log(this)
                 $(this).addClass("active");
                 $(this).parent().parent().addClass("in");
                 $(this).parent().parent().addClass("mm-show");

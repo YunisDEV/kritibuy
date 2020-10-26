@@ -21,8 +21,8 @@ db_data_get = {
 
 db_data_post = {
     # "Permissions": permissions_post,
-    # "Countries": countries_post,
-    # "Cities": cities_post,
+    "Countries": countries_post,
+    "Cities": cities_post,
     # "Users": users_post,
     # "AuthTokens": authtokens_post,
     # "Payments": payments_post,

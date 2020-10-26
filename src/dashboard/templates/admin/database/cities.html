@@ -15,7 +15,11 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>{{i.name}}</td>
-        <td><a href="/dashboard/admin/database/countries/?sql=id%3D{{i.country}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}">{{i.country}}</a></td>
+        <td>
+            <a href="/dashboard/admin/database/countries/?sql=id%3D{{i.country}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}"
+                >{{i.country}}</a
+            >
+        </td>
         <td>{{i.createdAt}}</td>
         <td>{{i.updatedAt}}</td>
         <td>
@@ -25,4 +29,26 @@
     </tr>
     {%endfor%}
 </tbody>
+{%endblock%} {%block addRowInputs%}
+<div class="form-group">
+    <label for="name">name</label>
+    <input required type="text" class="form-control" name="name" id="name" />
+</div>
+<div class="form-group">
+    <label for="country">country</label>
+    <select class="form-control form-control-sm" required name="country" id="country">
+        <option value="" hidden="">Select country:</option>
+    </select>
+    <script defer>
+        var select = document.querySelector('select[name="country"]');
+        fetch('/get-countries')
+            .then(res=>res.json())
+            .then(({data})=>{
+                for(var i=0;i<data.length;i++)
+                select.insertAdjacentHTML('beforeend',`
+                <option value="${data[i]}">${data[i]}</option>
+                `)
+            })
+    </script>
+</div>
 {%endblock%}

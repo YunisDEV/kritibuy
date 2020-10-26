@@ -90,6 +90,15 @@ def getCities():
         print(e)
         return {"success": False}
 
+@account.route('/get-countries', methods=['GET'])
+def getCountries():
+    try:
+        if request.method == 'GET':
+            q = session.query(Country)
+            return {"data": [country.name for country in q.all()], "success": True}
+    except Exception as e:
+        print(e)
+        return {"success": False}
 
 @account.route('/logout')
 def logout():
