@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "scss":"npm run build-scss;clear;echo Ready...;node-sass --watch ./scss -o ./css",
-    "build-scss":"node-sass ./scss -o ./css"
+    "build-scss":"node-sass ./scss -o ./css",
+    "compile-admin-scss":"node-sass ./admin/scss/style.scss -o ./admin/css/"
   },
   "repository": {
     "type": "git",

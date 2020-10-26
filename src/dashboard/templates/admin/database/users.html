@@ -34,9 +34,11 @@
         <td>{{i.fullName}}</td>
         <td>{{i.address}}</td>
         <td>{{i.phone}}</td>
-        <td>{{i.country}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['City'][i.id]}}"> {{i.city}}</a>
+            <a href="/dashboard/admin/database/countries/?sql=id%3D{{i.country}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}"> {{i.country}}</a>
+        </td>
+        <td>
+            <a href="/dashboard/admin/database/cities/?sql=id%3D{{i.city}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['City'][i.id]}}"> {{i.city}}</a>
         </td>
         <td>{{i.brandLogoPath}}</td>
         <td>{{i.brandName}}</td>

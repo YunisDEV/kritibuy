@@ -16,7 +16,7 @@
         <td>{{i.id}}</td>
         <td>$ {{i.balance}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Owner'][i.id]}}"> {{i.owner}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.owner}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Owner'][i.id]}}"> {{i.owner}} </a>
         </td>
         <td>{{i.createdAt}}</td>
         <td>{{i.updatedAt}}</td>

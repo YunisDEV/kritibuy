@@ -16,7 +16,7 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['User'][i.id]}}"> {{i.user}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.user}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['User'][i.id]}}"> {{i.user}} </a>
         </td>
         <td>
             <span class="badge {%if i.type=='you'%}badge-soft-success{%else%}badge-soft-primary{%endif%}">{%if i.type=='you'%}bot{%else%}user{%endif%}</span>

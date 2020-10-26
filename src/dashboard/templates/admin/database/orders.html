@@ -19,15 +19,15 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['OrderedTo'][i.id]}}"> {{i.orderedTo}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.orderedTo}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['OrderedTo'][i.id]}}"> {{i.orderedTo}} </a>
         </td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['OrderedBy'][i.id]}}"> {{i.orderedBy}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.orderedBy}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['OrderedBy'][i.id]}}"> {{i.orderedBy}} </a>
         </td>
         <td>{{i.orderedProduct}}</td>
         <td>{{i.orderText}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Info'][i.id]}}"> {{i.info}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.info}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Info'][i.id]}}"> {{i.info}} </a>
         </td>
         <td>
             <span class="badge {%if i.paid%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.paid}}</span>

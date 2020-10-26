@@ -96,3 +96,11 @@ def logout():
     resp = make_response("<script>window.open('/','_self')</script>")
     resp.set_cookie('auth_token', '', max_age=0)
     return resp
+
+@account.route('/verification')
+def verification():
+    return ''
+
+@account.route('/reset')
+def pass_reset():
+    return request.args.get('token')

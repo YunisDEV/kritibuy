@@ -19,14 +19,14 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['User'][i.id]}}"> {{i.user}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.user}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['User'][i.id]}}"> {{i.user}} </a>
         </td>
         <td>{{i.address}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['City'][i.id]}}"> {{i.city}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.city}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['City'][i.id]}}"> {{i.city}} </a>
         </td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}"> {{i.country}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.country}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}"> {{i.country}} </a>
         </td>
         <td>{{i.phone}}</td>
         <td><a href="mailto:{{i.email}}">{{i.email}}</a></td>

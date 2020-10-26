@@ -16,10 +16,10 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['FromUser'][i.id]}}"> {{i.fromUser}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.fromUser}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['FromUser'][i.id]}}"> {{i.fromUser}} </a>
         </td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['ToUser'][i.id]}}"> {{i.toUser}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.toUser}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['ToUser'][i.id]}}"> {{i.toUser}} </a>
         </td>
         <td>$ {{i.amount}}</td>
         <td>{{i.createdAt}}</td>

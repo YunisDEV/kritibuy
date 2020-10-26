@@ -16,7 +16,7 @@
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
         <td>
-            <a href="#" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Reporter'][i.id]}}"> {{i.reporter}} </a>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.reporter}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Reporter'][i.id]}}"> {{i.reporter}} </a>
         </td>
         <td>{{i.header}}</td>
         <td>{{i.body}}</td>
