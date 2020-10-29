@@ -4,6 +4,7 @@ import sqlite3
 from .admin_panel import panelTree, db_data_get, db_data_post, db_data_delete
 from ..db import session, Message, Permission
 
+
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
 
@@ -22,28 +23,28 @@ def dashboard_main(user):
 
 
 #! Personal
-@dashboard.route('/personal')
-@dashboard.route('/personal/order')
+@dashboard.route('/personal/')
+@dashboard.route('/personal/order/')
 @authorize('Personal')
 def personal_main_order(user):
     messages = session.query(Message).filter(Message.user == user.id).all()
     return render_template('personal/index.html', messages=messages)
 
 
-@dashboard.route('/personal/stats')
+@dashboard.route('/personal/stats/')
 @authorize('Personal')
 def personal_stats(user):
     return render_template('personal/stats.html')
 
 
-@dashboard.route('/personal/wallet')
+@dashboard.route('/personal/wallet/')
 @authorize('Personal')
 def personal_wallet(user):
     return render_template('personal/wallet.html')
 
 
 #! Business
-@dashboard.route('/business')
+@dashboard.route('/business/')
 @authorize('Business')
 def business_main(user):
     return f"""{user.id} {user.username}"""
@@ -61,10 +62,12 @@ def admin_main(user):
 def admin_folder(user, folder):
     return render_template(f'admin/page_index.html', pageTitle=folder, tree=panelTree)
 
+# @dashboard.route('/admin/database/<table>/<id>', methods=['GET', 'POST', 'DELETE'])
+
 
 @dashboard.route('/admin/database/<table>/', methods=['GET', 'POST', 'DELETE'])
 @authorize('Admin')
-def admin_database_page(user, table):
+def admin_database_page(user, table, id=None):
     db_name = None
     for i in panelTree["database"]["indexes"]:
         if i["name"].lower() == table.lower():

@@ -4,7 +4,7 @@ from .dashboard import dashboard
 from .account import account
 from .chatbot import chatbot
 from werkzeug.exceptions import HTTPException
-
+import flask_assets
 
 def create_app():
     app = Flask(__name__, static_folder='../public',
@@ -13,6 +13,8 @@ def create_app():
     app.register_blueprint(dashboard, url_prefix='/dashboard')
     app.register_blueprint(account)
     app.register_blueprint(chatbot)
+    assets = flask_assets.Environment()
+    assets.init_app(app)
 
     @app.errorhandler(HTTPException)
     def page_not_found(e):

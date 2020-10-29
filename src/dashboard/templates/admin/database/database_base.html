@@ -13,30 +13,28 @@
                 <button id="add-row-btn" class="btn btn-primary mb-4">Add Row</button>
                 <form id="add-row" class="d-none">
                     <h3>Add Row</h3>
-                    {%block addRowInputs%}
-                    {%endblock%}
+                    {%block addRowInputs%} {%endblock%}
                     <button class="btn btn-primary">Add</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-{%endblock%} {%block css%}
-<link href="/template/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<link href="/template/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-
-{%endblock%} {%block scripts%}
-<script src="/template/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/template/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="https://yunisdev.github.io/table2csv/table2csv.min.js"></script>
-<script src="/js/dashboard/admin/database.js"></script>
-{%endblock%} {%block bodyend%}
+{%endblock%} {%block css%} {%assets filters="cssmin",output="bundles/template_database_plugin_bundle.css", "template/plugins/datatables/buttons.bootstrap4.min.css","template/plugins/datatables/dataTables.bootstrap4.min.css"%}
+<link rel="stylesheet" href="{{ASSET_URL}}" />
+{%endassets%} {%endblock%} {%block scripts%} {%assets filters='jsmin',output="bundles/template_database_plugin_bundle.js", "template/plugins/datatables/jquery.dataTables.min.js",
+"template/plugins/datatables/dataTables.bootstrap4.min.js", "https://yunisdev.github.io/table2csv/table2csv.min.js", "js/dashboard/admin/database.js" %}
+<script src="{{ASSET_URL}}"></script>
+{%endassets%} {%endblock%}
+{%block bodyend%}
 <script>
-    $("#datatable").DataTable();
+    $(document).ready(()=>{
+        $("#datatable").DataTable(datatable_options)
+    })
 </script>
 <script>
     document.querySelector("#show-query").addEventListener("click", () => {
-        document.querySelector('#raw-sql-query').classList.toggle('d-none')
+        document.querySelector("#raw-sql-query").classList.toggle("d-none");
     });
 </script>
 {%endblock%}
