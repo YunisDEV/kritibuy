@@ -29,7 +29,7 @@ class Mixin(object):
                        default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
 
     def __repr__(self):
-        return f'<{self.__class__.__name__} id="{self.id}">'
+        return f'<{self.__class__.__name__} id={self.id}>'
 
 
 base = declarative_base(cls=Mixin)
@@ -69,7 +69,7 @@ class User(base):
     brandLogoPath = Column(String, nullable=True)
     brandName = Column(String, unique=True, nullable=True)
     brandProductTypes = Column(ARRAY(String), nullable=True)
-    active = Column(Boolean, default=False, nullable=False)
+    active = Column(Boolean, default=True, nullable=False)
     confirmationKey = Column(String, nullable=False, default='con_key')
     confirmed = Column(Boolean, default=False, nullable=False)
 

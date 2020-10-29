@@ -4,8 +4,10 @@ import config
 import bcrypt
 import datetime
 from functools import wraps
-from flask import abort, request
+from flask import abort, request, render_template
 from ..db import session, User, AuthToken
+import string
+import random
 
 
 def encodeToken(payload):
@@ -39,14 +41,36 @@ def authorize(*allowed):
             permissionName = None
             if token:
                 token_body = decodeToken(token)
-                q = session.query(AuthToken).filter(AuthToken.user==session.query(User).filter(User.username==token_body["username"]).one().id)
+                q = session.query(AuthToken).filter(AuthToken.user == session.query(
+                    User).filter(User.username == token_body["username"]).one().id)
                 tokens = [i.token for i in q.all()]
                 if token in tokens and token_body["permission"] in allowed:
                     isauth = True
-                    q = session.query(User).filter(User.username==token_body["username"])
+                    q = session.query(User).filter(
+                        User.username == token_body["username"])
                     user_data = q.one()
             if not isauth:
                 abort(401)
             return f(user_data, *args, **kwargs)
         return wrapper
     return dec
+
+
+def generateConKey(length=30):
+    characterSet = list(
+        set(list(string.ascii_lowercase+string.ascii_uppercase+'0123456789'+'_')))
+    setlen = len(characterSet)
+    generatedKey = ''
+    for i in range(length):
+        generatedKey += str(characterSet[random.randrange(0, setlen-1, 1)])
+    return generatedKey
+
+
+def confimed():
+    def dec(f):
+        @wraps(f)
+        def wrapper(user, *args, **kwargs):
+            if user.confirmed:
+                return f(user, *args, **kwargs)
+            else:
+                return render_template()

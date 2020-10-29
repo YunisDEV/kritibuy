@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, make_response
 import json
-from .security import authorize, encodeToken, hashPassword, checkPassword
+from .security import authorize, encodeToken, hashPassword, checkPassword,generateConKey
 from ..db import session, Country, City, User, Permission, AuthToken
 
 account = Blueprint('account', __name__, template_folder='./templates')
@@ -52,7 +52,8 @@ def signup():
                 country=session.query(Country).filter(
                     Country.name == data["country"]).one().id,
                 city=session.query(City).filter(
-                    City.name == data["city"]).one().id
+                    City.name == data["city"]).one().id,
+                confirmationKey=generateConKey()
             ))
             authToken = encodeToken({
                 "username": data["username"],
