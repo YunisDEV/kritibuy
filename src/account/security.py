@@ -66,11 +66,12 @@ def generateConKey(length=30):
     return generatedKey
 
 
-def confimed():
-    def dec(f):
-        @wraps(f)
-        def wrapper(user, *args, **kwargs):
-            if user.confirmed:
-                return f(user, *args, **kwargs)
-            else:
-                return render_template()
+def confirmed(f):
+    @wraps(f)
+    def wrapper(user, *args, **kwargs):
+        if user.confirmed:
+            print('hello')
+            return f(user, *args, **kwargs)
+        else:
+            return render_template('confirmation_required.html',username=user.username,confirmation_key=user.confirmationKey)
+    return wrapper

@@ -76,14 +76,6 @@
           width: fit-content;
           margin-right: auto;
           margin-left: auto; }
-          .signUpBody > div .user .formBx form > h2::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary-light)); }
         .signUpBody > div .user .formBx form > label#errorLine {
           color: red !important;
           font-size: 14px;

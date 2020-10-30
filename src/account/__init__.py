@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, make_response
+from flask import Blueprint, render_template, request, make_response, abort
 import json
-from .security import authorize, encodeToken, hashPassword, checkPassword,generateConKey
+from .security import authorize, encodeToken, hashPassword, checkPassword, generateConKey
 from ..db import session, Country, City, User, Permission, AuthToken
 
 account = Blueprint('account', __name__, template_folder='./templates')
@@ -37,7 +37,8 @@ def login():
 @account.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        countries = list(map(lambda x: x.name, session.query(Country.name)))
+        countries = list(map(lambda x: x.name, session.query(
+            Country.name).order_by(Country.name)))
         return render_template('signup.html', countries=countries)
     if request.method == 'POST':
         try:
@@ -60,7 +61,8 @@ def signup():
                 "permission": data["permission"]
             })
             session.add(AuthToken(
-                user=session.query(User).filter(User.username == data["username"]).one().id,
+                user=session.query(User).filter(
+                    User.username == data["username"]).one().id,
                 token=authToken
             ))
             session.commit()
@@ -81,25 +83,27 @@ def getCities():
     try:
         if request.method == 'POST':
             country = json.loads(request.data)["country"]
-            q = session.query(City).filter(
+            q = session.query(City.name).filter(
                 City.country == session.query(Country).filter(
                     Country.name == country
                 ).one().id
-            )
+            ).order_by(City.name)
             return {"data": [city.name for city in q.all()], "success": True}
     except Exception as e:
         print(e)
         return {"success": False}
 
+
 @account.route('/get-countries', methods=['GET'])
 def getCountries():
     try:
         if request.method == 'GET':
-            q = session.query(Country)
+            q = session.query(Country.name).order_by(Country.name)
             return {"data": [country.name for country in q.all()], "success": True}
     except Exception as e:
         print(e)
         return {"success": False}
+
 
 @account.route('/logout')
 def logout():
@@ -107,10 +111,40 @@ def logout():
     resp.set_cookie('auth_token', '', max_age=0)
     return resp
 
-@account.route('/verification')
-def verification():
+
+@account.route('/confirmation/<user>/<con_key>', methods=['GET', 'POST'])
+def confirmation(user, con_key):
+    user = session.query(User).filter(User.username == user).one()
+    permission = session.query(Permission).filter(
+        Permission.id == user.permission).one()
+    if request.method == 'GET':
+        if user.confirmationKey == con_key and permission.name in ['Personal', 'Business']:
+            return render_template(f'confirmation_{permission.name.lower()}.html', user=user)
+        else:
+            abort(401)
+    elif request.method == 'POST':
+        data = request.get_json()
+        if permission.name=='Personal':
+            try:
+                user.fullName = data['fullName']
+                user.address = data['address']
+                user.phone = data['phone']
+                user.confirmed = True
+                session.commit()
+                return make_response({"success":True})
+            except Exception as e:
+                print(e)
+                return make_response({"success":False,"error":str(e)})
+        else:
+            return make_response({"success":True})
+            pass
+
+
+@account.route('/password-recover', methods=['GET', 'POST'])
+def forgot_password():
     return ''
 
-@account.route('/reset')
+
+@account.route('/pass-reset', methods=['GET', 'POST'])
 def pass_reset():
     return request.args.get('token')

@@ -93,15 +93,15 @@
 						width: fit-content;
 						margin-right: auto;
 						margin-left: auto;
-						&::after {
-							content: "";
-							position: absolute;
-							bottom: 0;
-							left: 0;
-							width: 50%;
-							height: 3px;
-							background: linear-gradient(90deg, var(--primary-dark), var(--primary-light));
-						}
+						// &::after {
+						// 	content: "";
+						// 	position: absolute;
+						// 	bottom: 0;
+						// 	left: 0;
+						// 	width: 50%;
+						// 	height: 3px;
+						// 	background: linear-gradient(90deg, var(--primary-dark), var(--primary-light));
+						// }
 					}
 					>label#errorLine {
 						color: red !important;

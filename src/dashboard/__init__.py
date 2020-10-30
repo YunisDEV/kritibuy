@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, make_response, request, abort, url_for
-from ..account.security import authorize
+from ..account.security import authorize,confirmed
 import sqlite3
 from .admin_panel import panelTree, db_data_get, db_data_post, db_data_delete
 from ..db import session, Message, Permission
@@ -26,6 +26,7 @@ def dashboard_main(user):
 @dashboard.route('/personal/')
 @dashboard.route('/personal/order/')
 @authorize('Personal')
+@confirmed
 def personal_main_order(user):
     messages = session.query(Message).filter(Message.user == user.id).all()
     return render_template('personal/index.html', messages=messages)
@@ -33,12 +34,14 @@ def personal_main_order(user):
 
 @dashboard.route('/personal/stats/')
 @authorize('Personal')
+@confirmed
 def personal_stats(user):
     return render_template('personal/stats.html')
 
 
 @dashboard.route('/personal/wallet/')
 @authorize('Personal')
+@confirmed
 def personal_wallet(user):
     return render_template('personal/wallet.html')
 
@@ -46,6 +49,7 @@ def personal_wallet(user):
 #! Business
 @dashboard.route('/business/')
 @authorize('Business')
+@confirmed
 def business_main(user):
     return f"""{user.id} {user.username}"""
 

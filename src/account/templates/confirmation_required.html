@@ -1,0 +1,18 @@
+{%extends "sign_base.html"%} {%block head%}
+<script defer src="/js/login.js"></script>
+{%endblock%}{%block body%}
+<div>
+    <div class="user signinBx">
+        <div class="imgBx"><img src="/assets/needToConfirm.svg" alt="need to confirm illustration" /></div>
+        <div class="formBx">
+            <form method="POST" spellcheck="false">
+                <h2>Confirmation Required</h2>
+                <p class="signup">You need to confirm your account by adding some information to use Kritibuy</p>
+                <div class="btnBx">
+                    <a href="/confirmation/{{username}}/{{confirmation_key}}" style="padding: 10px" class="btn btn-primary">Click Here To Confirm</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}
