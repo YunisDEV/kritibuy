@@ -56,6 +56,28 @@ def authorize(*allowed):
     return dec
 
 
+def isauth(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        token = request.cookies.get('auth_token', False)
+        isauth = False
+        permissionName = None
+        if token:
+            token_body = decodeToken(token)
+            q = session.query(AuthToken).filter(AuthToken.user == session.query(
+                User).filter(User.username == token_body["username"]).one().id)
+            tokens = [i.token for i in q.all()]
+            if token in tokens:
+                isauth = True
+                q = session.query(User).filter(
+                    User.username == token_body["username"])
+                user_data = q.one()
+        if not isauth:
+            user_data = None
+        return f(user_data, *args, **kwargs)
+    return wrapper
+
+
 def generateConKey(length=30):
     characterSet = list(
         set(list(string.ascii_lowercase+string.ascii_uppercase+'0123456789'+'_')))
@@ -73,5 +95,5 @@ def confirmed(f):
             print('hello')
             return f(user, *args, **kwargs)
         else:
-            return render_template('confirmation_required.html',username=user.username,confirmation_key=user.confirmationKey)
+            return render_template('confirmation_required.html', username=user.username, confirmation_key=user.confirmationKey)
     return wrapper

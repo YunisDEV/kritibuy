@@ -1,26 +1,29 @@
 from flask import Blueprint, render_template
 import json
 from .methods import getContentHTML
-
+from ..account.security import isauth
 views = Blueprint('views', __name__, template_folder='./templates')
 
 
 @views.route('/')
-def index():
+@isauth
+def index(user):
     with open('./src/views/contents_en.json', 'rt') as source:
         h = getContentHTML(json.load(source)['index'])
-        return render_template('index.html', htmlFromContent=h)
+        return render_template('index.html', htmlFromContent=h, user=user)
 
 
 @views.route('/about')
-def about():
+@isauth
+def about(user):
     with open('./src/views/contents_en.json', 'rt') as source:
         h = getContentHTML(json.load(source)['about'])
-        return render_template('about.html', htmlFromContent=h)
+        return render_template('about.html', htmlFromContent=h, user=user)
 
 
 @views.route('/blog')
-def blog():
+@isauth
+def blog(user):
     fetched_blogs = [
         {
             "title": "Some quick example text to build on the card title and make up the bulk of the card's content.",
@@ -55,16 +58,18 @@ def blog():
             _blogs.append(temp)
             temp = []
     _blogs.append(temp)
-    return render_template('blog.html', _blogs=_blogs)
+    return render_template('blog.html', _blogs=_blogs, user=user)
 
 
 @views.route('/contact')
-def contact():
-    return render_template('contact.html')
+@isauth
+def contact(user):
+    return render_template('contact.html',user=user)
 
 
 @views.route('/pricing')
-def pricing():
+@isauth
+def pricing(user):
     with open('./src/views/contents_en.json', 'rt') as source:
         h = getContentHTML(json.load(source)['pricing'])
-        return render_template('pricing.html', htmlFromContent=h)
+        return render_template('pricing.html', htmlFromContent=h,user=user)

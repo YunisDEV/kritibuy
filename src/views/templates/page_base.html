@@ -82,10 +82,16 @@
                     <a href="/blog" class="nav-item nav-link hvr-underline-from-left">Blog</a>
                     <a href="/contact" class="nav-item nav-link hvr-underline-from-left">Contact</a>
                 </div>
+                {%if user%}
+                <div id="actionbtns" class="ml-auto nav-item action-buttons navbar-nav">
+                    <a href="/dashboard" class="btn btn-primary sign-up-btn">Dashboard</a>
+                </div>
+                {%else%}
                 <div id="actionbtns" class="ml-auto nav-item action-buttons navbar-nav">
                     <a href="/login" class="btn btn-secondary log-in-btn">Log In</a>
                     <a href="/signup" class="btn btn-primary sign-up-btn">Sign Up</a>
                 </div>
+                {%endif%}
             </div>
         </nav>
         <div class="container content col-md-10 offset-md-1" role="main">{% block content %}{% endblock %}</div>
