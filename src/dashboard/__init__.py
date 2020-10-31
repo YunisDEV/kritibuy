@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, make_response, request, abort, url_for
-from ..account.security import authorize,confirmed
+from ..account.security import authorize, confirmed
 import sqlite3
 from .admin_panel import panelTree, db_data_get, db_data_post, db_data_delete
 from ..db import session, Message, Permission
-
+from .business_panel import dashboardTree
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
@@ -51,7 +51,7 @@ def personal_wallet(user):
 @authorize('Business')
 @confirmed
 def business_main(user):
-    return f"""{user.id} {user.username}"""
+    return render_template('business/index.html', pageTitle='Index', tree=dashboardTree,user=user)
 
 
 #! Admin

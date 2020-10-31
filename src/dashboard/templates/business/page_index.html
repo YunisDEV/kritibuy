@@ -1,4 +1,4 @@
-{%extends "admin/dashboard_base.html"%} {%block content%}
+{%extends "business/dashboard_base.html"%} {%block content%}
 <h5>You may want to go:</h5>
 {%for link in tree[pageTitle]["indexes"]%}
 <a href="/dashboard/admin/{{pageTitle}}{{link['url']}}/">{{link["name"]}}</a><br>

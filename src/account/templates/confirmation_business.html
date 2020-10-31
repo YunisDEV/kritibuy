@@ -1,11 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-    </head>
-    <body>
-        Business permission confirmation
-    </body>
-</html>
+{%extends "sign_base.html"%} {%block head%}
+<!-- <script defer src="/js/confirmation_business.js"></script> -->
+{%endblock%}{%block body%}
+<div>
+    <div class="user signinBx">
+        <div class="formBx">
+            <form method="POST" spellcheck="false" id="addinfoform" enctype = "multipart/form-data">
+                <h2>Confirm</h2>
+                <label id="errorLine">&nbsp;</label>
+                <input required type="text" name="fullName" placeholder="Full name of account owner..." />
+                <input required type="text" name="address" placeholder="Address of company..." />
+                <input required type="text" name="phone" placeholder="Phone number of company..." />
+                <input required type="text" name="brandName" placeholder="Brand name..." />
+                <input multiple="false" required type="file" name="brandLogo" id="brandLogo" placeholder="Brand logo..." style="opacity: 0;width:0;height:0;display:none"/>
+                <label style="padding: 10px" for="brandLogo" class="btn btn-secondary">Add logo</label> <span id="file_upload">No Logo Chosen</span>
+                <div class="btnBx"><button name="submitBtn" class="btn btn-primary" type="submit">Add Info</button></div>
+            </form>
+            <script>
+                const actualBtn = document.getElementById("brandLogo");
+
+                const fileChosen = document.getElementById("file_upload");
+
+                actualBtn.addEventListener("change", function () {
+                    fileChosen.textContent = this.files[0].name;
+                    console.log(this.files[0])
+                });
+            </script>
+        </div>
+        <div class="imgBx"><img src="/assets/confirmation.svg" alt="login illustration" /></div>
+    </div>
+</div>
+{%endblock%}

@@ -2,6 +2,9 @@ from flask import Blueprint, render_template, request, make_response, abort
 import json
 from .security import authorize, encodeToken, hashPassword, checkPassword, generateConKey
 from ..db import session, Country, City, User, Permission, AuthToken
+import os
+import config
+from werkzeug.utils import secure_filename
 
 account = Blueprint('account', __name__, template_folder='./templates')
 
@@ -136,8 +139,23 @@ def confirmation(user, con_key):
                 print(e)
                 return make_response({"success":False,"error":str(e)})
         else:
-            return make_response({"success":True})
-            pass
+            try:
+                data = request.form
+                logo = request.files["brandLogo"]
+                logo_directory = os.path.join(config.UPLOAD_DIR_BRAND_LOGOS,str(user.username)+'_logo.'+secure_filename(logo.filename).split('.')[-1])
+                logo.save(logo_directory)
+                logo_dir = logo_directory.split('public')[1]
+                user.fullName = data["fullName"]
+                user.address = data["address"]
+                user.phone = data["phone"]
+                user.brandName = data["brandName"]
+                user.brandLogoPath = logo_dir
+                user.confirmed = True
+                session.commit()
+                return make_response("""<script>window.open('/dashboard/business','_self')</script>""")
+            except Exception as e:
+                print(e)
+                return make_response({"success":False,"error":str(e)})
 
 
 @account.route('/password-recover', methods=['GET', 'POST'])

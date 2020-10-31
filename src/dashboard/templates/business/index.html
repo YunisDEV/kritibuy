@@ -1,4 +1,4 @@
-{%extends "admin/dashboard_base.html"%} {%block content%}
+{%extends "business/dashboard_base.html"%} {%block content%}
 <h5>You may want to go:</h5>
 {%for link in tree.items()%}
 <a href="{{url_for('dashboard.admin_folder',folder=link[0])}}">{{link[0].capitalize()}}</a><br>
