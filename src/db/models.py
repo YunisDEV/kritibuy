@@ -74,6 +74,13 @@ class User(base):
     confirmed = Column(Boolean, default=False, nullable=False)
 
 
+class PasswordRecover(base):
+    __tablename__ = 'PasswordRecover'
+    user = Column(ForeignKey(User.id), nullable=False)
+    token = Column(String, nullable=False)
+    active = Column(Boolean, default=True)
+
+
 class AuthToken(base):
     __tablename__ = 'AuthTokens'
     user = Column(Integer, ForeignKey(User.id), nullable=False)
@@ -86,11 +93,13 @@ class Payment(base):
     toUser = Column(Integer, ForeignKey(User.id), nullable=False)
     amount = Column(Float, nullable=False)
 
+
 class Report(base):
     __tablename__ = 'Reports'
     reporter = Column(Integer, ForeignKey(User.id), nullable=False)
     header = Column(String, nullable=False)
     body = Column(String, nullable=False)
+
 
 class Message(base):
     __tablename__ = 'Messages'

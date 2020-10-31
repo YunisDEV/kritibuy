@@ -11,7 +11,7 @@
                     {%block table%}{%endblock%}
                 </table>
                 <button id="add-row-btn" class="btn btn-primary mb-4">Add Row</button>
-                <form id="add-row" class="d-none">
+                <form method="POST" id="add-row" class="d-none" enctype="multipart/form-data">
                     <h3>Add Row</h3>
                     {%block addRowInputs%} {%endblock%}
                     <button class="btn btn-primary">Add</button>
@@ -20,17 +20,17 @@
         </div>
     </div>
 </div>
-{%endblock%} {%block css%} {%assets filters="cssmin",output="bundles/template_database_plugin_bundle.css", "template/plugins/datatables/buttons.bootstrap4.min.css","template/plugins/datatables/dataTables.bootstrap4.min.css"%}
+{%endblock%} {%block css%} {%assets filters="cssmin",output="bundles/template_database_plugin_bundle.css",
+"template/plugins/datatables/buttons.bootstrap4.min.css","template/plugins/datatables/dataTables.bootstrap4.min.css"%}
 <link rel="stylesheet" href="{{ASSET_URL}}" />
 {%endassets%} {%endblock%} {%block scripts%} {%assets filters='jsmin',output="bundles/template_database_plugin_bundle.js", "template/plugins/datatables/jquery.dataTables.min.js",
 "template/plugins/datatables/dataTables.bootstrap4.min.js", "https://yunisdev.github.io/table2csv/table2csv.min.js", "js/dashboard/admin/database.js" %}
 <script src="{{ASSET_URL}}"></script>
-{%endassets%} {%endblock%}
-{%block bodyend%}
+{%endassets%} {%endblock%} {%block bodyend%}
 <script>
-    $(document).ready(()=>{
-        $("#datatable").DataTable(datatable_options)
-    })
+    $(document).ready(() => {
+        $("#datatable").DataTable(datatable_options);
+    });
 </script>
 <script>
     document.querySelector("#show-query").addEventListener("click", () => {

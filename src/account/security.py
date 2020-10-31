@@ -78,7 +78,7 @@ def isauth(f):
     return wrapper
 
 
-def generateConKey(length=30):
+def generateToken(length=30):
     characterSet = list(
         set(list(string.ascii_lowercase+string.ascii_uppercase+'0123456789'+'_')))
     setlen = len(characterSet)

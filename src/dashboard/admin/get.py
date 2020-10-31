@@ -69,6 +69,23 @@ def users_get(sql=""):
         "bonus": bonus
     }
 
+def passwordrecover_get(sql=""):
+    q = session.query(PasswordRecover)
+    if not sql == "":
+        q = session.query(PasswordRecover).filter(text(sql))
+    l = q.all()
+    bonus = {
+        'User': {}
+    }
+    for token in l:
+        bonus["User"][token.id] = session.query(User).filter(
+            User.id == token.user
+        ).one().username
+    return {
+        "body": l,
+        "query": q,
+        "bonus": bonus
+    }
 
 def authtokens_get(sql=""):
     q = session.query(AuthToken)

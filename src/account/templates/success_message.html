@@ -1,0 +1,13 @@
+{%extends "sign_base.html"%} {%block head%}
+{%endblock%}{%block body%}
+<div>
+    <div class="user signinBx">
+        <div class="imgBx"><img src="/assets/confirmation.svg" alt="login illustration" /></div>
+        <div class="formBx">
+            <form method="POST" spellcheck="false" id="recover-form">
+                <h2>{{message}}</h2>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

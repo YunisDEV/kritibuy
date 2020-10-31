@@ -44,7 +44,7 @@ header {
 		width: 0px;
 		z-index: -1;
 		transition: all ease-out 0.2s;
-		background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+		background: var(--primary-color)!important;
 		position: absolute;
 		left: 0;
 		bottom: 0;
@@ -60,7 +60,7 @@ header {
 		width: 100%;
 		z-index: -1;
 		transition: all ease-out 0.2s;
-		background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+		background: var(--primary-color);
 		position: absolute;
 		left: 0;
 		bottom: 0;

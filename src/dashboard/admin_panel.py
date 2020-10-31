@@ -39,6 +39,11 @@ panelTree = {
                 "icon": 'dripicons-user'
             },
             {
+                "name": 'PasswordRecover',
+                "url": '/passwordrecover',
+                "icon": 'dripicons-ticket'
+            },
+            {
                 "name": 'AuthTokens',
                 "url": '/authtokens',
                 "icon": 'dripicons-ticket'

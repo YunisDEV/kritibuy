@@ -15,9 +15,9 @@ for i in permissions:
 
 # Creating Countries
 countries = {
-    "Azerbaijan": ['AZ', 'AZE', 'aze_flag.png'],
-    "Turkey": ['TR', 'TUR', 'tur_flag.png'],
-    "United States": ['US', 'USA', 'usa_flag.png']
+    "Azerbaijan": ['AZ', 'AZE', '/countryflags/aze_flag.png'],
+    "Turkey": ['TR', 'TUR', '/countryflags/tur_flag.png'],
+    "United States": ['US', 'USA', '/countryflags/usa_flag.png']
 }
 
 for i in countries.items():

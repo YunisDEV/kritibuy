@@ -11,5 +11,6 @@ from .models import (
     Wallet,
     OrderInfo,
     Order,
-    OrderRating
+    OrderRating,
+    PasswordRecover
 )

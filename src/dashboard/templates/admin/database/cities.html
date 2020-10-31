@@ -14,7 +14,10 @@
     {%for i in data["body"]%}
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
-        <td>{{i.name}}</td>
+        <td>
+            {{i.name}}
+            <a target="_blank" href="https://www.google.com/maps/place/{{i.name+','+data['bonus']['Country'][i.id]}}/"><i class="fas fa-map-marker-alt"></i></a>
+        </td>
         <td>
             <a href="/dashboard/admin/database/countries/?sql=id%3D{{i.country}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Country'][i.id]}}">
                 {{i.country}}

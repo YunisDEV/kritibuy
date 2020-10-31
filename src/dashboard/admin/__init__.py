@@ -9,6 +9,7 @@ db_data_get = {
     "Countries": countries_get,
     "Cities": cities_get,
     "Users": users_get,
+    "PasswordRecover": passwordrecover_get,
     "AuthTokens": authtokens_get,
     "Payments": payments_get,
     "Reports": reports_get,

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, make_response, abort
 import json
-from .security import authorize, encodeToken, hashPassword, checkPassword, generateConKey
-from ..db import session, Country, City, User, Permission, AuthToken
+from .security import authorize, encodeToken, hashPassword, checkPassword, generateToken
+from ..db import session, Country, City, User, Permission, AuthToken, PasswordRecover
 import os
 import config
 from werkzeug.utils import secure_filename
@@ -57,7 +57,7 @@ def signup():
                     Country.name == data["country"]).one().id,
                 city=session.query(City).filter(
                     City.name == data["city"]).one().id,
-                confirmationKey=generateConKey()
+                confirmationKey=generateToken()
             ))
             authToken = encodeToken({
                 "username": data["username"],
@@ -127,22 +127,23 @@ def confirmation(user, con_key):
             abort(401)
     elif request.method == 'POST':
         data = request.get_json()
-        if permission.name=='Personal':
+        if permission.name == 'Personal':
             try:
                 user.fullName = data['fullName']
                 user.address = data['address']
                 user.phone = data['phone']
                 user.confirmed = True
                 session.commit()
-                return make_response({"success":True})
+                return make_response({"success": True})
             except Exception as e:
                 print(e)
-                return make_response({"success":False,"error":str(e)})
+                return make_response({"success": False, "error": str(e)})
         else:
             try:
                 data = request.form
                 logo = request.files["brandLogo"]
-                logo_directory = os.path.join(config.UPLOAD_DIR_BRAND_LOGOS,str(user.username)+'_logo.'+secure_filename(logo.filename).split('.')[-1])
+                logo_directory = os.path.join(config.UPLOAD_DIR_BRAND_LOGOS, str(
+                    user.username)+'_logo.'+secure_filename(logo.filename).split('.')[-1])
                 logo.save(logo_directory)
                 logo_dir = logo_directory.split('public')[1]
                 user.fullName = data["fullName"]
@@ -155,14 +156,56 @@ def confirmation(user, con_key):
                 return make_response("""<script>window.open('/dashboard/business','_self')</script>""")
             except Exception as e:
                 print(e)
-                return make_response({"success":False,"error":str(e)})
+                return make_response({"success": False, "error": str(e)})
 
 
 @account.route('/password-recover', methods=['GET', 'POST'])
 def forgot_password():
-    return ''
+    if request.method == 'POST':
+        data = request.form
+        user = session.query(User).filter(User.username ==
+                                          data["username"] and User.email == data["email"]).one()
+        if user:
+            oldtokens = session.query(PasswordRecover).filter(
+                PasswordRecover.user == user.id).all()
+            for oT in oldtokens:
+                oT.active = False
+            session.add(PasswordRecover(
+                user=user.id,
+                token=generateToken()
+            ))
+            session.commit()
+            return make_response({"success": True})
+            pass
+        else:
+            return make_response({"success": False})
+            pass
+        return
+    if request.method == 'GET':
+        if request.args.get('success') == 'true':
+            return render_template('success_message.html', message='Check your email for password recover link')
+        pass
+        return render_template('password_recover.html')
 
 
-@account.route('/pass-reset', methods=['GET', 'POST'])
-def pass_reset():
-    return request.args.get('token')
+@account.route('/pass-reset/<user>', methods=['GET', 'POST'])
+def pass_reset(user):
+    passRecover = session.query(PasswordRecover).filter(PasswordRecover.active==True and
+        PasswordRecover.user == session.query(User).filter(User.username == user).one().id).one()
+    token = request.args.get('token')
+    if passRecover.token == token:
+        if request.method == 'POST':
+            data = request.form
+            if data["password"]==data["confirm"]:
+                hp = hashPassword(data["password"])
+                u = session.query(User).filter(User.username==user).one()
+                u.password=hp
+                session.commit()
+                return make_response({"success":True})
+                pass
+            else:
+                return make_response({"success":False,"error":"Passwords do not match"})
+                pass
+        return render_template('password_reset.html')
+    else:
+        abort(401)

@@ -31,8 +31,6 @@ else{alert(data.error)}})}})})
 qsa('.update-row-btn').forEach(i=>{i.addEventListener('click',(e)=>{e.preventDefault();var clickedID=e.target.parentNode.parentNode.parentNode.getAttribute('key')})})
 qs('#add-row-btn').addEventListener('click',()=>{qs('#add-row').classList.toggle('d-none')})
 qs('#add-row').addEventListener('submit',(e)=>{e.preventDefault()
-var request_body={}
-var t=e.target
-for(var i=0;i<t.length-1;i++){request_body[t[i].getAttribute('name')]=t[i].value}
-fetch(location.pathname,{method:'post',headers:{'Content-Type':'application/json'},body:JSON.stringify(request_body)}).then((res)=>res.json()).then((data)=>{if(data.success)location.reload()
+fetch(location.pathname,{method:'POST',body:new FormData(e.target)}).then((res)=>res.json()).then((data)=>{console.log(data)
+if(data.success)location.reload()
 else{alert(data.data.error)}})})

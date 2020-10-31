@@ -28,7 +28,7 @@ form.contact-form{
             left: 0;
             width: 50%;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary-light));
+            background: var(--primary-color);
         }
     }
     > label#errorLine {
