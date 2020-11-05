@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, make_response, request, abort, url_for
 from ..account.security import authorize, confirmed
 import sqlite3
-from .admin_panel import panelTree, db_data_get, db_data_post, db_data_delete
+from .admin_panel import panelTree, db_data_get, db_data_post, db_data_delete, db_data_update
 from ..db import session, Message, Permission
 from .business_panel import dashboardTree
 
@@ -51,7 +51,7 @@ def personal_wallet(user):
 @authorize('Business')
 @confirmed
 def business_main(user):
-    return render_template('business/index.html', pageTitle='Index', tree=dashboardTree,user=user)
+    return render_template('business/index.html', pageTitle='Index', tree=dashboardTree, user=user)
 
 
 #! Admin
@@ -69,7 +69,7 @@ def admin_folder(user, folder):
 # @dashboard.route('/admin/database/<table>/<id>', methods=['GET', 'POST', 'DELETE'])
 
 
-@dashboard.route('/admin/database/<table>/', methods=['GET', 'POST', 'DELETE'])
+@dashboard.route('/admin/database/<table>/', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 @authorize('Admin')
 def admin_database_page(user, table, id=None):
     db_name = None
@@ -78,12 +78,22 @@ def admin_database_page(user, table, id=None):
             db_name = i["name"]
     if request.method == 'GET':
         data = db_data_get[db_name](request.args.get('sql', ""))
+        updateID = request.args.get('update', '')
+        if not updateID == '':
+            updateData = None
+            for i in data["body"]:
+                if i.id == int(updateID):
+                    updateData = i
+            return render_template(f'admin/database/update/{db_name.lower()}.html', updateID=updateID, updateData=updateData, pageTitle=db_name, pageParent='database', tree=panelTree)
         return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database', tree=panelTree, data=data)
     elif request.method == 'POST':
         resp = db_data_post[db_name](request)
         return resp
     elif request.method == 'DELETE':
         resp = db_data_delete[db_name](request)
+        return resp
+    elif request.method == 'PATCH':
+        resp = db_data_update[db_name](request)
         return resp
 
 

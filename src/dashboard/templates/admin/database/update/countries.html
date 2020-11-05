@@ -1,0 +1,37 @@
+{%extends "admin/database/update/update_base.html"%} {%block updateForm%}
+<div class="form-group">
+    <label for="name">name</label>
+    <input required type="text" class="form-control" name="name" id="name" value="{{updateData.name}}"/>
+</div>
+<div class="form-group">
+    <label for="alpha2">alpha2</label>
+    <input required type="text" class="form-control" name="alpha2" id="alpha2" value="{{updateData.alpha2}}"/>
+</div>
+<div class="form-group">
+    <label for="alpha3">alpha3</label>
+    <input required type="text" class="form-control" name="alpha3" id="alpha3" value="{{updateData.alpha3}}"/>
+</div>
+<div class="form-group">
+    <label for="flagPath">flagPath</label>
+    <input required type="text" class="form-control" name="flagPath" id="flagPath" value="{{updateData.flagPath}}"/>
+</div>
+{%endblock%} {%block scriptForUpdateForm%}
+<script>
+    var getUrl = location.pathname
+    console.log(getUrl)
+    document.querySelector("#updateForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        fetch(getUrl+'?id='+e.target.getAttribute('data-id'), {
+            method: "PATCH",
+            body: new FormData(e.target),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) window.open(getUrl,'_self');
+                else {
+                    alert(data.error);
+                }
+            });
+    });
+</script>
+{%endblock%}

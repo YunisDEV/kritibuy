@@ -52,7 +52,7 @@ db_data_delete = {
 
 db_data_update = {
     # "Permissions": permissions_update,
-    # "Countries": countries_update,
+    "Countries": countries_update,
     # "Cities": cities_update,
     # "Users": users_update,
     # "AuthTokens": authtokens_update,

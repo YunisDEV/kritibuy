@@ -1,0 +1,19 @@
+{%extends "admin/dashboard_base.html"%} {%block content%}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form id="updateForm" data-id="{{updateID}}">
+                    {%block updateForm%}{%endblock%}
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+                {%block scriptForUpdateForm%}
+                {%endblock%}
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%} {%block css%} {%assets filters="cssmin",output="bundles/template_database_plugin_bundle.css",
+"template/plugins/datatables/buttons.bootstrap4.min.css","template/plugins/datatables/dataTables.bootstrap4.min.css"%}
+<link rel="stylesheet" href="{{ASSET_URL}}" />
+{%endassets%} {%endblock%}

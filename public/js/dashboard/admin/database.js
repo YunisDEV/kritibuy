@@ -24,12 +24,6 @@ qsa('.delete-row-btn').forEach(i => {
         }
     })
 })
-qsa('.update-row-btn').forEach(i => {
-    i.addEventListener('click', (e) => {
-        e.preventDefault();
-        var clickedID = e.target.parentNode.parentNode.parentNode.getAttribute('key')
-    })
-})
 qs('#add-row-btn').addEventListener('click', () => {
     qs('#add-row').classList.toggle('d-none')
 })
