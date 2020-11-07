@@ -221,7 +221,6 @@ def orders_get(sql=""):
     bonus = {
         'OrderedBy': {},
         'OrderedTo': {},
-        'Info': {},
     }
     for order in l:
         bonus["OrderedBy"][order.id] = session.query(User).filter(
@@ -230,9 +229,6 @@ def orders_get(sql=""):
         bonus["OrderedTo"][order.id] = session.query(User).filter(
             User.id == order.orderedTo
         ).one().username
-        bonus["Info"][order.id] = session.query(OrderInfo).filter(
-            OrderInfo.id == order.info
-        ).one().name
     return {
         "body": l,
         "query": q,

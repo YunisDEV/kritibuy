@@ -114,23 +114,12 @@ class Wallet(base):
     owner = Column(Integer, ForeignKey(User.id), nullable=False)
 
 
-class OrderInfo(base):
-    __tablename__ = 'OrderInfos'
-    user = Column(Integer, ForeignKey(User.id))
-    address = Column(String, nullable=False)
-    city = Column(Integer, ForeignKey(City.id), nullable=False)
-    country = Column(Integer, ForeignKey(Country.id), nullable=False)
-    phone = Column(String, nullable=False)
-    email = Column(String, nullable=False)
-
-
 class Order(base):
     __tablename__ = 'Orders'
     orderedTo = Column(Integer, ForeignKey(User.id), nullable=False)
     orderedBy = Column(Integer, ForeignKey(User.id), nullable=False)
     orderedProduct = Column(String, nullable=False)
     orderText = Column(String, nullable=False)
-    info = Column(Integer, ForeignKey(OrderInfo.id), nullable=False)
     done = Column(Boolean, default=False, nullable=False)
 
 

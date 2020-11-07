@@ -45,7 +45,7 @@ db_data_delete = {
     # "Reports": reports_delete,
     # "Messages": messages_delete,
     # "Wallets": wallets_post,
-    # "OrderInfos": orderinfos_delete,
+    "OrderInfos": orderinfos_delete,
     # "Orders": orders_delete,
     # "OrderRatings": orderratings_delete
 }

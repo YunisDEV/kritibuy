@@ -2,17 +2,12 @@ from flask import Blueprint, request, make_response, abort
 import config
 from functools import wraps
 import json
-from .dialogflow_client import DialogflowClient, DialogflowResponse
+from .dialogflow_client import DialogflowClient, DialogflowResponse, WebhookRequest
 from ..account.security import authorize
-from ..db import session, Message
+from ..db import session, Message, Order, OrderInfo, User
 
 
 chatbot = Blueprint('chatbot', __name__)
-
-
-class WebhookRequest:
-    def __init__(self, data):
-        self.parameters = data["queryResult"]["parameters"]
 
 
 def auth_webhook(f):
@@ -52,25 +47,52 @@ def chatbot_query(user):
     return {"response": response.fulfillmentText}
 
 
+# Order handling
 @chatbot.route('/webhook', methods=['POST', 'GET'])
 @auth_webhook
 def webhook_main():
-    data = WebhookRequest(json.loads(request.data))
-    print(
-        f'Ordering: {data.parameters.get("products")} ---> {data.parameters.get("companies")}'
-    )
-    resp = make_response({
-        "fulfillmentMessages": [
-            {
-                "text": {
-                    "text": [
-                        "Ordered Successfully"
-                    ]
+    try:
+        data = WebhookRequest(json.loads(request.data))
+        print(
+            f'Ordering: {data.parameters.get("products")} ---> {data.parameters.get("companies")} by {data.user_id}'
+        )
+        user = session.query(User).filter(User.id == data.user_id).one()
+        order = Order(
+            orderedTo=session.query(User).filter(
+                User.brandName == data.parameters.get("companies")).one().id,
+            orderedBy=user.id,
+            orderedProduct=data.parameters.get("products"),
+            orderText=data.query_text
+        )
+        session.add(order)
+        session.commit()
+        response = 'Ordered Successfully'
+
+        return make_response({
+            "fulfillmentMessages": [
+                {
+                    "text": {
+                        "text": [
+                            response
+                        ]
+                    }
                 }
-            }
-        ]
-    })
-    return resp
+            ]
+        })
+    except Exception as e:
+        print(e)
+        response = 'Error occured on server'
+        return make_response({
+            "fulfillmentMessages": [
+                {
+                    "text": {
+                        "text": [
+                            response
+                        ]
+                    }
+                }
+            ]
+        })
 
 
 exampleRespone = {

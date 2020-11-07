@@ -54,6 +54,12 @@ def business_main(user):
     return render_template('business/index.html', pageTitle='Index', tree=dashboardTree, user=user)
 
 
+@dashboard.route('/business/<folder>/')
+@authorize('Business')
+def business_folder(user, folder):
+    return render_template(f'business/page_index.html', pageTitle=folder, tree=dashboardTree, user=user)
+
+
 #! Admin
 @dashboard.route('/admin/')
 @authorize('Admin')

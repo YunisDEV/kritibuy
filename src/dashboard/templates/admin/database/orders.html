@@ -7,7 +7,7 @@
         <th>orderedProduct</th>
         <th>orderText</th>
         <th>info</th>
-        <th>paid</th>
+        <th>done</th>
         <th>createdAt</th>
         <th>updatedAt</th>
         <th>Actions</th>
@@ -27,10 +27,10 @@
         <td>{{i.orderedProduct}}</td>
         <td>{{i.orderText}}</td>
         <td>
-            <a href="/dashboard/admin/database/orderinfos/?sql=id%3D{{i.info}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['Info'][i.id]}}"> {{i.info}} </a>
+            <a href="/dashboard/admin/database/orderinfos/?sql=id%3D{{i.info}}"> {{i.info}} </a>
         </td>
         <td>
-            <span class="badge {%if i.paid%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.paid}}</span>
+            <span class="badge {%if i.done%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.done}}</span>
         </td>
         <td>{{i.createdAt}}</td>
         <td>{{i.updatedAt}}</td>

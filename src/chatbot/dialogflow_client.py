@@ -30,3 +30,10 @@ class DialogflowResponse:
         self.detectedIntent = response.query_result.intent.display_name
         self.detectedIntentConfidence = response.query_result.intent_detection_confidence
         self.fulfillmentText = response.query_result.fulfillment_messages[0].text.text[0]
+
+
+class WebhookRequest:
+    def __init__(self, data):
+        self.parameters = data["queryResult"]["parameters"]
+        self.user_id = int(data['session'].split('/')[-1])
+        self.query_text = data['queryResult']['queryText']
