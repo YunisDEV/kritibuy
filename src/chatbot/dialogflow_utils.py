@@ -1,5 +1,8 @@
 import dialogflow_v2 as dialogflow
 from google.api_core.exceptions import InvalidArgument
+from functools import wraps
+from flask import Blueprint, request, make_response, abort
+import config
 
 
 class DialogflowClient:
@@ -35,5 +38,16 @@ class DialogflowResponse:
 class WebhookRequest:
     def __init__(self, data):
         self.parameters = data["queryResult"]["parameters"]
-        self.user_id = int(data['session'].split('/')[-1])
+        self.user_id = data['session'].split('/')[-1]
         self.query_text = data['queryResult']['queryText']
+        self.intent = data['queryResult']['intent']['displayName']
+
+
+def auth_webhook(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if request.headers.get('AUTH') == config.DIALOG_FLOW_AUTH:
+            return f(*args, **kwargs)
+        else:
+            abort(403)
+    return wrapper

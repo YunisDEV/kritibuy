@@ -1,0 +1,12 @@
+1x - Webhook Server Error
+    11 - Product not found on company
+    12 - Company not found
+    13 - Company is inactive
+    14 - Company not confirmed
+    15 - User not found
+    16 - User inactive
+    17 - User not confirmed
+    18 - Order can not be created
+
+2x - ...
+    21 - ...

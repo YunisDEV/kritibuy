@@ -131,6 +131,14 @@ class OrderRating(base):
     forOrder = Column(Integer, ForeignKey(Order.id), nullable=False)
 
 
+class ServerError(base):
+    __tablename__ = 'ServerErrors'
+    where = Column(String, nullable=False)
+    errorCode = Column(Integer, nullable=False)
+    errorDesc = Column(String, nullable=False)
+    fixed = Column(Boolean, nullable=False, default=False)
+
+
 Session = sessionmaker(db)
 session = Session()
 base.metadata.create_all(db)

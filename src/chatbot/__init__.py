@@ -2,22 +2,12 @@ from flask import Blueprint, request, make_response, abort
 import config
 from functools import wraps
 import json
-from .dialogflow_client import DialogflowClient, DialogflowResponse, WebhookRequest
+from .dialogflow_utils import DialogflowClient, DialogflowResponse, WebhookRequest, auth_webhook
 from ..account.security import authorize
-from ..db import session, Message, Order, OrderInfo, User
+from ..db import session, Message, Order,  User, ServerError
 
 
 chatbot = Blueprint('chatbot', __name__)
-
-
-def auth_webhook(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        if request.headers.get('AUTH') == config.DIALOG_FLOW_AUTH:
-            return f(*args, **kwargs)
-        else:
-            abort(403)
-    return wrapper
 
 
 @chatbot.route('/query', methods=['POST'])
@@ -56,18 +46,34 @@ def webhook_main():
         print(
             f'Ordering: {data.parameters.get("products")} ---> {data.parameters.get("companies")} by {data.user_id}'
         )
-        user = session.query(User).filter(User.id == data.user_id).one()
-        order = Order(
-            orderedTo=session.query(User).filter(
-                User.brandName == data.parameters.get("companies")).one().id,
-            orderedBy=user.id,
-            orderedProduct=data.parameters.get("products"),
-            orderText=data.query_text
-        )
-        session.add(order)
-        session.commit()
-        response = 'Ordered Successfully'
+        try:
+            user = session.query(User).filter(
+                User.id == int(data.user_id)).one()
+            if not user:
+                raise Exception()
+        except Exception as e:
+            raise Exception('User not found with id: '+data.user_id, 15)
+        try:
+            company = session.query(User).filter(
+                User.brandName == data.parameters.get("companies")).one()
+            if not company:
+                raise Exception()
+        except Exception as e:
+            raise Exception('Company not found with brandName: ' +
+                            data.parameters.get("companies"), 12)
+        try:
+            order = Order(
+                orderedTo=company.id,
+                orderedBy=user.id,
+                orderedProduct=data.parameters.get("products"),
+                orderText=data.query_text
+            )
+            session.add(order)
+            session.commit()
+        except Exception as e:
+            raise Exception('Order can not be created', 18)
 
+        response = 'Ordered Successfully'
         return make_response({
             "fulfillmentMessages": [
                 {
@@ -80,8 +86,16 @@ def webhook_main():
             ]
         })
     except Exception as e:
+        e = tuple(e.args)
         print(e)
-        response = 'Error occured on server'
+        error = ServerError(
+            where='Webhook',
+            errorCode=e[1],
+            errorDesc=e[0],
+        )
+        session.add(error)
+        session.commit()
+        response = 'Error occured on server. ID: ' + str(error.id)
         return make_response({
             "fulfillmentMessages": [
                 {

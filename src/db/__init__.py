@@ -9,8 +9,8 @@ from .models import (
     Report,
     Message,
     Wallet,
-    OrderInfo,
     Order,
     OrderRating,
-    PasswordRecover
+    PasswordRecover,
+    ServerError
 )
