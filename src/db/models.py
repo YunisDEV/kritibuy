@@ -68,6 +68,7 @@ class User(base):
     city = Column(Integer, ForeignKey(City.id), nullable=False)
     brandLogoPath = Column(String, nullable=True)
     brandName = Column(String, unique=True, nullable=True)
+    brandNameSynonyms = Column(ARRAY(String), nullable=True)
     brandProductTypes = Column(ARRAY(String), nullable=True)
     active = Column(Boolean, default=True, nullable=False)
     confirmationKey = Column(String, nullable=False, default='con_key')
