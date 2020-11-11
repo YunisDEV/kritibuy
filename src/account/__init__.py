@@ -5,7 +5,7 @@ from ..db import session, Country, City, User, Permission, AuthToken, PasswordRe
 import os
 import config
 from werkzeug.utils import secure_filename
-
+from .utils import make_square
 account = Blueprint('account', __name__, template_folder='./templates')
 
 
@@ -144,12 +144,19 @@ def confirmation(user, con_key):
                 logo = request.files["brandLogo"]
                 logo_directory = os.path.join(config.UPLOAD_DIR_BRAND_LOGOS, str(
                     user.username)+'_logo.'+secure_filename(logo.filename).split('.')[-1])
+
                 logo.save(logo_directory)
                 logo_dir = logo_directory.split('public')[1]
+
+                editedLogo = make_square(logo_directory)
+                editedLogo.save(logo_directory)
+
                 user.fullName = data["fullName"]
                 user.address = data["address"]
                 user.phone = data["phone"]
                 user.brandName = data["brandName"]
+                print(data["brandProductTypes"])
+                user.brandProductTypes = data["brandProductTypes"].split(',')
                 user.brandLogoPath = logo_dir
                 user.confirmed = True
                 session.commit()
@@ -190,21 +197,21 @@ def forgot_password():
 
 @account.route('/pass-reset/<user>', methods=['GET', 'POST'])
 def pass_reset(user):
-    passRecover = session.query(PasswordRecover).filter(PasswordRecover.active==True and
-        PasswordRecover.user == session.query(User).filter(User.username == user).one().id).one()
+    passRecover = session.query(PasswordRecover).filter(PasswordRecover.active == True and
+                                                        PasswordRecover.user == session.query(User).filter(User.username == user).one().id).one()
     token = request.args.get('token')
     if passRecover.token == token:
         if request.method == 'POST':
             data = request.form
-            if data["password"]==data["confirm"]:
+            if data["password"] == data["confirm"]:
                 hp = hashPassword(data["password"])
-                u = session.query(User).filter(User.username==user).one()
-                u.password=hp
+                u = session.query(User).filter(User.username == user).one()
+                u.password = hp
                 session.commit()
-                return make_response({"success":True})
+                return make_response({"success": True})
                 pass
             else:
-                return make_response({"success":False,"error":"Passwords do not match"})
+                return make_response({"success": False, "error": "Passwords do not match"})
                 pass
         return render_template('password_reset.html')
     else:

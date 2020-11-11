@@ -81,7 +81,18 @@
           font-size: 14px;
           width: 100% !important;
           text-align: center !important; }
-        .signUpBody > div .user .formBx form > input {
+        .signUpBody > div .user .formBx form > .bootstrap-tagsinput {
+          display: block;
+          float: left; }
+          .signUpBody > div .user .formBx form > .bootstrap-tagsinput input {
+            display: block;
+            float: left;
+            padding: 5px;
+            margin: 5px;
+            margin-left: 0;
+            margin-top: 0; }
+        .signUpBody > div .user .formBx form > input,
+        .signUpBody > div .user .formBx form > .bootstrap-tagsinput {
           position: relative;
           width: 100%;
           padding: 10px;
@@ -95,6 +106,16 @@
           letter-spacing: 1px;
           font-weight: 300;
           transition: 0.3s border ease-out; }
+          .signUpBody > div .user .formBx form > input .tag,
+          .signUpBody > div .user .formBx form > .bootstrap-tagsinput .tag {
+            display: block;
+            background-color: var(--primary-color);
+            padding: 5px;
+            margin: 5px;
+            float: left;
+            margin-left: 0;
+            margin-top: 0;
+            border-radius: 10px; }
         .signUpBody > div .user .formBx form > input.errorAlertInput {
           border: red 2px solid; }
         .signUpBody > div .user .formBx form > .btnBx {

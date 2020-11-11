@@ -21,6 +21,7 @@ def chatbot_query(user):
     )
     response = cli.query(data["queryText"])
     response = DialogflowResponse(response)
+    print(response.fulfillmentText)
     session.add_all([
         Message(
             user=user.id,
@@ -44,7 +45,7 @@ def webhook_main():
     try:
         data = WebhookRequest(json.loads(request.data))
         print(
-            f'Ordering: {data.parameters.get("products")} ---> {data.parameters.get("companies")} by {data.user_id}'
+            f'Ordering: {data.parameters.get("product")} ---> {data.parameters.get("company")} by {data.user_id}'
         )
         try:
             user = session.query(User).filter(
@@ -55,17 +56,17 @@ def webhook_main():
             raise Exception('User not found with id: '+data.user_id, 15)
         try:
             company = session.query(User).filter(
-                User.brandName == data.parameters.get("companies")).one()
+                User.brandName == data.parameters.get("company")).one()
             if not company:
                 raise Exception()
         except Exception as e:
             raise Exception('Company not found with brandName: ' +
-                            data.parameters.get("companies"), 12)
+                            data.parameters.get("company"), 12)
         try:
             order = Order(
                 orderedTo=company.id,
                 orderedBy=user.id,
-                orderedProduct=data.parameters.get("products"),
+                orderedProduct=data.parameters.get("product"),
                 orderText=data.query_text
             )
             session.add(order)
@@ -95,7 +96,8 @@ def webhook_main():
         )
         session.add(error)
         session.commit()
-        response = 'Error occured on server. ID: ' + str(error.id)
+        response = error.errorDesc+'. Error ID: ' + str(error.id)
+        print('FulFillMent RESPONSE',response)
         return make_response({
             "fulfillmentMessages": [
                 {
