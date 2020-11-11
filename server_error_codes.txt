@@ -1,4 +1,5 @@
 1x - Webhook Server Error
+    10 - General Webhook error
     11 - Product not found on company
     12 - Company not found
     13 - Company is inactive
@@ -7,6 +8,6 @@
     16 - User inactive
     17 - User not confirmed
     18 - Order can not be created
-
+    19 - Company is not serving such product
 2x - ...
     21 - ...

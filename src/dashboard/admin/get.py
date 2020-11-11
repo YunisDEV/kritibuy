@@ -186,32 +186,6 @@ def wallets_get(sql=""):
     }
 
 
-def orderinfos_get(sql=""):
-    q = session.query(OrderInfo)
-    if not sql == "":
-        q = session.query(OrderInfo).filter(text(sql))
-    l = q.all()
-    bonus = {
-        'User': {},
-        'Country': {},
-        'City': {},
-    }
-    for info in l:
-        bonus["User"][info.id] = session.query(User).filter(
-            User.id == info.user
-        ).one().username
-        bonus["Country"][info.id] = session.query(Country).filter(
-            Country.id == info.country
-        ).one().name
-        bonus["City"][info.id] = session.query(City).filter(
-            City.id == info.city
-        ).one().name
-    return {
-        "body": l,
-        "query": q,
-        "bonus": bonus
-    }
-
 
 def orders_get(sql=""):
     q = session.query(Order)

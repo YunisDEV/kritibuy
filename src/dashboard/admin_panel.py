@@ -69,11 +69,6 @@ panelTree = {
                 "icon": 'dripicons-wallet'
             },
             {
-                "name": 'OrderInfos',
-                "url": '/orderinfos',
-                "icon": 'dripicons-list'
-            },
-            {
                 "name": 'Orders',
                 "url": '/orders',
                 "icon": 'dripicons-cart'

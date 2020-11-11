@@ -63,6 +63,11 @@ def webhook_main():
             raise Exception('Company not found with brandName: ' +
                             data.parameters.get("company"), 12)
         try:
+            if not data.parameters.get("product") in company.brandProductTypes:
+                raise Exception()
+        except Exception as e:
+            raise Exception('Company is not serving such product', 19)
+        try:
             order = Order(
                 orderedTo=company.id,
                 orderedBy=user.id,
@@ -97,7 +102,7 @@ def webhook_main():
         session.add(error)
         session.commit()
         response = error.errorDesc+'. Error ID: ' + str(error.id)
-        print('FulFillMent RESPONSE',response)
+        print('FulFillMent RESPONSE', response)
         return make_response({
             "fulfillmentMessages": [
                 {
@@ -109,40 +114,3 @@ def webhook_main():
                 }
             ]
         })
-
-
-exampleRespone = {
-    'responseId': '8c47ff35-65d6-454c-b393-f61794d59f6d-fddac391',
-    'queryResult': {
-        'queryText': 'Order web application from Pragmatech',
-        'parameters': {
-            'products': 'web',
-            'companies': 'Pragmatech'
-        },
-        'allRequiredParamsPresent': True,
-        'outputContexts': [
-            {
-                'name': 'projects/kritibuy-mbhb/agent/sessions/4cf16b0a-295a-c1eb-f889-2998111bbfe4/contexts/__system_counters__',
-                'parameters': {
-                    'no-input': 0.0,
-                    'no-match': 0.0,
-                    'products': 'web',
-                    'products.original': 'web application',
-                    'companies': 'Pragmatech',
-                    'companies.original': 'Pragmatech'
-                }
-            }
-        ],
-        'intent': {
-            'name': 'projects/kritibuy-mbhb/agent/intents/bae01e57-0c0a-4aec-9042-c651ea8c0cd4',
-            'displayName': 'OrderLongTime'
-        },
-        'intentDetectionConfidence': 1.0,
-        'languageCode': 'en'
-    },
-    'originalDetectIntentRequest': {
-        'source': 'DIALOGFLOW_CONSOLE',
-        'payload': {}
-    },
-    'session': 'projects/kritibuy-mbhb/agent/sessions/4cf16b0a-295a-c1eb-f889-2998111bbfe4'
-}
