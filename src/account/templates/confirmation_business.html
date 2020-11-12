@@ -11,7 +11,7 @@
 {%endblock%}{%block body%}
 <div>
     <div class="user signinBx">
-        <div class="formBx">
+        <div class="formBx overflow">
             <form method="POST" spellcheck="false" id="addinfoform" enctype="multipart/form-data">
                 <h2>Confirm</h2>
                 <label id="errorLine">&nbsp;</label>
@@ -19,7 +19,7 @@
                 <input required type="text" name="address" placeholder="Address of company..." />
                 <input required type="text" name="phone" placeholder="Phone number of company..." />
                 <input required type="text" name="brandName" placeholder="Brand name..." />
-                <input class="tags-input" name="brandNameSynonyms" type="text" data-role="tagsinput" placeholder="Add synonym..." />
+                <input class="tags-input" name="brandNameSynonyms" type="text" data-role="tagsinput" placeholder="Brand name synonyms..." />
                 <input class="tags-input" name="brandProductTypes" type="text" data-role="tagsinput" placeholder="Add product..." />
                 <input multiple="false" required type="file" name="brandLogo" id="brandLogo" placeholder="Brand logo..." style="opacity: 0; width: 0; height: 0; display: none" />
                 <label style="padding: 10px" for="brandLogo" class="btn btn-secondary">Add logo</label> <span id="file_upload">No Logo Chosen</span>

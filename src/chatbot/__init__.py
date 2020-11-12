@@ -4,8 +4,8 @@ from functools import wraps
 import json
 from .dialogflow_utils import DialogflowClient, DialogflowResponse, WebhookRequest, auth_webhook
 from ..account.security import authorize
-from ..db import session, Message, Order,  User, ServerError
-
+from ..db import session, Message, Order,  User, ServerError, Permission
+from .utils import getCompany
 
 chatbot = Blueprint('chatbot', __name__)
 
@@ -21,7 +21,6 @@ def chatbot_query(user):
     )
     response = cli.query(data["queryText"])
     response = DialogflowResponse(response)
-    print(response.fulfillmentText)
     session.add_all([
         Message(
             user=user.id,
@@ -55,11 +54,9 @@ def webhook_main():
         except Exception as e:
             raise Exception('User not found with id: '+data.user_id, 15)
         try:
-            company = session.query(User).filter(
-                User.brandName == data.parameters.get("company")).one()
-            if not company:
-                raise Exception()
+            company = getCompany(data.parameters.get("company"))
         except Exception as e:
+            print('Errorr'+str(e))
             raise Exception('Company not found with brandName: ' +
                             data.parameters.get("company"), 12)
         try:
@@ -102,7 +99,6 @@ def webhook_main():
         session.add(error)
         session.commit()
         response = error.errorDesc+'. Error ID: ' + str(error.id)
-        print('FulFillMent RESPONSE', response)
         return make_response({
             "fulfillmentMessages": [
                 {

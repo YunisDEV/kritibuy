@@ -155,8 +155,8 @@ def confirmation(user, con_key):
                 user.address = data["address"]
                 user.phone = data["phone"]
                 user.brandName = data["brandName"]
-                print(data["brandProductTypes"])
                 user.brandProductTypes = data["brandProductTypes"].split(',')
+                user.brandNameSynonyms = data["brandNameSynonyms"].split(',')
                 user.brandLogoPath = logo_dir
                 user.confirmed = True
                 session.commit()

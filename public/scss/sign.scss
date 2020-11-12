@@ -116,6 +116,7 @@
                             display: block;
                             float: left;
                             padding: 5px;
+                            padding-left:0;
 							margin: 5px;
 							margin-left:0;
 							margin-top:0;
@@ -128,6 +129,7 @@
                             background-color: var(--primary-color);
                             padding: 5px;
                             margin: 5px;
+                            padding-left:0;
                             float: left;
 							margin-left:0;
 							margin-top:0;
@@ -178,4 +180,8 @@
             }
         }
     }
+}
+.formBx.overflow{
+    display: block;
+    overflow-y: auto;
 }
