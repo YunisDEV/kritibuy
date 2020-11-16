@@ -56,11 +56,20 @@ def business_main(user):
 
 @dashboard.route('/business/<folder>/')
 @authorize('Business')
+@confirmed
 def business_folder(user, folder):
     return render_template(f'business/page_index.html', pageTitle=folder, tree=dashboardTree, user=user)
 
 
+@dashboard.route('/business/inbox/<page>/')
+@authorize('Business')
+@confirmed
+def business_inbox_page(user, page):
+    return render_template(f'business/inbox/{page}.html', pageTitle=page, pageParent='inbox', tree=dashboardTree, user=user)
+
 #! Admin
+
+
 @dashboard.route('/admin/')
 @authorize('Admin')
 def admin_main(user):

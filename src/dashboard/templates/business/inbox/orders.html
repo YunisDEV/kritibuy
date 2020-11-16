@@ -1,0 +1,48 @@
+{%extends "business/inbox/inbox_base.html"%} {%block table%}
+<thead>
+    <tr>
+        <th>id</th>
+        <th>orderedTo</th>
+        <th>orderedBy</th>
+        <th>orderedProduct</th>
+        <th>orderText</th>
+        <th>done</th>
+        <th>createdAt</th>
+        <th>updatedAt</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+    {# {%for i in data["body"]%}
+    <tr key="{{i.id}}">
+        <td>{{i.id}}</td>
+        <td>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.orderedTo}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['OrderedTo'][i.id]}}">
+                {{i.orderedTo}}
+            </a>
+        </td>
+        <td>
+            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.orderedBy}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['OrderedBy'][i.id]}}">
+                {{i.orderedBy}}
+            </a>
+        </td>
+        <td>{{i.orderedProduct}}</td>
+        <td>{{i.orderText}}</td>
+        <td>
+            <span class="badge {%if i.done%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.done}}</span>
+        </td>
+        <td>{{i.createdAt}}</td>
+        <td>{{i.updatedAt}}</td>
+        <td>
+            <a href="#" class="update-row-btn"><i class="far fa-edit text-info mr-1"></i></a>
+            <a href="#" class="delete-row-btn"><i class="far fa-trash-alt text-danger"></i></a>
+        </td>
+    </tr>
+    {%endfor%} #}
+</tbody>
+{%endblock%} {%block bonusScript%}
+<script>
+    document.querySelector("#add-row-btn").setAttribute("disabled", "disabled");
+</script>
+{%endblock%}
