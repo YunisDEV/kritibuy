@@ -1,14 +1,12 @@
 {%extends "business/inbox/inbox_base.html"%} {%block table%}
 <thead>
     <tr>
-        <th>id</th>
-        <th>orderedTo</th>
-        <th>orderedBy</th>
-        <th>orderedProduct</th>
-        <th>orderText</th>
-        <th>done</th>
-        <th>createdAt</th>
-        <th>updatedAt</th>
+        <th>ID</th>
+        <th>By</th>
+        <th>Message</th>
+        <th>Product</th>
+        <th>Done</th>
+        <th>Date</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -17,23 +15,17 @@
     {%for i in data["body"]%}
     <tr key="{{i.id}}">
         <td>{{i.id}}</td>
-        <td>
-            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.orderedTo}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['OrderedTo'][i.id]}}">
-                {{i.orderedTo}}
-            </a>
-        </td>
-        <td>
-            <a href="/dashboard/admin/database/users/?sql=id%3D{{i.orderedBy}}" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{data['bonus']['OrderedBy'][i.id]}}">
-                {{i.orderedBy}}
-            </a>
-        </td>
-        <td>{{i.orderedProduct}}</td>
+        <td>{{data['bonus']['OrderedBy'][i.id]}}</td>
         <td>{{i.orderText}}</td>
+        <td>{{i.orderedProduct}}</td>
         <td>
-            <span class="badge {%if i.done%}badge-soft-success{%else%}badge-soft-danger{%endif%}">{{i.done}}</span>
+            {%if i.done%}
+            <span class="badge badge-soft-success">Done</span>
+            {%else%}
+            <span class="badge badge-soft-danger">Not done</span>
+            {%endif%}
         </td>
         <td>{{i.createdAt}}</td>
-        <td>{{i.updatedAt}}</td>
         <td>
             <a href="#" class="update-row-btn"><i class="far fa-edit text-info mr-1"></i></a>
             <a href="#" class="delete-row-btn"><i class="far fa-trash-alt text-danger"></i></a>
@@ -41,8 +33,6 @@
     </tr>
     {%endfor%}
 </tbody>
-{%endblock%} {%block bonusScript%}
-<script>
-    document.querySelector("#add-row-btn").setAttribute("disabled", "disabled");
-</script>
+{%endblock%} {%block bodyend%} {{super()}}
+<script defer src="/js/dashboard/business/order.js"></script>
 {%endblock%}
