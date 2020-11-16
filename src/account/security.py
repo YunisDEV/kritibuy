@@ -49,6 +49,8 @@ def authorize(*allowed):
                     q = session.query(User).filter(
                         User.username == token_body["username"])
                     user_data = q.one()
+                    if not user_data.active:
+                        abort(423)
             if not isauth:
                 abort(401)
             return f(user_data, *args, **kwargs)
@@ -72,6 +74,8 @@ def isauth(f):
                 q = session.query(User).filter(
                     User.username == token_body["username"])
                 user_data = q.one()
+                if not user_data.active:
+                    isauth = False
         if not isauth:
             user_data = None
         return f(user_data, *args, **kwargs)

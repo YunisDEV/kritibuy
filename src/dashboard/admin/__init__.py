@@ -51,7 +51,7 @@ db_data_update = {
     # "Permissions": permissions_update,
     "Countries": countries_update,
     # "Cities": cities_update,
-    # "Users": users_update,
+    "Users": users_update,
     # "AuthTokens": authtokens_update,
     # "Payments": payments_update,
     # "Reports": reports_update,

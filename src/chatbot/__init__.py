@@ -42,6 +42,7 @@ def chatbot_query(user):
 @auth_webhook
 def webhook_main():
     try:
+        response = None
         data = WebhookRequest(json.loads(request.data))
         print(
             f'Ordering: {data.parameters.get("product")} ---> {data.parameters.get("company")} by {data.user_id}'
@@ -59,11 +60,8 @@ def webhook_main():
             print('Errorr'+str(e))
             raise Exception('Company not found with brandName: ' +
                             data.parameters.get("company"), 12)
-        try:
-            if not data.parameters.get("product") in company.brandProductTypes:
-                raise Exception()
-        except Exception as e:
-            raise Exception('Company is not serving such product', 19)
+        if not data.parameters.get("product") in company.brandProductTypes:
+            response = "This company has not added this product to their service list. But we sent your order. They will contact you soon."
         try:
             order = Order(
                 orderedTo=company.id,
@@ -75,8 +73,8 @@ def webhook_main():
             session.commit()
         except Exception as e:
             raise Exception('Order can not be created', 18)
-
-        response = 'Ordered Successfully'
+        if not response:
+            response = 'Ordered Successfully'
         return make_response({
             "fulfillmentMessages": [
                 {

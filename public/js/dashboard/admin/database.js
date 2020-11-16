@@ -24,6 +24,30 @@ qsa('.delete-row-btn').forEach(i => {
         }
     })
 })
+qsa('.ban-row-btn').forEach(i => {
+    i.addEventListener('click', (e) => {
+        e.preventDefault()
+        var clickedID = e.target.parentNode.parentNode.parentNode.getAttribute('key')
+        var d = confirm('Do you want to ban row id: ' + clickedID + '?')
+        if (d) {
+            fetch(location.pathname, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: clickedID
+                })
+            }).then((res) => res.json())
+                .then((data) => {
+                    if (data.success) location.reload()
+                    else {
+                        alert(data.error)
+                    }
+                })
+        }
+    })
+})
 qs('#add-row-btn').addEventListener('click', () => {
     qs('#add-row').classList.toggle('d-none')
 })
