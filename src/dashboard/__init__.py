@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, make_response, request, abort, url_for
 from ..account.security import authorize, confirmed
 import sqlite3
-from .admin_panel import panelTree, db_data_get, db_data_post, db_data_delete, db_data_update
+from .admin_panel import panelTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
 from ..db import session, Message, Permission
-from .business_panel import dashboardTree
+from .business_panel import dashboardTree, business_data_get
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
@@ -65,7 +65,7 @@ def business_folder(user, folder):
 @authorize('Business')
 @confirmed
 def business_inbox_page(user, page):
-    return render_template(f'business/inbox/{page}.html', pageTitle=page, pageParent='inbox', tree=dashboardTree, user=user)
+    return render_template(f'business/inbox/{page}.html', pageTitle=page, pageParent='inbox', tree=dashboardTree, user=user, data=business_data_get['inbox:'+page](user))
 
 #! Admin
 
@@ -92,7 +92,7 @@ def admin_database_page(user, table, id=None):
         if i["name"].lower() == table.lower():
             db_name = i["name"]
     if request.method == 'GET':
-        data = db_data_get[db_name](request.args.get('sql', ""))
+        data = admin_data_get[db_name](request.args.get('sql', ""))
         updateID = request.args.get('update', '')
         if not updateID == '':
             updateData = None
@@ -102,13 +102,13 @@ def admin_database_page(user, table, id=None):
             return render_template(f'admin/database/update/{db_name.lower()}.html', updateID=updateID, updateData=updateData, pageTitle=db_name, pageParent='database', tree=panelTree)
         return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database', tree=panelTree, data=data)
     elif request.method == 'POST':
-        resp = db_data_post[db_name](request)
+        resp = admin_data_post[db_name](request)
         return resp
     elif request.method == 'DELETE':
-        resp = db_data_delete[db_name](request)
+        resp = admin_data_delete[db_name](request)
         return resp
     elif request.method == 'PATCH':
-        resp = db_data_update[db_name](request)
+        resp = admin_data_update[db_name](request)
         return resp
 
 

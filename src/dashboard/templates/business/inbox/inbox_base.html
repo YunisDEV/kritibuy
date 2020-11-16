@@ -4,16 +4,9 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted mb-4 font-13">Download as <a onclick="table2csv(this,1)" data-table="datatable" href="#">CSV</a></p>
-                <form method="GET" class="font-12 mb-4"><input name="sql" placeholder="Enter manual SQL condition..." class="form-control" /></form>
                 <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%">
                     {%block table%}{%endblock%}
                 </table>
-                <button id="add-row-btn" class="btn btn-primary mb-4">Add Row</button>
-                <form method="POST" id="add-row" class="d-none" enctype="multipart/form-data">
-                    <h3>Add Row</h3>
-                    {%block addRowInputs%} {%endblock%}
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </form>
                 {%block bonusScript%} {%endblock%}
             </div>
         </div>
@@ -29,11 +22,6 @@
 <script>
     $(document).ready(() => {
         $("#datatable").DataTable(datatable_options);
-    });
-</script>
-<script>
-    document.querySelector("#show-query").addEventListener("click", () => {
-        document.querySelector("#raw-sql-query").classList.toggle("d-none");
     });
 </script>
 {%endblock%}

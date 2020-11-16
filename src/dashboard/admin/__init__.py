@@ -4,7 +4,7 @@ from .post import *
 from .delete import *
 
 
-db_data_get = {
+admin_data_get = {
     "Permissions": permissions_get,
     "Countries": countries_get,
     "Cities": cities_get,
@@ -19,7 +19,7 @@ db_data_get = {
     "OrderRatings": orderratings_get
 }
 
-db_data_post = {
+admin_data_post = {
     # "Permissions": permissions_post,
     "Countries": countries_post,
     "Cities": cities_post,
@@ -33,7 +33,7 @@ db_data_post = {
     # "OrderRatings": orderratings_post
 }
 
-db_data_delete = {
+admin_data_delete = {
     # "Permissions": permissions_delete,
     "Countries": countries_delete,
     # "Cities": cities_delete,
@@ -47,7 +47,7 @@ db_data_delete = {
     # "OrderRatings": orderratings_delete
 }
 
-db_data_update = {
+admin_data_update = {
     # "Permissions": permissions_update,
     "Countries": countries_update,
     # "Cities": cities_update,
