@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, make_response, request, abort, url
 from ..account.security import authorize, confirmed
 import sqlite3
 from .admin_panel import panelTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
-from ..db import session, Message, Permission
+from ..db import session, Message, Permission, Country, City
 from .business_panel import dashboardTree, business_data_get
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
@@ -85,9 +85,24 @@ def admin_folder(user, folder):
 @authorize('Admin')
 def admin_settings(user):
     if request.method == 'GET':
-        return render_template('admin/settings/account_settings.html', pageParent='settings', pageTitle='Account Settings', tree=panelTree, user=user)
-    else:
-        return render_template('admin/settings/account_settings.html', pageParent='settings', pageTitle='Account Settings', tree=panelTree, user=user)
+        pass
+    elif request.method == 'POST':
+        user.username = request.form['username']
+        user.email = request.form['email']
+        user.fullName = request.form['fullName'] or None
+        user.address = request.form['address'] or None
+        user.phone = request.form['phone'] or None
+        user.phone = request.form['phone'] or None
+        user.country = session.query(Country).filter(
+            Country.name == request.form['country']).one().id
+        user.city = session.query(City).filter(
+            City.name == request.form['city']).one().id
+        session.commit()
+    user_country = session.query(Country).filter(
+        Country.id == user.country).one()
+    countries = session.query(Country)
+    user_city = session.query(City).filter(City.id == user.city).one()
+    return render_template('admin/settings/account_settings.html', pageParent='settings', pageTitle='Account Settings', tree=panelTree, user=user, city=user_city, country=user_country, countries=countries)
 
 
 @dashboard.route('/admin/database/<table>/', methods=['GET', 'POST', 'DELETE', 'PATCH'])

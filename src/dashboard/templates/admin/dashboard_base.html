@@ -10,29 +10,31 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="/meta/favicon.ico" />
         {%block css%}{%endblock%}
-        
+
         <!-- App css -->
         <link href="/template/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="/template/css/icons.css" rel="stylesheet" type="text/css" />
         <link href="/template/css/metisMenu.min.css" rel="stylesheet" type="text/css" />
         <link href="/template/css/style.css" rel="stylesheet" type="text/css" />
         <style>
-            body{
+            body {
                 overflow-x: auto;
             }
         </style>
         <style>
-            :root{
-                --primary:#2ab4a6;
+            :root {
+                --primary: #2ab4a6;
             }
         </style>
         <script src="/template/plugins/sweet-alert2/sweetalert2.min.js"></script>
-        <link rel="stylesheet" href="/template/plugins/sweet-alert2/sweetalert2.min.css">
+        <link rel="stylesheet" href="/template/plugins/sweet-alert2/sweetalert2.min.css" />
         {%block datatable_options%}
         <script>
-            var datatable_options = {}
+            var datatable_options = {};
         </script>
         {%endblock%}
+        <script src="/lib/js/axios.min.js"></script>
+        <script src="/lib/js/jquery-3.5.1.min.js"></script>
     </head>
     <body>
         <div class="topbar">
@@ -40,10 +42,10 @@
             <div class="topbar-left">
                 <a href="/" class="logo">
                     <span>
-                        <img src="/assets/kritibuyicon.png" alt="logo-small" class="logo-sm" style="height: 30px;" />
+                        <img src="/assets/kritibuyicon.png" alt="logo-small" class="logo-sm" style="height: 30px" />
                     </span>
                     <span>
-                        <img src="/assets/dashboardlogo.png" alt="logo-large" class="logo-lg" style="height:20px;" />
+                        <img src="/assets/dashboardlogo.png" alt="logo-large" class="logo-lg" style="height: 20px" />
                     </span>
                 </a>
             </div>
@@ -81,9 +83,7 @@
                 <div class="main-icon-menu">
                     <nav class="nav">
                         {%for i in tree.items()%}
-                        <a href="#{{i[0]}}-menu-tab" class="nav-link" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i[0].capitalize()}}">
-                            {{i[1]["icon"]|safe}}
-                        </a>
+                        <a href="#{{i[0]}}-menu-tab" class="nav-link" data-toggle="tooltip-custom" data-placement="top" title="" data-original-title="{{i[0].capitalize()}}"> {{i[1]["icon"]|safe}} </a>
                         {%endfor%}
                     </nav>
                     <!--end nav-->
@@ -147,8 +147,7 @@
         <script src="/template/js/metisMenu.min.js"></script>
         <script src="/template/js/waves.min.js"></script>
         <script src="/template/js/jquery.slimscroll.min.js"></script>
-        {%block scripts%}
-        {%endblock%}
+        {%block scripts%} {%endblock%}
         <!-- App js -->
         <script src="/template/js/app.js"></script>
         {%block bodyend%}{%endblock%}
