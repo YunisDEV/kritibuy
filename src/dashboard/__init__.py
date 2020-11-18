@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, make_response, request, abort, url_for
-from ..account.security import authorize, confirmed
+from ..account.security import authorize, confirmed, hashPassword, checkPassword, generateToken
 import sqlite3
 from .admin_panel import panelTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
-from ..db import session, Message, Permission, Country, City
+from ..db import session, Message, Permission, Country, City, User, PasswordRecover
 from .business_panel import dashboardTree, business_data_get
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
@@ -83,7 +83,7 @@ def admin_folder(user, folder):
 
 @dashboard.route('/admin/settings/account-settings/', methods=['GET', 'POST'])
 @authorize('Admin')
-def admin_settings(user):
+def admin_account_settings(user):
     if request.method == 'GET':
         pass
     elif request.method == 'POST':
@@ -103,6 +103,27 @@ def admin_settings(user):
     countries = session.query(Country)
     user_city = session.query(City).filter(City.id == user.city).one()
     return render_template('admin/settings/account_settings.html', pageParent='settings', pageTitle='Account Settings', tree=panelTree, user=user, city=user_city, country=user_country, countries=countries)
+
+
+@dashboard.route('/admin/settings/password-recover/', methods=['GET', 'POST'])
+@authorize('Admin')
+def admin_password_recover(user):
+    status = None
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        oldtokens = session.query(PasswordRecover).filter(
+            PasswordRecover.user == user.id).all()
+        for oT in oldtokens:
+            oT.active = False
+        session.add(PasswordRecover(
+            user=user.id,
+            token=generateToken()
+        ))
+        session.commit()
+        # send link to email
+        status = True
+    return render_template('admin/settings/password_recover.html', pageParent='settings', pageTitle='Password Recover', tree=panelTree, user=user,status=status or False)
 
 
 @dashboard.route('/admin/database/<table>/', methods=['GET', 'POST', 'DELETE', 'PATCH'])

@@ -95,6 +95,11 @@ panelTree = {
                 "name":'Account Settings',
                 "url":'/account-settings',
                 "icon":'dripicons-gear',
+            },
+            {
+                "name":'Password Recover',
+                "url":'/password-recover',
+                "icon":'dripicons-lock',
             }
         ]
     },

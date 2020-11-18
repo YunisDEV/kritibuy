@@ -207,6 +207,7 @@ def pass_reset(user):
                 hp = hashPassword(data["password"])
                 u = session.query(User).filter(User.username == user).one()
                 u.password = hp
+                passRecover.active = False
                 session.commit()
                 return make_response({"success": True})
                 pass

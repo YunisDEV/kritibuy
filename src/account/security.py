@@ -36,6 +36,7 @@ def authorize(*allowed):
     def dec(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
+            user_data = None
             token = request.cookies.get('auth_token', False)
             isauth = False
             permissionName = None
@@ -61,6 +62,7 @@ def authorize(*allowed):
 def isauth(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
+        user_data = None
         token = request.cookies.get('auth_token', False)
         isauth = False
         permissionName = None
