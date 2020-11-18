@@ -67,9 +67,8 @@ def business_folder(user, folder):
 def business_inbox_page(user, page):
     return render_template(f'business/inbox/{page}.html', pageTitle=page, pageParent='inbox', tree=dashboardTree, user=user, data=business_data_get['inbox:'+page](user))
 
+
 #! Admin
-
-
 @dashboard.route('/admin/')
 @authorize('Admin')
 def admin_main(user):
@@ -81,7 +80,14 @@ def admin_main(user):
 def admin_folder(user, folder):
     return render_template(f'admin/page_index.html', pageTitle=folder, tree=panelTree)
 
-# @dashboard.route('/admin/database/<table>/<id>', methods=['GET', 'POST', 'DELETE'])
+
+@dashboard.route('/admin/settings/account-settings/', methods=['GET', 'POST'])
+@authorize('Admin')
+def admin_settings(user):
+    if request.method == 'GET':
+        return render_template('admin/settings/account_settings.html', pageParent='settings', pageTitle='Account Settings', tree=panelTree, user=user)
+    else:
+        return render_template('admin/settings/account_settings.html', pageParent='settings', pageTitle='Account Settings', tree=panelTree, user=user)
 
 
 @dashboard.route('/admin/database/<table>/', methods=['GET', 'POST', 'DELETE', 'PATCH'])

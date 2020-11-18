@@ -20,11 +20,11 @@ $(document).ready(function () {
 });
 var navLinks = document.querySelectorAll('.nav-item.nav-link')
 var pathToPage = {
-    '/dashboard/personal': 'Order',
-    '/dashboard/personal/order': 'Order',
-    '/dashboard/personal/stats': 'Stats',
-    '/dashboard/personal/wallet': 'Wallet',
-    '/dashboard/personal/contact': 'Contact'
+    '/dashboard/personal/': 'Order',
+    '/dashboard/personal/order/': 'Order',
+    '/dashboard/personal/stats/': 'Stats',
+    '/dashboard/personal/wallet/': 'Wallet',
+    '/dashboard/personal/contact/': 'Contact'
 }
 var pageNow = pathToPage[window.location.pathname]
 if (pageNow) {
