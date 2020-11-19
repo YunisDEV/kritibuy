@@ -113,6 +113,7 @@
             background-color: var(--primary-color);
             padding: 5px;
             margin: 5px;
+            padding-left: 0;
             float: left;
             margin-left: 0;
             margin-top: 0;

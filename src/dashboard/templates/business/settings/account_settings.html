@@ -1,0 +1,94 @@
+{%extends "business/settings/settings_base.html"%} {%block settings_body%}
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input required type="text" class="form-control" name="username" id="username" placeholder="Username (required)..." value="{{user.username}}" />
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input required type="email" class="form-control" name="email" id="email" placeholder="E-mail (required)..." value="{{user.email}}" />
+    </div>
+    <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input required type="text" class="form-control" name="fullName" id="fullName" placeholder="Full name..." value="{{user.fullName or ''}}" />
+    </div>
+    <div class="form-group">
+        <label for="address">Address</label>
+        <input required type="text" class="form-control" name="address" id="address" placeholder="Address..." value="{{user.address or ''}}" />
+    </div>
+    <div class="form-group">
+        <label for="phone">Phone</label>
+        <input required type="text" class="form-control" name="phone" id="phone" placeholder="Phone..." value="{{user.phone or ''}}" />
+    </div>
+    <div class="form-group">
+        <label for="brandName">Brand Name</label>
+        <input required type="text" class="form-control" id="brandName" name="brandName" placeholder="Brand name..." value="{{user.brandName}}" />
+    </div>
+    <div class="form-group">
+        <label for="brandNameSynonyms">Brand Name Synonyms</label>
+        <input class="form-control tags-input" id="brandNameSynonyms" name="brandNameSynonyms" type="text" data-role="tagsinput" placeholder="Brand name synonym..." value="{{','.join(user.brandNameSynonyms)}}" />
+    </div>
+    <div class="form-group">
+        <label for="brandProductTypes">Brand Product Types</label>
+        <input class="form-control tags-input" id="brandProductTypes" name="brandProductTypes" type="text" data-role="tagsinput" placeholder="Brand product type..." value="{{','.join(user.brandProductTypes)}}" />
+    </div>
+    <div class="form-group">
+        <label for="country">Country</label>
+        <select required type="text" class="form-control" name="country" id="country" data-default-value="{{country.name or ''}}">
+            <option hidden value="">Select Country</option>
+            {%for c in countries%}
+            <option value="{{c.name}}" {%if c.name==country.name%}selected{%endif%}>{{c.name}}</option>
+            {%endfor%}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="city">City</label>
+        <select required type="text" class="form-control" name="city" id="city" data-default-value="{{city.name or ''}}">
+            <option hidden value="">Select City</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="brandLogo">Brand Logo</label><br>
+        <img width="150px" src="{{user.brandLogoPath}}" alt="">
+        <input type="file" class="form-control" name="brandLogo" id="brandLogo" placeholder="Username (required)..." value="{{user.username}}" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+<script defer>
+    console.log("sss");
+    const cityListRefresh = (e) => {
+        var country = e.target.value;
+        axios
+            .post("/get-cities", {
+                country,
+            })
+            .then(({ data }) => {
+                if (data.success) {
+                    var citySelect = document.querySelector("#city");
+                    var defaultCity = citySelect.getAttribute('data-default-value')
+                    var cities = data.data;
+                    var citiesHTML = "";
+                    for (var i = 0; i < cities.length; i++) {
+                        if (defaultCity==cities[i]){
+                            citiesHTML += `<option value="${cities[i]}" selected>${cities[i]}</option>`;
+                        }else{
+                            citiesHTML += `<option value="${cities[i]}">${cities[i]}</option>`;
+                        }
+                    }
+                    citySelect.innerHTML = `
+                    <option value="" hidden>Select city</option>
+                    ${citiesHTML}
+                    `;
+                    citySelect.disabled = false;
+                } else {
+                    window.alert("Could not fetch Cities");
+                    citySelect.disabled = true;
+                }
+            });
+    };
+    document.querySelector("#country").addEventListener("change", cityListRefresh);
+    cityListRefresh({
+        target:document.querySelector('#country')
+    })
+</script>
+{%endblock%}

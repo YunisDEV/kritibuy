@@ -1,0 +1,21 @@
+.bootstrap-tagsinput {
+    width: 100%;
+    display: block;
+    input {
+        display: inline-block;
+        padding: 5px;
+        margin: 5px;
+        margin-left: 0;
+        margin-top: 0;
+        border-radius: 10px;
+    }
+    .tag {
+        display: inline-block;
+        background-color: var(--primary-color);
+        padding: 5px;
+        margin: 5px;
+        margin-left: 0;
+        margin-top: 0;
+        border-radius: 10px;
+    }
+}

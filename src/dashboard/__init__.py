@@ -2,11 +2,14 @@ from itertools import product
 from flask import Blueprint, render_template, make_response, request, abort, url_for
 from sqlalchemy.util.langhelpers import methods_equivalent
 from ..account.security import authorize, confirmed, hashPassword, checkPassword, generateToken
-from .admin_panel import panelTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
+from .admin_panel import adminDashboardTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
 from ..db import session, Message, Permission, Country, City, User, PasswordRecover, Order
-from .business_panel import dashboardTree, business_data_get
+from .business_panel import businessDashboardTree, business_data_get
 import json
-
+from werkzeug.utils import secure_filename
+from ..account.utils import make_square
+import config
+import os
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
 
@@ -53,21 +56,21 @@ def personal_wallet(user):
 @authorize('Business')
 @confirmed
 def business_main(user):
-    return render_template('business/index.html', pageTitle='Index', tree=dashboardTree, user=user)
+    return render_template('business/index.html', pageTitle='Index', tree=businessDashboardTree, user=user)
 
 
 @dashboard.route('/business/<folder>/')
 @authorize('Business')
 @confirmed
 def business_folder(user, folder):
-    return render_template(f'business/page_index.html', pageTitle=folder, tree=dashboardTree, user=user)
+    return render_template(f'business/page_index.html', pageTitle=folder, tree=businessDashboardTree, user=user)
 
 
 @dashboard.route('/business/inbox/<page>/')
 @authorize('Business')
 @confirmed
 def business_inbox_page(user, page):
-    return render_template(f'business/inbox/{page}.html', pageTitle=page, pageParent='inbox', tree=dashboardTree, user=user, data=business_data_get['inbox:'+page](user))
+    return render_template(f'business/inbox/{page}.html', pageTitle=page, pageParent='inbox', tree=businessDashboardTree, user=user, data=business_data_get['inbox:'+page](user))
 
 
 @dashboard.route('/business/add-product-to-list', methods=['POST'])
@@ -101,6 +104,7 @@ def order_done(user):
             print(e)
             return make_response({"success": False, "error": str(e)})
 
+
 @dashboard.route('/business/order-comment', methods=['POST'])
 @authorize('Business')
 @confirmed
@@ -120,17 +124,76 @@ def order_comment(user):
             return make_response({"success": False, "error": str(e)})
 
 
+@dashboard.route('/business/settings/account-settings/', methods=['GET', 'POST'])
+@authorize('Business')
+def business_account_settings(user):
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        user.username = request.form['username']
+        user.email = request.form['email']
+        user.fullName = request.form['fullName']
+        user.address = request.form['address']
+        user.phone = request.form['phone']
+        user.country = session.query(Country).filter(
+            Country.name == request.form['country']).one().id
+        user.city = session.query(City).filter(
+            City.name == request.form['city']).one().id
+        user.brandName = request.form['brandName']
+        user.brandNameSynonyms = request.form['brandNameSynonyms'].split(',')
+        user.brandProductTypes = request.form['brandProductTypes'].split(',')
+        logo = request.files["brandLogo"] or None
+        if logo:
+            logo_directory = os.path.join(config.UPLOAD_DIR_BRAND_LOGOS, str(
+                user.username)+'_logo.'+secure_filename(logo.filename).split('.')[-1])
+            logo.save(logo_directory)
+            logo_dir = logo_directory.split('public')[1]
+            editedLogo = make_square(logo_directory)
+            editedLogo.save(logo_directory)
+            user.brandLogoPath = logo_dir
+        session.commit()
+    user_country = session.query(Country).filter(
+        Country.id == user.country).one()
+    countries = session.query(Country)
+    user_city = session.query(City).filter(City.id == user.city).one()
+    return render_template('business/settings/account_settings.html', pageParent='settings', pageTitle='Account Settings', tree=businessDashboardTree, user=user, city=user_city, country=user_country, countries=countries)
+
+
+@dashboard.route('/business/settings/password-recover/', methods=['GET', 'POST'])
+@authorize('Business')
+def business_password_recover(user):
+    status = None
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        oldtokens = session.query(PasswordRecover).filter(
+            PasswordRecover.user == user.id).all()
+        for oT in oldtokens:
+            oT.active = False
+        recover_token = generateToken()
+        session.add(PasswordRecover(
+            user=user.id,
+            token=recover_token
+        ))
+        session.commit()
+        pass_reset_link = f'{request.url_root}pass-reset/{user.username}?token={recover_token}'
+        print(pass_reset_link)
+        # send link to email
+        status = True
+    return render_template('business/settings/password_recover.html', pageParent='settings', pageTitle='Password Recover', tree=businessDashboardTree, user=user, status=status or False)
+
+
 #! Admin
 @dashboard.route('/admin/')
 @authorize('Admin')
 def admin_main(user):
-    return render_template('admin/index.html', pageTitle="Index", tree=panelTree)
+    return render_template('admin/index.html', pageTitle="Index", tree=adminDashboardTree)
 
 
 @dashboard.route('/admin/<folder>/')
 @authorize('Admin')
 def admin_folder(user, folder):
-    return render_template(f'admin/page_index.html', pageTitle=folder, tree=panelTree)
+    return render_template(f'admin/page_index.html', pageTitle=folder, tree=adminDashboardTree)
 
 
 @dashboard.route('/admin/settings/account-settings/', methods=['GET', 'POST'])
@@ -154,7 +217,7 @@ def admin_account_settings(user):
         Country.id == user.country).one()
     countries = session.query(Country)
     user_city = session.query(City).filter(City.id == user.city).one()
-    return render_template('admin/settings/account_settings.html', pageParent='settings', pageTitle='Account Settings', tree=panelTree, user=user, city=user_city, country=user_country, countries=countries)
+    return render_template('admin/settings/account_settings.html', pageParent='settings', pageTitle='Account Settings', tree=adminDashboardTree, user=user, city=user_city, country=user_country, countries=countries)
 
 
 @dashboard.route('/admin/settings/password-recover/', methods=['GET', 'POST'])
@@ -178,14 +241,14 @@ def admin_password_recover(user):
         print(pass_reset_link)
         # send link to email
         status = True
-    return render_template('admin/settings/password_recover.html', pageParent='settings', pageTitle='Password Recover', tree=panelTree, user=user, status=status or False)
+    return render_template('admin/settings/password_recover.html', pageParent='settings', pageTitle='Password Recover', tree=adminDashboardTree, user=user, status=status or False)
 
 
 @dashboard.route('/admin/database/<table>/', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 @authorize('Admin')
 def admin_database_page(user, table, id=None):
     db_name = None
-    for i in panelTree["database"]["indexes"]:
+    for i in adminDashboardTree["database"]["indexes"]:
         if i["name"].lower() == table.lower():
             db_name = i["name"]
     if request.method == 'GET':
@@ -196,8 +259,8 @@ def admin_database_page(user, table, id=None):
             for i in data["body"]:
                 if i.id == int(updateID):
                     updateData = i
-            return render_template(f'admin/database/update/{db_name.lower()}.html', updateID=updateID, updateData=updateData, pageTitle=db_name, pageParent='database', tree=panelTree)
-        return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database', tree=panelTree, data=data)
+            return render_template(f'admin/database/update/{db_name.lower()}.html', updateID=updateID, updateData=updateData, pageTitle=db_name, pageParent='database', tree=adminDashboardTree)
+        return render_template(f'admin/database/{db_name.lower()}.html', pageTitle=db_name, pageParent='database', tree=adminDashboardTree, data=data)
     elif request.method == 'POST':
         resp = admin_data_post[db_name](request)
         return resp
@@ -213,7 +276,7 @@ def admin_database_page(user, table, id=None):
 @authorize('Admin')
 def admin_page(user, folder, page):
     try:
-        return render_template(f'admin/{folder}/{page}.html', pageTitle=page, pageParent=folder, tree=panelTree)
+        return render_template(f'admin/{folder}/{page}.html', pageTitle=page, pageParent=folder, tree=adminDashboardTree)
     except Exception as e:
         print(e)
         abort(404)

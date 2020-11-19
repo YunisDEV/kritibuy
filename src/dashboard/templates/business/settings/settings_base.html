@@ -1,0 +1,19 @@
+{%extends "business/dashboard_base.html"%} {%block head%}
+<script defer src="/lib/js/bootstrap-tagsinput.min.js"></script>
+<link rel="stylesheet" href="/lib/css/bootstrap-tagsinput.css" />
+<script defer>
+    $(document).keypress(function (event) {
+        if (event.which == "13") {
+            event.preventDefault();
+        }
+    });
+</script>
+{%endblock%} {%block content%}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">{%block settings_body%}{%endblock%}</div>
+        </div>
+    </div>
+</div>
+{%endblock%}
