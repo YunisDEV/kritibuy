@@ -14,12 +14,26 @@ from sqlalchemy.dialects.postgresql import (
     ARRAY
 )
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.mutable import Mutable
 from sqlalchemy.orm import sessionmaker
 
 db_string = config.DB_CONN_STRING
 
 db = create_engine(db_string)
 
+class MutableList(Mutable, list):
+    def append(self, value):
+        list.append(self, value)
+        self.changed()
+
+    @classmethod
+    def coerce(cls, key, value):
+        if not isinstance(value, MutableList):
+            if isinstance(value, list):
+                return MutableList(value)
+            return Mutable.coerce(key, value)
+        else:
+            return value
 
 class Mixin(object):
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
@@ -69,7 +83,7 @@ class User(base):
     brandLogoPath = Column(String, nullable=True)
     brandName = Column(String, unique=True, nullable=True)
     brandNameSynonyms = Column(ARRAY(String), nullable=True)
-    brandProductTypes = Column(ARRAY(String), nullable=True)
+    brandProductTypes = Column(MutableList.as_mutable(ARRAY(String)), nullable=True)
     active = Column(Boolean, default=True, nullable=False)
     confirmationKey = Column(String, nullable=False, default='con_key')
     confirmed = Column(Boolean, default=False, nullable=False)

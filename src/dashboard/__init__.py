@@ -77,11 +77,7 @@ def add_product_to_list(user):
     if request.method == 'POST':
         try:
             product_name = json.loads(request.data)["productName"]
-            product_list = user.brandProductTypes
-            product_list.append(str(product_name))
-            user.brandProductTypes = product_list
-            print(user.__dict__)
-            session.add(user)
+            user.brandProductTypes.append(str(product_name))
             session.commit()
             return make_response({"success": True})
         except Exception as e:
