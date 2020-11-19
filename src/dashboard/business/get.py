@@ -21,5 +21,5 @@ def orders_get(user):
         ).one().username
     return {
         "body": orders,
-        "bonus":bonus
+        "bonus": bonus
     }

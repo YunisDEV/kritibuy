@@ -98,7 +98,6 @@ def confirmed(f):
     @wraps(f)
     def wrapper(user, *args, **kwargs):
         if user.confirmed:
-            print('hello')
             return f(user, *args, **kwargs)
         else:
             return render_template('confirmation_required.html', username=user.username, confirmation_key=user.confirmationKey)

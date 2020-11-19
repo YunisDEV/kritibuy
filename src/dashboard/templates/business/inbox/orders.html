@@ -6,7 +6,7 @@
         <th>Message</th>
         <th>Product</th>
         <th>Done</th>
-        <th>Date</th>
+        <th>Date (d.m.y)</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -17,7 +17,13 @@
         <td>{{i.id}}</td>
         <td>{{data['bonus']['OrderedBy'][i.id]}}</td>
         <td>{{i.orderText}}</td>
-        <td>{{i.orderedProduct}}</td>
+        <td>
+            {{i.orderedProduct}} 
+            {%if not i.orderedProduct in user.brandProductTypes%}
+            (product is not in your list)
+            <a href="#" data-product="{{i.orderedProduct}}" class="add-product-to-list">Add</a>
+            {%endif%}
+        </td>
         <td>
             {%if i.done%}
             <span class="badge badge-soft-success">Done</span>
@@ -25,7 +31,7 @@
             <span class="badge badge-soft-danger">Not done</span>
             {%endif%}
         </td>
-        <td>{{i.createdAt}}</td>
+        <td>{{i.createdAt.strftime('%d.%m.%Y')}}</td>
         <td>
             <a href="#" class="done-order-btn"><i class="far fa-edit text-info mr-1"></i></a>
             <a href="#" class="delete-order-btn"><i class="far fa-trash-alt text-danger"></i></a>

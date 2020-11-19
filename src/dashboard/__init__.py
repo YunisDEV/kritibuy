@@ -1,9 +1,11 @@
+from itertools import product
 from flask import Blueprint, render_template, make_response, request, abort, url_for
+from sqlalchemy.util.langhelpers import methods_equivalent
 from ..account.security import authorize, confirmed, hashPassword, checkPassword, generateToken
-import sqlite3
 from .admin_panel import panelTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
 from ..db import session, Message, Permission, Country, City, User, PasswordRecover
 from .business_panel import dashboardTree, business_data_get
+import json
 
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
@@ -68,6 +70,25 @@ def business_inbox_page(user, page):
     return render_template(f'business/inbox/{page}.html', pageTitle=page, pageParent='inbox', tree=dashboardTree, user=user, data=business_data_get['inbox:'+page](user))
 
 
+@dashboard.route('/business/add-product-to-list', methods=['POST'])
+@authorize('Business')
+@confirmed
+def add_product_to_list(user):
+    if request.method == 'POST':
+        try:
+            product_name = json.loads(request.data)["productName"]
+            product_list = user.brandProductTypes
+            product_list.append(str(product_name))
+            user.brandProductTypes = product_list
+            print(user.__dict__)
+            session.add(user)
+            session.commit()
+            return make_response({"success": True})
+        except Exception as e:
+            print(e)
+            return make_response({"success": False,"error":str(e)})
+
+
 #! Admin
 @dashboard.route('/admin/')
 @authorize('Admin')
@@ -116,14 +137,17 @@ def admin_password_recover(user):
             PasswordRecover.user == user.id).all()
         for oT in oldtokens:
             oT.active = False
+        recover_token = generateToken()
         session.add(PasswordRecover(
             user=user.id,
-            token=generateToken()
+            token=recover_token
         ))
         session.commit()
+        pass_reset_link = f'{request.url_root}pass-reset/{user.username}?token={recover_token}'
+        print(pass_reset_link)
         # send link to email
         status = True
-    return render_template('admin/settings/password_recover.html', pageParent='settings', pageTitle='Password Recover', tree=panelTree, user=user,status=status or False)
+    return render_template('admin/settings/password_recover.html', pageParent='settings', pageTitle='Password Recover', tree=panelTree, user=user, status=status or False)
 
 
 @dashboard.route('/admin/database/<table>/', methods=['GET', 'POST', 'DELETE', 'PATCH'])
