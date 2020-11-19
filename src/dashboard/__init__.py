@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, make_response, request, abort, url
 from sqlalchemy.util.langhelpers import methods_equivalent
 from ..account.security import authorize, confirmed, hashPassword, checkPassword, generateToken
 from .admin_panel import panelTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
-from ..db import session, Message, Permission, Country, City, User, PasswordRecover
+from ..db import session, Message, Permission, Country, City, User, PasswordRecover, Order
 from .business_panel import dashboardTree, business_data_get
 import json
 
@@ -82,7 +82,42 @@ def add_product_to_list(user):
             return make_response({"success": True})
         except Exception as e:
             print(e)
-            return make_response({"success": False,"error":str(e)})
+            return make_response({"success": False, "error": str(e)})
+
+
+@dashboard.route('/business/order-done', methods=['POST'])
+@authorize('Business')
+@confirmed
+def order_done(user):
+    if request.method == 'POST':
+        try:
+            order_id = json.loads(request.data)["orderID"]
+            order = session.query(Order).filter(
+                Order.id == order_id and Order.orderedTo == user.id).one()
+            order.done = not order.done
+            session.commit()
+            return make_response({"success": True})
+        except Exception as e:
+            print(e)
+            return make_response({"success": False, "error": str(e)})
+
+@dashboard.route('/business/order-comment', methods=['POST'])
+@authorize('Business')
+@confirmed
+def order_comment(user):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.data)
+            order_id = data["orderID"]
+            comment = data["comment"]
+            order = session.query(Order).filter(
+                Order.id == order_id and Order.orderedTo == user.id).one()
+            order.comments = comment
+            session.commit()
+            return make_response({"success": True})
+        except Exception as e:
+            print(e)
+            return make_response({"success": False, "error": str(e)})
 
 
 #! Admin

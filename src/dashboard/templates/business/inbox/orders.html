@@ -7,7 +7,7 @@
         <th>Product</th>
         <th>Comments</th>
         <th>Done</th>
-        <th>Date</th>
+        <th>Date and Time</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -25,7 +25,7 @@
             <a href="#" data-product="{{i.orderedProduct}}" class="add-product-to-list">Add</a>
             {%endif%}
         </td>
-        <td>{{i.comments}}</td>
+        <td class="table-column-comment">{{i.comments}}</td>
         <td>
             {%if i.done%}
             <span class="badge badge-soft-success">Done</span>
@@ -35,8 +35,12 @@
         </td>
         <td>{{i.createdAt.strftime('%d %b. %Y %H:%M')}}</td>
         <td>
-            <a href="#" class="done-order-btn"><i class="far fa-edit text-info mr-1"></i></a>
-            <a href="#" class="delete-order-btn"><i class="far fa-trash-alt text-danger"></i></a>
+            <a href="#" class="comment-order-btn"><i class="far fa-comments text-info mr-1"></i></a>
+            {%if not i.done%}
+            <a href="#" class="done-order-btn" title="Make order done"><i class="fas fa-check text-success mr-1"></i></a>
+            {%else%}
+            <a href="#" class="done-order-btn" title="Make order undone"><i class="fas fa-times text-danger"></i></a>
+            {%endif%}
         </td>
     </tr>
     {%endfor%}
