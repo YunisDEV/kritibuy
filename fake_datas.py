@@ -5,7 +5,7 @@ from src.db import (
     City,
     User
 )
-
+from src.account.security import hashPassword
 
 # Creating Permissions
 permissions = ['Admin', 'Personal', 'Business']
@@ -52,7 +52,7 @@ for i in cities.items():
 
 adminProfile = User(
     username='admin',
-    password='$2b$12$SsmnopkAVDZI/7QQjXa6XeoW6p8IqzI3OUsJyWEOVn0Tw23U7YbYm',
+    password=hashPassword('admin123'),
     email='admin@kritibuy.com',
     permission=session.query(Permission).filter(
         Permission.name == 'Admin'

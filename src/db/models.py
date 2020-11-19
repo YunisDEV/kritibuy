@@ -21,6 +21,7 @@ db_string = config.DB_CONN_STRING
 
 db = create_engine(db_string)
 
+
 class MutableList(Mutable, list):
     def append(self, value):
         list.append(self, value)
@@ -34,6 +35,7 @@ class MutableList(Mutable, list):
             return Mutable.coerce(key, value)
         else:
             return value
+
 
 class Mixin(object):
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
@@ -83,7 +85,8 @@ class User(base):
     brandLogoPath = Column(String, nullable=True)
     brandName = Column(String, unique=True, nullable=True)
     brandNameSynonyms = Column(ARRAY(String), nullable=True)
-    brandProductTypes = Column(MutableList.as_mutable(ARRAY(String)), nullable=True)
+    brandProductTypes = Column(
+        MutableList.as_mutable(ARRAY(String)), nullable=True)
     active = Column(Boolean, default=True, nullable=False)
     confirmationKey = Column(String, nullable=False, default='con_key')
     confirmed = Column(Boolean, default=False, nullable=False)
@@ -135,6 +138,7 @@ class Order(base):
     orderedBy = Column(Integer, ForeignKey(User.id), nullable=False)
     orderedProduct = Column(String, nullable=False)
     orderText = Column(String, nullable=False)
+    comments = Column(String, nullable=True, default='')
     done = Column(Boolean, default=False, nullable=False)
 
 

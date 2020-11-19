@@ -5,8 +5,9 @@
         <th>By</th>
         <th>Message</th>
         <th>Product</th>
+        <th>Comments</th>
         <th>Done</th>
-        <th>Date (d.m.y)</th>
+        <th>Date</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -24,6 +25,7 @@
             <a href="#" data-product="{{i.orderedProduct}}" class="add-product-to-list">Add</a>
             {%endif%}
         </td>
+        <td>{{i.comments}}</td>
         <td>
             {%if i.done%}
             <span class="badge badge-soft-success">Done</span>
@@ -31,7 +33,7 @@
             <span class="badge badge-soft-danger">Not done</span>
             {%endif%}
         </td>
-        <td>{{i.createdAt.strftime('%d.%m.%Y')}}</td>
+        <td>{{i.createdAt.strftime('%d %b. %Y %H:%M')}}</td>
         <td>
             <a href="#" class="done-order-btn"><i class="far fa-edit text-info mr-1"></i></a>
             <a href="#" class="delete-order-btn"><i class="far fa-trash-alt text-danger"></i></a>
