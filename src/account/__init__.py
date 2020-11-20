@@ -177,16 +177,17 @@ def forgot_password():
                 PasswordRecover.user == user.id).all()
             for oT in oldtokens:
                 oT.active = False
+            generatedToken = generateToken()
             session.add(PasswordRecover(
                 user=user.id,
-                token=generateToken()
+                token=generatedToken
             ))
+            pass_reset_link = f'{request.url_root}pass-reset/{user.username}?token={generatedToken}'
+            print(pass_reset_link)
             session.commit()
             return make_response({"success": True})
-            pass
         else:
             return make_response({"success": False})
-            pass
         return
     if request.method == 'GET':
         if request.args.get('success') == 'true':
