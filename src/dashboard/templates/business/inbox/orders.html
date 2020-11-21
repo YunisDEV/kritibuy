@@ -34,12 +34,13 @@
             {%endif%}
         </td>
         <td>{{i.createdAt.strftime('%d %b. %Y %H:%M')}}</td>
-        <td>
-            <a href="#" class="comment-order-btn"><i class="far fa-comments text-info mr-1"></i></a>
+        <td style="width: 100%;">
+            <a style="width:33%" href="#" class="comment-order-btn"><i class="far fa-comments text-secondary mr-1"></i></a>
+            <a style="width:33%" href="#" class="order-info-btn"><i class="fas fa-file-contract text-info mr-1"></i></a>
             {%if not i.done%}
-            <a href="#" class="done-order-btn" title="Make order done"><i class="fas fa-check text-success mr-1"></i></a>
+            <a style="width:33%" href="#" class="done-order-btn" title="Make order done"><i class="fas fa-check text-success mr-1"></i></a>
             {%else%}
-            <a href="#" class="done-order-btn" title="Make order undone"><i class="fas fa-times text-danger"></i></a>
+            <a style="width:33%" href="#" class="done-order-btn" title="Make order undone"><i class="fas fa-times text-danger"></i></a>
             {%endif%}
         </td>
     </tr>
