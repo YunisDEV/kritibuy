@@ -143,8 +143,8 @@ def confirmation(user, con_key):
                 data = request.form
                 logo = request.files["brandLogo"]
                 logo_directory = os.path.join(config.UPLOAD_DIR_BRAND_LOGOS, str(
-                    user.username)+'_logo.'+secure_filename(logo.filename).split('.')[-1])
-
+                    user.username)+'_logo.'+'png')
+                #secure_filename(logo.filename).split('.')[-1]
                 logo.save(logo_directory)
                 logo_dir = logo_directory.split('public')[1]
 

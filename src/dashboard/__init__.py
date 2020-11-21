@@ -145,7 +145,7 @@ def business_account_settings(user):
         logo = request.files["brandLogo"] or None
         if logo:
             logo_directory = os.path.join(config.UPLOAD_DIR_BRAND_LOGOS, str(
-                user.username)+'_logo.'+secure_filename(logo.filename).split('.')[-1])
+                user.username)+'_logo.'+'png')
             logo.save(logo_directory)
             logo_dir = logo_directory.split('public')[1]
             editedLogo = make_square(logo_directory)
