@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Printable Invoice</title>
+        <style>
+            * {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            body {
+                width: 100vw;
+                height: 100vh;
+                overflow-x: hidden;
+                margin: 0;
+                padding: 30px;
+                box-sizing: border-box;
+            }
+            p {
+                width: 100%;
+                float: left;
+                margin-bottom: 0;
+                padding: 10px;
+            }
+            p:nth-child(even) {
+                background-color: #eee;
+            }
+            p span:nth-child(1) {
+                font-weight: bold;
+                float: left;
+            }
+            p span:nth-child(2) {
+                float: right;
+            }
+            h2 {
+                float: left;
+                text-decoration: underline;
+            }
+            h1 {
+                width: 100%;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Kritibuy Order Invoice</h1>
+        {%for header,content in data.items()%}
+        <h2>{{header}}</h2>
+        {%for key,value in content.items()%}
+        <p><span>{{key}}</span> <span>{{value}}</span></p>
+        {%endfor%} {%endfor%}
+    </body>
+    <script>
+        window.print();
+    </script>
+</html>
