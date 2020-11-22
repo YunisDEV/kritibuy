@@ -1,10 +1,10 @@
-from ..db import session, Message, Order,  User, ServerError, Permission
+from ..db import session, User, Permission
 
 
 def getCompany(comp_name):
     print('a')
     company = session.query(User).filter(
-        User.brandName == comp_name
+        User.brandName.lower() == comp_name.lower()
         and
         User.permission == session.query(Permission).filter(
             Permission.name == 'Business'
