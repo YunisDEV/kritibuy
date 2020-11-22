@@ -13,7 +13,7 @@
 </div>
 <div class="form-group">
     <label for="flagPath">flagPath</label><br />
-    <img width="50px" style="border: 1px solid grey; padding: 0; margin: 0" src="{{updateData.flagPath}}" alt="" />
+    <img class="mb-2" width="100px" style="border: 1px solid grey; padding: 0; margin: 0" id="flag-image" src="{{updateData.flagPath}}" alt="" />
     <input type="file" class="form-control" name="flagPath" id="flagPath" />
 </div>
 {%endblock%} {%block scriptForUpdateForm%}
@@ -34,5 +34,8 @@
                 }
             });
     });
+    document.querySelector('#flagPath').addEventListener('change',e=>{
+        document.querySelector('#flag-image').src = URL.createObjectURL(e.target.files[0])
+    })
 </script>
 {%endblock%}
