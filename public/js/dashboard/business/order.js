@@ -84,7 +84,7 @@ qsa('.order-info-btn').forEach(i => {
         }).then((res) => res.json())
             .then((data) => {
                 if (data.success) {
-                    showModal(generateInvoice(data.data))
+                    showModal(generateInvoice(data.data), orderID)
                 }
             })
     })
@@ -101,7 +101,18 @@ function generateInvoice(obj) {
     })
     return html
 }
-function showModal(html) {
+function showModal(html, id) {
     $('#invoiceModal').modal('show');
     $('#invoiceModal .modal-body').html(html)
+    $('.modal-footer .btn.btn-primary').click(e => {
+        var iframe = document.querySelector('#printableInvoiceFrame')
+        iframe.src = '/dashboard/business/order-info/' + id
+        var iframeWindow = (iframe.contentWindow || iframe.contentDocument);
+        iframeWindow.print()
+    })
+    console.log('a')
 }
+var iframe = document.createElement('iframe')
+iframe.id = 'printableInvoiceFrame'
+iframe.style = 'z-index:-9999!important;opacity:0;'
+document.body.appendChild(iframe)
