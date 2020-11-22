@@ -71,3 +71,37 @@ qsa('.done-order-btn').forEach(i => {
             })
     })
 })
+
+qsa('.order-info-btn').forEach(i => {
+    i.addEventListener('click', e => {
+        e.preventDefault()
+        var orderID = e.target.parentNode.parentNode.parentNode.getAttribute('key')
+        fetch('/dashboard/business/order-info', {
+            method: 'POST',
+            body: JSON.stringify({
+                orderID
+            })
+        }).then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    showModal(generateInvoice(data.data))
+                }
+            })
+    })
+})
+
+function generateInvoice(obj) {
+    html = ''
+    Object.keys(obj).forEach(key => {
+        html += `<h3>${key}</h3> <div class="invoice-body">`
+        Object.keys(obj[key]).forEach(k => {
+            html += `<p><span>${k}</span><span>${obj[key][k]}</span></p>`
+        })
+        html += '</div>'
+    })
+    return html
+}
+function showModal(html) {
+    $('#invoiceModal').modal('show');
+    $('#invoiceModal .modal-body').html(html)
+}

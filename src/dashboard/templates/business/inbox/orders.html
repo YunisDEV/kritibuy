@@ -19,9 +19,7 @@
         <td>{{data['bonus']['OrderedBy'][i.id]}}</td>
         <td>{{i.orderText}}</td>
         <td>
-            {{i.orderedProduct}} 
-            {%if not i.orderedProduct in user.brandProductTypes%}
-            (product is not in your list)
+            {{i.orderedProduct}} {%if not i.orderedProduct in user.brandProductTypes%} (product is not in your list)
             <a href="#" data-product="{{i.orderedProduct}}" class="add-product-to-list">Add</a>
             {%endif%}
         </td>
@@ -34,18 +32,38 @@
             {%endif%}
         </td>
         <td>{{i.createdAt.strftime('%d %b. %Y %H:%M')}}</td>
-        <td style="width: 100%;">
-            <a style="width:33%" href="#" class="comment-order-btn"><i class="far fa-comments text-secondary mr-1"></i></a>
-            <a style="width:33%" href="#" class="order-info-btn"><i class="fas fa-file-contract text-info mr-1"></i></a>
+        <td style="width: 100%">
+            <a style="width: 33%" href="#" class="comment-order-btn"><i class="far fa-comments text-secondary mr-1"></i></a>
+            <a style="width: 33%" href="#" class="order-info-btn"><i class="fas fa-file-contract text-info mr-1"></i></a>
             {%if not i.done%}
-            <a style="width:33%" href="#" class="done-order-btn" title="Make order done"><i class="fas fa-check text-success mr-1"></i></a>
+            <a style="width: 33%" href="#" class="done-order-btn" title="Make order done"><i class="fas fa-check text-success mr-1"></i></a>
             {%else%}
-            <a style="width:33%" href="#" class="done-order-btn" title="Make order undone"><i class="fas fa-times text-danger"></i></a>
+            <a style="width: 33%" href="#" class="done-order-btn" title="Make order undone"><i class="fas fa-times text-danger"></i></a>
             {%endif%}
         </td>
     </tr>
     {%endfor%}
 </tbody>
 {%endblock%} {%block bodyend%} {{super()}}
+<div class="modal" id="invoiceModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Invoice</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-primary" onclick="saveInvoice()">Save</button> -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script defer src="/js/dashboard/business/order.js"></script>
+<script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 {%endblock%}

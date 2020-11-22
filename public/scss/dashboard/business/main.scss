@@ -19,3 +19,27 @@
         border-radius: 10px;
     }
 }
+.modal {
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.invoice-body {
+    p {
+        color: #7c92a7 !important;
+        font-family: "Poppins", sans-serif;
+        font-size: 15px;
+        width: 100%;
+        float: left;
+        span:nth-child(1) {
+            float: left;
+        }
+        span:nth-child(2) {
+            float: right;
+        }
+        margin:0;
+        padding: 10px 0px 10px 0px;
+        border-top: 1.5px solid rgba(0,0,0,.1);
+    }
+}

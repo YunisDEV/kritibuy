@@ -1,4 +1,3 @@
-from itertools import product
 from flask import Blueprint, render_template, make_response, request, abort, url_for
 from sqlalchemy.util.langhelpers import methods_equivalent
 from ..account.security import authorize, confirmed, hashPassword, checkPassword, generateToken
@@ -126,6 +125,7 @@ def order_comment(user):
 
 @dashboard.route('/business/settings/account-settings/', methods=['GET', 'POST'])
 @authorize('Business')
+@confirmed
 def business_account_settings(user):
     if request.method == 'GET':
         pass
@@ -161,6 +161,7 @@ def business_account_settings(user):
 
 @dashboard.route('/business/settings/password-recover/', methods=['GET', 'POST'])
 @authorize('Business')
+@confirmed
 def business_password_recover(user):
     status = None
     if request.method == 'GET':
@@ -183,7 +184,38 @@ def business_password_recover(user):
     return render_template('business/settings/password_recover.html', pageParent='settings', pageTitle='Password Recover', tree=businessDashboardTree, user=user, status=status or False)
 
 
+@dashboard.route('/business/order-info', methods=['POST'])
+@authorize('Business')
+@confirmed
+def order_info(user):
+    if request.method == 'POST':
+        order_id = int(json.loads(request.data)["orderID"])
+        order_info = {}
+        order = session.query(Order).filter(Order.id == order_id).one()
+        ordered_by = session.query(User).filter(
+            User.id == order.orderedBy).one()
+        order_info = {
+            "Order": {
+                "ID": order.id,
+                "Message": order.orderText,
+                "Product": order.orderedProduct,
+                "Date": order.createdAt.strftime('%d %b. %Y %H:%M'),
+            },
+            "Customer": {
+                "Username": ordered_by.username,
+                "Full name": ordered_by.fullName,
+                "E-mail": ordered_by.email,
+                "Address": ordered_by.address,
+                "Phone number": ordered_by.phone,
+                "Country": session.query(Country).filter(Country.id == ordered_by.country).one().name,
+                "City": session.query(City).filter(City.id == ordered_by.city).one().name
+            }
+        }
+        return make_response({"success": True, "data": order_info})
+
 #! Admin
+
+
 @dashboard.route('/admin/')
 @authorize('Admin')
 def admin_main(user):
