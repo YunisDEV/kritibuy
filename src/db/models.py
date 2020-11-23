@@ -15,7 +15,8 @@ from sqlalchemy.dialects.postgresql import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.mutable import Mutable
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, validates
+from .validators import *
 
 db_string = config.DB_CONN_STRING
 
@@ -91,6 +92,12 @@ class User(Base):
     confirmationKey = Column(String, nullable=False, default='con_key')
     confirmed = Column(Boolean, default=False, nullable=False)
 
+    @validates('username')
+    def validate_user_username(self, key, username):
+        if not 3 <= len(username) <= 25:
+            raise ValueError('Username should be longer than ')
+        return username
+
 
 class PasswordRecover(Base):
     __tablename__ = 'PasswordRecover'
@@ -140,6 +147,7 @@ class Order(Base):
     orderText = Column(String, nullable=False)
     comments = Column(String, nullable=True, default='')
     done = Column(Boolean, default=False, nullable=False)
+
 
 class OrderRating(Base):
     __tablename__ = 'OrderRatings'
