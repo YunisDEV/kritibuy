@@ -19,7 +19,7 @@ from sqlalchemy.orm import sessionmaker
 
 db_string = config.DB_CONN_STRING
 
-db = create_engine(db_string)
+engine = create_engine(db_string)
 
 
 class MutableList(Mutable, list):
@@ -48,15 +48,15 @@ class Mixin(object):
         return f'<{self.__class__.__name__} id={self.id}>'
 
 
-base = declarative_base(cls=Mixin)
+Base = declarative_base(cls=Mixin)
 
 
-class Permission(base):
+class Permission(Base):
     __tablename__ = 'Permissions'
     name = Column(String(100), nullable=False)
 
 
-class Country(base):
+class Country(Base):
     __tablename__ = 'Countries'
     name = Column(String, nullable=False)
     alpha2 = Column(String(5), nullable=False)
@@ -64,14 +64,14 @@ class Country(base):
     flagPath = Column(String, nullable=False)
 
 
-class City(base):
+class City(Base):
     __tablename__ = 'Cities'
     name = Column(String, nullable=False)
     country = Column(Integer, ForeignKey(Country.id),
                      nullable=False)
 
 
-class User(base):
+class User(Base):
     __tablename__ = 'Users'
     username = Column(String(100), unique=True, nullable=False)
     password = Column(String, nullable=False)
@@ -92,47 +92,47 @@ class User(base):
     confirmed = Column(Boolean, default=False, nullable=False)
 
 
-class PasswordRecover(base):
+class PasswordRecover(Base):
     __tablename__ = 'PasswordRecover'
     user = Column(ForeignKey(User.id), nullable=False)
     token = Column(String, nullable=False)
     active = Column(Boolean, default=True)
 
 
-class AuthToken(base):
+class AuthToken(Base):
     __tablename__ = 'AuthTokens'
     user = Column(Integer, ForeignKey(User.id), nullable=False)
     token = Column(String, nullable=False)
 
 
-class Payment(base):
+class Payment(Base):
     __tablename__ = 'Payments'
     fromUser = Column(Integer, ForeignKey(User.id), nullable=False)
     toUser = Column(Integer, ForeignKey(User.id), nullable=False)
     amount = Column(Float, nullable=False)
 
 
-class Report(base):
+class Report(Base):
     __tablename__ = 'Reports'
     reporter = Column(Integer, ForeignKey(User.id), nullable=False)
     header = Column(String, nullable=False)
     body = Column(String, nullable=False)
 
 
-class Message(base):
+class Message(Base):
     __tablename__ = 'Messages'
     user = Column(Integer, ForeignKey(User.id), nullable=False)
     type = Column(String(4), nullable=False)
     message = Column(String, nullable=False)
 
 
-class Wallet(base):
+class Wallet(Base):
     __tablename__ = 'Wallets'
     balance = Column(Float, default=0.0, nullable=False)
     owner = Column(Integer, ForeignKey(User.id), nullable=False)
 
 
-class Order(base):
+class Order(Base):
     __tablename__ = 'Orders'
     orderedTo = Column(Integer, ForeignKey(User.id), nullable=False)
     orderedBy = Column(Integer, ForeignKey(User.id), nullable=False)
@@ -142,7 +142,7 @@ class Order(base):
     done = Column(Boolean, default=False, nullable=False)
 
 
-class OrderRating(base):
+class OrderRating(Base):
     __tablename__ = 'OrderRatings'
     value = Column(Integer, nullable=False)
     byUser = Column(Integer, ForeignKey(User.id), nullable=False)
@@ -150,7 +150,7 @@ class OrderRating(base):
     forOrder = Column(Integer, ForeignKey(Order.id), nullable=False)
 
 
-class ServerError(base):
+class ServerError(Base):
     __tablename__ = 'ServerErrors'
     where = Column(String, nullable=False)
     errorCode = Column(Integer, nullable=False)
@@ -158,6 +158,6 @@ class ServerError(base):
     fixed = Column(Boolean, nullable=False, default=False)
 
 
-Session = sessionmaker(db)
+Session = sessionmaker(engine)
 session = Session()
-# base.metadata.create_all(db)
+Base.metadata.create_all(engine)
