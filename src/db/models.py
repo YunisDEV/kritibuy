@@ -160,4 +160,4 @@ class ServerError(base):
 
 Session = sessionmaker(db)
 session = Session()
-base.metadata.create_all(db)
+# base.metadata.create_all(db)

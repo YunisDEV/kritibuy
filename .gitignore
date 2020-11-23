@@ -3,3 +3,5 @@
 .venv
 google_services_key.json
 env.py
+alembic
+alembic.ini
