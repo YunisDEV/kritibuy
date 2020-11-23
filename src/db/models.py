@@ -140,7 +140,6 @@ class Order(Base):
     orderText = Column(String, nullable=False)
     comments = Column(String, nullable=True, default='')
     done = Column(Boolean, default=False, nullable=False)
-    test = Column(String,default='blabla',nullable=True)
 
 class OrderRating(Base):
     __tablename__ = 'OrderRatings'
