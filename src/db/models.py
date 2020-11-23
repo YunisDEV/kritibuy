@@ -16,10 +16,8 @@ from sqlalchemy.dialects.postgresql import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.mutable import Mutable
 from sqlalchemy.orm import sessionmaker, validates
-from .validators import *
 
 db_string = config.DB_CONN_STRING
-
 engine = create_engine(db_string)
 
 
@@ -63,6 +61,7 @@ class Country(Base):
     alpha2 = Column(String(5), nullable=False)
     alpha3 = Column(String(5), nullable=False)
     flagPath = Column(String, nullable=False)
+    phonePrefix = Column(Integer, nullable=True, default=0)
 
 
 class City(Base):
@@ -93,10 +92,16 @@ class User(Base):
     confirmed = Column(Boolean, default=False, nullable=False)
 
     @validates('username')
-    def validate_user_username(self, key, username):
+    def validate_username(self, key, username):
         if not 3 <= len(username) <= 25:
-            raise ValueError('Username should be longer than ')
+            raise ValueError(
+                'Username should be longer than 3 characters and shorter than 25')
         return username
+
+    @validates('password')
+    def validate_password(self, key, password):
+        from ..account.security import hashPassword
+        return hashPassword(password)
 
 
 class PasswordRecover(Base):

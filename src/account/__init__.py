@@ -46,10 +46,11 @@ def signup():
     if request.method == 'POST':
         try:
             data = json.loads(request.data)
-            hashedPassword = hashPassword(data["password"])
+            if not data["password"] == data["passwordConfirm"]:
+                raise Exception('Passwords did not match')
             session.add(User(
                 username=data["username"],
-                password=hashedPassword,
+                password=data["password"],
                 email=data["email"],
                 permission=session.query(Permission).filter(
                     Permission.name == data["permission"]).one().id,
@@ -78,6 +79,8 @@ def signup():
             if str(e).startswith('UNIQUE'):
                 err["type"] = 'UNIQUE'
                 err["value"] = str(e).split(': ')[1].split('.')[1].capitalize()
+            else:
+                err["value"] = str(e)
             return {"success": False, "error": err}
 
 
