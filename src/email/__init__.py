@@ -1,20 +1,22 @@
-from flask import Blueprint, request, make_response, render_template, url_for
-import json
-import requests
-import sqlite3
+from flask import Blueprint
+import smtplib
+from email.message import EmailMessage
+import config
+email = Blueprint('email', __name__)
 
-def receipt_generator():
-    html = render_template('receipt.html', data={
-        "id": 15,
-        "orderedTo": "Pragmatech",
-        "orderedBy": "Yunis Huseynzade",
-        "orderText": "I want to get web app from Pragmatech",
-        "paid": True,
-        "date": "2020-02-11 14:00:00"
-    })
-    return html
+smtp = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+smtp.login(config.EMAIL_ADDRESS, config.EMAIL_PASSWORD)
 
 
-def send_email():
-    x = receipt_generator()
-    return x
+@email.route('/example-email')
+def exampleemail():
+    msg = EmailMessage()
+    msg["Subject"] = "Account Verification"
+    msg["From"] = config.EMAIL_ADDRESS
+    msg["To"] = 'yunisdev.04@gmail.com'
+    msg.set_content('Click here to confirm your account')
+    msg.add_alternative("""
+    <p style="color:red">HELLO</p>
+    """, subtype="html")
+    smtp.send_message(msg)
+    return 'SENT!!!'

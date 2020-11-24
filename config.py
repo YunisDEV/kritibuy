@@ -1,4 +1,3 @@
-import os
 from env import *
 DEBUG = True
 PORT = 5000
