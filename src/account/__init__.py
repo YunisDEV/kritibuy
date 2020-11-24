@@ -46,6 +46,7 @@ def signup():
     if request.method == 'POST':
         try:
             data = json.loads(request.data)
+            print(data)
             if not data["password"] == data["passwordConfirm"]:
                 raise Exception('Passwords did not match')
             session.add(User(

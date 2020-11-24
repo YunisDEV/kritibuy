@@ -29,6 +29,7 @@ document.querySelector('form#signupForm').addEventListener('submit', (e) => {
         username: f.username.value,
         email: f.email.value,
         password:f.password.value,
+        passwordConfirm:f.passwordConfirm.value,
         permission: f.permission.value,
         country: f.country.value,
         city: f.city.value

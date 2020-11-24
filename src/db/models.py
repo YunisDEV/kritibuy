@@ -17,6 +17,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.mutable import Mutable
 from sqlalchemy.orm import sessionmaker, validates
 
+import re
+from .validators import email_validation, phone_num_validation
+
 db_string = config.DB_CONN_STRING
 engine = create_engine(db_string)
 
@@ -101,7 +104,30 @@ class User(Base):
     @validates('password')
     def validate_password(self, key, password):
         from ..account.security import hashPassword
+        if not 8 <= len(password):
+            raise ValueError('Password should be at least 8 characters')
+        if not re.match(r'[A-Z]', password):
+            raise ValueError(
+                'Password should contain at least 1 uppercase character')
+        if not re.match(r'[a-z]', password):
+            raise ValueError(
+                'Password should contain at least 1 lowercase character')
+        if not re.match(r'[0-9]', password):
+            raise ValueError('Password should contain at least 1 digit')
         return hashPassword(password)
+
+    @validates('email')
+    def validate_email(self, key, email):
+        if not email_validation(email):
+            raise ValueError('Please enter real email')
+        return email
+
+    @validates('phone')
+    def validate_phone(self, key, phone):
+        if not phone_num_validation(phone):
+            raise ValueError(
+                'Please enter international version of a real phone number')
+        return phone
 
 
 class PasswordRecover(Base):
