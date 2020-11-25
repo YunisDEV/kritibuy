@@ -1,3 +1,4 @@
+from ..email import send_mail
 from flask import Blueprint, render_template, request, make_response, abort
 import json
 from .security import authorize, encodeToken, hashPassword, checkPassword, generateToken
@@ -7,7 +8,7 @@ import config
 from werkzeug.utils import secure_filename
 from .utils import make_square
 account = Blueprint('account', __name__, template_folder='./templates')
-from ..email import send_mail
+
 
 @account.route('/login', methods=['GET', 'POST'])
 def login():
@@ -49,7 +50,7 @@ def signup():
             print(data)
             if not data["password"] == data["passwordConfirm"]:
                 raise Exception('Passwords did not match')
-            session.add(User(
+            created_user = User(
                 username=data["username"],
                 password=data["password"],
                 email=data["email"],
@@ -60,7 +61,8 @@ def signup():
                 city=session.query(City).filter(
                     City.name == data["city"]).one().id,
                 confirmationKey=generateToken()
-            ))
+            )
+            session.add(created_user)
             authToken = encodeToken({
                 "username": data["username"],
                 "permission": data["permission"]
@@ -71,6 +73,16 @@ def signup():
                 token=authToken
             ))
             session.commit()
+            confirmation_link = f'{request.url_root}confirmation/{created_user.username}/{created_user.confirmationKey}'
+            if not created_user.confirmed:
+                send_mail(
+                    Subject='Kritibuy - Account Confirmation',
+                    To=created_user.email,
+                    Content=f'Click link to confirm account. {confirmation_link}',
+                    HTML=f"""
+                    Click <a href="{confirmation_link}">here</a> to confirm account
+                    """
+                )
             resp = make_response({"success": True})
             resp.set_cookie('auth_token', authToken)
             return resp
@@ -148,7 +160,7 @@ def confirmation(user, con_key):
                 logo = request.files["brandLogo"]
                 logo_directory = os.path.join(config.UPLOAD_DIR_BRAND_LOGOS, str(
                     user.username)+'_logo.'+'png')
-                #secure_filename(logo.filename).split('.')[-1]
+                # secure_filename(logo.filename).split('.')[-1]
                 logo.save(logo_directory)
                 logo_dir = logo_directory.split('public')[1]
 
@@ -192,7 +204,7 @@ def forgot_password():
                 Subject="Kritibuy - Account Password Reset",
                 To=user.email,
                 Content=f'Click link to reset password. {pass_reset_link}',
-                HTML = f"""
+                HTML=f"""
                     Click <a href="{pass_reset_link}">here</a> to reset account password
                 """
             )
@@ -213,7 +225,7 @@ def pass_reset(user):
     passRecover = session.query(PasswordRecover).filter(
         PasswordRecover.active == True and
         PasswordRecover.user == session.query(User).filter(User.username == user
-    ).one().id).one()
+                                                           ).one().id).one()
     token = request.args.get('token')
     if passRecover.token == token:
         if request.method == 'POST':

@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 from ..account.utils import make_square
 import config
 import os
+from ..email import send_mail
 dashboard = Blueprint('dashboard', __name__, template_folder='./templates')
 
 
@@ -179,7 +180,14 @@ def business_password_recover(user):
         session.commit()
         pass_reset_link = f'{request.url_root}pass-reset/{user.username}?token={recover_token}'
         print(pass_reset_link)
-        # send link to email
+        send_mail(
+            Subject="Kritibuy - Account Password Reset",
+            To=user.email,
+            Content=f'Click link to reset password. {pass_reset_link}',
+            HTML=f"""
+                    Click <a href="{pass_reset_link}">here</a> to reset account password
+                """
+        )
         status = True
     return render_template('business/settings/password_recover.html', pageParent='settings', pageTitle='Password Recover', tree=businessDashboardTree, user=user, status=status or False)
 
@@ -192,14 +200,13 @@ def order_info(user):
     order_info = business_data_get["invoice"](order_id)
     return make_response({"success": True, "data": order_info})
 
+
 @dashboard.route('/business/order-info/<int:id>/', methods=['GET'])
 @authorize('Business')
 @confirmed
-def order_info_page(user,id):
+def order_info_page(user, id):
     data = business_data_get["invoice"](id)
-    return render_template('business/invoice.html',data=data)
-
-
+    return render_template('business/invoice.html', data=data)
 
 
 #! Admin
@@ -258,7 +265,14 @@ def admin_password_recover(user):
         session.commit()
         pass_reset_link = f'{request.url_root}pass-reset/{user.username}?token={recover_token}'
         print(pass_reset_link)
-        # send link to email
+        send_mail(
+            Subject="Kritibuy - Account Password Reset",
+            To=user.email,
+            Content=f'Click link to reset password. {pass_reset_link}',
+            HTML=f"""
+                    Click <a href="{pass_reset_link}">here</a> to reset account password
+                """
+        )
         status = True
     return render_template('admin/settings/password_recover.html', pageParent='settings', pageTitle='Password Recover', tree=adminDashboardTree, user=user, status=status or False)
 

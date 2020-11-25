@@ -6,7 +6,7 @@ smtp = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 smtp.login(config.EMAIL_ADDRESS, config.EMAIL_PASSWORD)
 
 
-def send_mail(Subject='TEST', From=config.EMAIL_ADDRESS, To=config.TEST_EMAIL_ADDRESS, Content='HELLO', HTML=None):
+def send_mail(Subject='TEST', From=config.EMAIL_ADDRESS, To=config.TEST_EMAIL_ADDRESS, Content='', HTML=None):
     try:
         msg = EmailMessage()
         msg["Subject"] = Subject
