@@ -106,20 +106,20 @@ class User(Base):
         from ..account.security import hashPassword
         if not 8 <= len(password):
             raise ValueError('Password should be at least 8 characters')
-        if not re.match(r'[A-Z]', password):
+        if not re.search(r'[A-Z]', password):
             raise ValueError(
                 'Password should contain at least 1 uppercase character')
-        if not re.match(r'[a-z]', password):
+        if not re.search(r'[a-z]', password):
             raise ValueError(
                 'Password should contain at least 1 lowercase character')
-        if not re.match(r'[0-9]', password):
+        if not re.search(r'[0-9]', password):
             raise ValueError('Password should contain at least 1 digit')
         return hashPassword(password)
 
     @validates('email')
     def validate_email(self, key, email):
         if not email_validation(email):
-            raise ValueError('Please enter real email')
+            raise ValueError('Please enter valid email')
         return email
 
     @validates('phone')

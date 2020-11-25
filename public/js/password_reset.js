@@ -18,6 +18,6 @@ qs('#reset-form')?.addEventListener('submit', (e) => {
     }).then(res => res.json())
         .then(data => {
             if (data.success) window.open('/login','_self')
-            else alert(data.error)
+            else document.querySelector('#errorLine').innerHTML = data.error
         })
 })

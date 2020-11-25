@@ -6,7 +6,6 @@ from .chatbot import chatbot
 from werkzeug.exceptions import HTTPException
 import flask_assets
 import config
-from .email import email
 
 
 def create_app():
@@ -17,13 +16,12 @@ def create_app():
     app.register_blueprint(dashboard, url_prefix='/dashboard')
     app.register_blueprint(account)
     app.register_blueprint(chatbot)
-    app.register_blueprint(email)
 
     assets = flask_assets.Environment()
     assets.init_app(app)
 
     @app.errorhandler(HTTPException)
-    def page_not_found(e):
+    def error_page_handler(e):
         return render_template('error_page.html', code=e.code, name=e.name), e.code
 
     return app

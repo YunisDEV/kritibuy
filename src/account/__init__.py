@@ -7,7 +7,7 @@ import config
 from werkzeug.utils import secure_filename
 from .utils import make_square
 account = Blueprint('account', __name__, template_folder='./templates')
-
+from ..email import send_mail
 
 @account.route('/login', methods=['GET', 'POST'])
 def login():
@@ -188,6 +188,14 @@ def forgot_password():
             ))
             pass_reset_link = f'{request.url_root}pass-reset/{user.username}?token={generatedToken}'
             print(pass_reset_link)
+            send_mail(
+                Subject="Kritibuy - Account Password Reset",
+                To=user.email,
+                Content=f'Click link to reset password. {pass_reset_link}',
+                HTML = f"""
+                    Click <a href="{pass_reset_link}">here</a> to reset account password
+                """
+            )
             session.commit()
             return make_response({"success": True})
         else:
@@ -202,20 +210,24 @@ def forgot_password():
 
 @account.route('/pass-reset/<user>', methods=['GET', 'POST'])
 def pass_reset(user):
-    passRecover = session.query(PasswordRecover).filter(PasswordRecover.active == True and
-                                                        PasswordRecover.user == session.query(User).filter(User.username == user).one().id).one()
+    passRecover = session.query(PasswordRecover).filter(
+        PasswordRecover.active == True and
+        PasswordRecover.user == session.query(User).filter(User.username == user
+    ).one().id).one()
     token = request.args.get('token')
     if passRecover.token == token:
         if request.method == 'POST':
             data = request.form
             if data["password"] == data["confirm"]:
-                hp = hashPassword(data["password"])
-                u = session.query(User).filter(User.username == user).one()
-                u.password = hp
-                passRecover.active = False
-                session.commit()
-                return make_response({"success": True})
-                pass
+                try:
+                    u = session.query(User).filter(User.username == user).one()
+                    u.password = data["password"]
+                    passRecover.active = False
+                    session.commit()
+                    return make_response({"success": True})
+                except Exception as e:
+                    print(e)
+                    return make_response({"success": False, "error": str(e)})
             else:
                 return make_response({"success": False, "error": "Passwords do not match"})
                 pass
