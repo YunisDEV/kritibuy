@@ -170,6 +170,13 @@ class Wallet(Base):
     owner = Column(Integer, ForeignKey(User.id), nullable=False)
 
 
+class CouponCode(Base):
+    __tablename__ = 'CouponCodes'
+    amount = Column(Float, nullable=False)
+    code = Column(String, nullable=False)
+    active = Column(Boolean, default=True, nullable=False)
+
+
 class Order(Base):
     __tablename__ = 'Orders'
     orderedTo = Column(Integer, ForeignKey(User.id), nullable=False)
