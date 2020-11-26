@@ -2,8 +2,11 @@
     color: black;
     display: block;
     float: left;
+    .bank {
+        float: left;
+        width: fit-content;
+    }
     h1 {
-        width: 100%;
         float: left;
         height: fit-content;
         display: block;
@@ -11,10 +14,12 @@
     .money-left {
         color: var(--primary-dark);
         font-weight: bold;
-        font-size: 5rem;
         float: left;
-        width: 100%;
         height: fit-content;
+    }
+    button {
+        float: right;
+        width: fit-content;
     }
 }
 
@@ -27,13 +32,26 @@ table {
     color: black !important;
     position: relative !important;
     thead {
-        position: absolute;
-        width: 100%!important;
-        top: 0;
-        left: 0;
+        font-size: 23px;
+        color: white;
+        background-color: var(--primary-color);
+        th {
+            padding: 10px;
+            border: 2px solid white;
+        }
     }
     tbody {
-        padding-top: 20px;
+        tr:nth-child(even) {
+            background-color: #eee;
+        }
+        td {
+            padding: 10px;
+        }
+        td.positive {
+            color: green;
+        }
+        td.negative {
+            color: red;
+        }
     }
 }
-

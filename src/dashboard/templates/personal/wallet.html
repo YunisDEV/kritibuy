@@ -2,15 +2,18 @@
 <link rel="stylesheet" href="/css/dashboard/personal/wallet.css" />
 {%endblock%} {%block body%}
 <div class="col-md-12 budget">
-    <h1 class="">Your Bank:</h1>
-    <p class="money-left">$80.00</p>
-    <button class="btn btn-primary">Add balance</button>
+    <h2 class="col-md-12 text-center mb-4">Wallet ID: {{wallet_id}}</h2>
+    <div class="bank mb-4">
+        <h2 class="">Your Bank:</h2>
+        <h2 class="money-left">$80.00</h2>
+    </div>
+    <button class="btn btn-primary mb-4">Add balance</button>
 </div>
 <div class="col-md-12">
     <table class="col-md-12">
         <thead>
             <tr>
-                <th>With</th>
+                <th>Account</th>
                 <th>Amount</th>
             </tr>
         </thead>

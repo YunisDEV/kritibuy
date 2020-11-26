@@ -2,18 +2,21 @@
   color: black;
   display: block;
   float: left; }
+  .budget .bank {
+    float: left;
+    width: fit-content; }
   .budget h1 {
-    width: 100%;
     float: left;
     height: fit-content;
     display: block; }
   .budget .money-left {
     color: var(--primary-dark);
     font-weight: bold;
-    font-size: 5rem;
     float: left;
-    width: 100%;
     height: fit-content; }
+  .budget button {
+    float: right;
+    width: fit-content; }
 
 .dashboard-body > div {
   float: left;
@@ -23,9 +26,17 @@ table {
   color: black !important;
   position: relative !important; }
   table thead {
-    position: absolute;
-    width: 100% !important;
-    top: 0;
-    left: 0; }
-  table tbody {
-    padding-top: 20px; }
+    font-size: 23px;
+    color: white;
+    background-color: var(--primary-color); }
+    table thead th {
+      padding: 10px;
+      border: 2px solid white; }
+  table tbody tr:nth-child(even) {
+    background-color: #eee; }
+  table tbody td {
+    padding: 10px; }
+  table tbody td.positive {
+    color: green; }
+  table tbody td.negative {
+    color: red; }
