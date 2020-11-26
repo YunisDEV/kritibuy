@@ -10,7 +10,6 @@ from .models import (
     Message,
     Wallet,
     Order,
-    OrderRating,
     PasswordRecover,
     ServerError
 )

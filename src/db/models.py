@@ -180,14 +180,6 @@ class Order(Base):
     done = Column(Boolean, default=False, nullable=False)
 
 
-class OrderRating(Base):
-    __tablename__ = 'OrderRatings'
-    value = Column(Integer, nullable=False)
-    byUser = Column(Integer, ForeignKey(User.id), nullable=False)
-    toUser = Column(Integer, ForeignKey(User.id), nullable=False)
-    forOrder = Column(Integer, ForeignKey(Order.id), nullable=False)
-
-
 class ServerError(Base):
     __tablename__ = 'ServerErrors'
     where = Column(String, nullable=False)
