@@ -1,10 +1,9 @@
 from ..db import session, User, Permission
-
+from sqlalchemy import func
 
 def getCompany(comp_name):
-    print('a')
     company = session.query(User).filter(
-        User.brandName.lower() == comp_name.lower()
+        func.lower(User.brandName) == func.lower(comp_name)
         and
         User.permission == session.query(Permission).filter(
             Permission.name == 'Business'

@@ -43,4 +43,11 @@ def webhook_main():
     if request.method == 'GET':
         return make_response({"api_version": 1})
     data = WebhookRequest(json.loads(request.data))
-    return make_response(webhook[data.intent](data))
+    resp = webhook[data.intent](data)
+    old = []
+    with open('src/chatbot/webhook.debug.json') as f:
+        old = json.load(f)
+        old.append({'query':data.query_text,'response':resp["fulfillmentMessages"][0]["text"]["text"][0]})
+    with open('src/chatbot/webhook.debug.json','w') as f:
+        json.dump(old,f)
+    return make_response(resp)

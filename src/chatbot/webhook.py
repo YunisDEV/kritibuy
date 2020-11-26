@@ -1,4 +1,4 @@
-from ..db import session, User, Order, ServerError
+from ..db import session, User, Order, ServerError, Permission
 from .utils import getCompany
 
 webhook_placeholder = {
@@ -86,7 +86,42 @@ def order_to_company(data):
 def get_companies_by_product(data):
     response = None
     companies = []
-    return webhook_placeholder
+    print('a')
+    try:
+        productName = data.parameters.get('product')
+        if productName:
+            print(productName)
+            companies = session.query(User).filter(
+                User.brandProductTypes.any(productName)
+            ).all()
+
+            businessPermissionId = session.query(Permission).filter(
+                Permission.name == 'Business').one().id
+            print(companies)
+            companies = [
+                company.brandName for company in companies if company.permission == businessPermissionId and (company.active == True and company.confirmed == True)]
+            if len(companies) == 0:
+                raise Exception(
+                    'We could not find any company that serve such product')
+            else:
+                response = ", ".join(companies) + ' serve this product'
+        else:
+            raise Exception('Please query with a product name.')
+    except Exception as e:
+        print(e)
+        response = str(e)
+        session.rollback()
+    return {
+        "fulfillmentMessages": [
+            {
+                "text": {
+                    "text": [
+                        response
+                    ]
+                }
+            }
+        ]
+    }
 
 
 webhook = {

@@ -47,7 +47,6 @@ def signup():
     if request.method == 'POST':
         try:
             data = json.loads(request.data)
-            print(data)
             if not data["password"] == data["passwordConfirm"]:
                 raise Exception('Passwords did not match')
             created_user = User(
@@ -74,6 +73,7 @@ def signup():
             ))
             session.commit()
             confirmation_link = f'{request.url_root}confirmation/{created_user.username}/{created_user.confirmationKey}'
+            print(confirmation_link)
             if not created_user.confirmed:
                 send_mail(
                     Subject='Kritibuy - Account Confirmation',
@@ -87,13 +87,12 @@ def signup():
             resp.set_cookie('auth_token', authToken)
             return resp
         except Exception as e:
-            err = {}
-            print(e)
-            if str(e).startswith('UNIQUE'):
-                err["type"] = 'UNIQUE'
-                err["value"] = str(e).split(': ')[1].split('.')[1].capitalize()
+            err = ''
+            if str(e).split('\n')[2].endswith('already exists.'):
+                err = str(e).split('\n')[2].split(' ')[3].split(')=(')[0][1:].capitalize() + ' must be unique'
             else:
-                err["value"] = str(e)
+                err = str(e)
+            session.rollback()
             return {"success": False, "error": err}
 
 
