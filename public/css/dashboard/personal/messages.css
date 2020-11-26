@@ -45,7 +45,8 @@
     transition: all ease-out 0.2s; }
 
 .inbox {
-  display: flex !important; }
+  display: flex !important;
+  height: calc(100vh - 150px - 40px); }
 
 .inbox__main {
   flex-grow: 1;

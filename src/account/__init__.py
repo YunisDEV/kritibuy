@@ -7,6 +7,7 @@ import os
 import config
 from werkzeug.utils import secure_filename
 from .utils import make_square
+from ..utils import generateBrandNameSuggestion
 account = Blueprint('account', __name__, template_folder='./templates')
 
 
@@ -89,7 +90,8 @@ def signup():
         except Exception as e:
             err = ''
             if str(e).split('\n')[2].endswith('already exists.'):
-                err = str(e).split('\n')[2].split(' ')[3].split(')=(')[0][1:].capitalize() + ' must be unique'
+                err = str(e).split('\n')[2].split(' ')[3].split(
+                    ')=(')[0][1:].capitalize() + ' must be unique'
             else:
                 err = str(e)
             session.rollback()
@@ -137,7 +139,11 @@ def confirmation(user, con_key):
         Permission.id == user.permission).one()
     if request.method == 'GET':
         if user.confirmationKey == con_key and permission.name in ['Personal', 'Business']:
-            return render_template(f'confirmation_{permission.name.lower()}.html', user=user)
+            defaults = {}
+            if permission.name == 'Business':
+                defaults["brandName"] = generateBrandNameSuggestion(
+                    user.username)
+            return render_template(f'confirmation_{permission.name.lower()}.html', user=user, defaults=defaults)
         else:
             abort(401)
     elif request.method == 'POST':

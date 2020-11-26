@@ -8,13 +8,18 @@
 header {
   background-position-y: 0px;
   position: relative !important;
-  height: 100vh;
   padding: 20px;
-  padding-top: 150px !important; }
+  padding-top: 150px !important;
+  box-sizing: border-box; }
+
+header {
+  display: block !important;
+  background-size: cover;
+  height: auto !important;
+  min-height: 100vh; }
 
 .dashboard-body {
   width: 100%;
-  height: 100%;
   background-color: white;
   margin: 0;
   opacity: 1;

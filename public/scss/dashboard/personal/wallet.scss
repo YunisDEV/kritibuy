@@ -18,48 +18,22 @@
     }
 }
 
-table {
-    color: black;
-    text-align: left;
-    border-collapse: collapse;
-    width: 100%;
-    height: 100px;
-    position: relative;
-    overflow: scroll !important;
-    thead {
-        position: sticky;
-        top: 0;
-        background-color: var(--primary-color);
-        color: white;
-        th:nth-child(1) {
-            border-right: 1px solid var(--primary-dark);
-            padding: 8px;
-        }
-    }
-    tbody {
-        width: 100% !important;
-        height: 200px;
-        tr:nth-child(even) {
-            background-color: rgb(245, 245, 245);
-        }
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
-        }
-        td:nth-child(1) {
-            border-right: 1px solid #eee;
-        }
-        td.positive {
-            color: green !important;
-        }
-        td.negative {
-            color: red !important;
-        }
-    }
-}
-
 .dashboard-body > div {
     float: left;
     display: block;
 }
+
+table {
+    color: black !important;
+    position: relative !important;
+    thead {
+        position: absolute;
+        width: 100%!important;
+        top: 0;
+        left: 0;
+    }
+    tbody {
+        padding-top: 20px;
+    }
+}
+

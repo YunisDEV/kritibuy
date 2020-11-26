@@ -13,14 +13,11 @@ def generateBrandNameSuggestion(username):
             return ' '.join([i.capitalize() for i in pos])
     return username.capitalize()
 
-def generateBrandNameSynonyms(brandName):
-    synonyms = []
-    synonyms.append(brandName.lower())
-    synonyms.append(brandName.upper())
-    synonyms.append(brandName.capitalize())
-    synonyms.append(brandName.replace(' ',''))
-    synonyms.append(brandName.replace(' ','_'))
-    return synonyms
-
-
-print(generateBrandNameSuggestion('facebook'))
+# def generateBrandNameSynonyms(brandName):
+#     synonyms = []
+#     synonyms.append(brandName.lower())
+#     synonyms.append(brandName.upper())
+#     synonyms.append(brandName.capitalize())
+#     synonyms.append(brandName.replace(' ',''))
+#     synonyms.append(brandName.replace(' ','_'))
+#     return synonyms
