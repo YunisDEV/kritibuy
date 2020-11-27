@@ -6,7 +6,7 @@
         float: left;
         width: fit-content;
     }
-    h1 {
+    h2 {
         float: left;
         height: fit-content;
         display: block;
@@ -27,7 +27,7 @@
 .dashboard-body > div {
     float: left;
     display: block;
-    color:black;
+    color: black;
 }
 
 table {
@@ -57,13 +57,32 @@ table {
         }
     }
 }
-.create-wallet{
+.create-wallet {
     text-align: center;
-    h2{
+    h2 {
         color: #aaa;
     }
-    h1{
-        color:var(--primary-color);
+    h1 {
+        color: var(--primary-color);
         font-weight: 900;
+    }
+}
+@media (max-width: 666px) {
+    .budget {
+        .btns {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .bank{
+            display: block;
+            width: 100%;
+            text-align: center;
+            h2{
+                display: inline;
+                float: none;
+            }
+        }
     }
 }

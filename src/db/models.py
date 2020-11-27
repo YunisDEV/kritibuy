@@ -174,6 +174,8 @@ class CouponCode(Base):
     __tablename__ = 'CouponCodes'
     amount = Column(Float, nullable=False)
     code = Column(String, nullable=False)
+    usable = Column(Integer, nullable=False, default=1)
+    used = Column(Integer, nullable=False, default=0)
     active = Column(Boolean, default=True, nullable=False)
 
 

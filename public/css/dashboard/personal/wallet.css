@@ -5,7 +5,7 @@
   .budget .bank {
     float: left;
     width: fit-content; }
-  .budget h1 {
+  .budget h2 {
     float: left;
     height: fit-content;
     display: block; }
@@ -50,3 +50,17 @@ table {
   .create-wallet h1 {
     color: var(--primary-color);
     font-weight: 900; }
+
+@media (max-width: 666px) {
+  .budget .btns {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 20px; }
+  .budget .bank {
+    display: block;
+    width: 100%;
+    text-align: center; }
+    .budget .bank h2 {
+      display: inline;
+      float: none; } }
