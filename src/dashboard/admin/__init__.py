@@ -16,7 +16,7 @@ admin_data_get = {
     "Messages": messages_get,
     "Wallets": wallets_get,
     "Orders": orders_get,
-    "OrderRatings": orderratings_get
+    "CouponCodes":couponcodes_get
 }
 
 admin_data_post = {
@@ -30,7 +30,7 @@ admin_data_post = {
     # "Messages": messages_post,
     # "Wallets": wallets_post,
     # "Orders": orders_post,
-    # "OrderRatings": orderratings_post
+    "CouponCodes":couponcodes_post
 }
 
 admin_data_delete = {
@@ -44,7 +44,6 @@ admin_data_delete = {
     # "Messages": messages_delete,
     # "Wallets": wallets_post,
     # "Orders": orders_delete,
-    # "OrderRatings": orderratings_delete
 }
 
 admin_data_update = {
@@ -57,6 +56,5 @@ admin_data_update = {
     # "Reports": reports_update,
     # "Messages": messages_update,
     # "Wallets": wallets_update,
-    # "Orders": orders_update,
-    # "OrderRatings": orderratings_update
+    # "Orders": orders_update
 }

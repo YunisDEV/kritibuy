@@ -74,9 +74,9 @@ adminDashboardTree = {
                 "icon": 'dripicons-cart'
             },
             {
-                "name": 'OrderRatings',
-                "url": '/orderratings',
-                "icon": 'dripicons-star'
+                "name": 'CouponCodes',
+                "url": '/couponcodes',
+                "icon": 'dripicons-ticket'
             }
         ]
     },

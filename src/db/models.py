@@ -1,3 +1,4 @@
+from sqlalchemy.util.langhelpers import generic_repr
 import config
 import datetime
 from sqlalchemy import create_engine
@@ -19,6 +20,7 @@ from sqlalchemy.orm import sessionmaker, validates
 
 import re
 from .validators import email_validation, phone_num_validation
+from .utils import generateCouponCode
 
 db_string = config.DB_CONN_STRING
 engine = create_engine(db_string)
@@ -173,7 +175,7 @@ class Wallet(Base):
 class CouponCode(Base):
     __tablename__ = 'CouponCodes'
     amount = Column(Float, nullable=False)
-    code = Column(String, nullable=False)
+    code = Column(String, nullable=False, default=generateCouponCode())
     usable = Column(Integer, nullable=False, default=1)
     used = Column(Integer, nullable=False, default=0)
     active = Column(Boolean, default=True, nullable=False)

@@ -50,15 +50,17 @@ def personal_wallet(user):
     wallet = session.query(Wallet).filter(Wallet.owner == user.id).first()
     return render_template('personal/wallet.html', wallet=wallet)
 
-@dashboard.route('/personal/wallet/create',methods=['GET'])
+
+@dashboard.route('/personal/wallet/create', methods=['GET'])
 @authorize('Personal')
 @confirmed
 def personal_wallet_create(user):
     session.add(Wallet(
         owner=user.id
-    )) 
+    ))
     session.commit()
     return f"""window.open('/dashboard/personal/wallet/,'_self')"""
+
 
 #! Business
 @dashboard.route('/business/')

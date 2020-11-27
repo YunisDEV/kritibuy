@@ -69,6 +69,7 @@ def users_get(sql=""):
         "bonus": bonus
     }
 
+
 def passwordrecover_get(sql=""):
     q = session.query(PasswordRecover)
     if not sql == "":
@@ -86,6 +87,7 @@ def passwordrecover_get(sql=""):
         "query": q,
         "bonus": bonus
     }
+
 
 def authtokens_get(sql=""):
     q = session.query(AuthToken)
@@ -186,7 +188,6 @@ def wallets_get(sql=""):
     }
 
 
-
 def orders_get(sql=""):
     q = session.query(Order)
     if not sql == "":
@@ -210,29 +211,13 @@ def orders_get(sql=""):
     }
 
 
-def orderratings_get(sql=""):
-    q = session.query(OrderRating)
+def couponcodes_get(sql=""):
     if not sql == "":
-        q = session.query(OrderRating).filter(text(sql))
+        q = session.query(Order).filter(text(sql))
+    else:
+        q = session.query(Order)
     l = q.all()
-    bonus = {
-        'ByUser': {},
-        'ToUser': {},
-        'ForOrder': {},
-    }
-    for rating in l:
-        bonus["ByUser"][rating.id] = session.query(User).filter(
-            User.id == rating.byUser
-        ).one().username
-        bonus["ToUser"][rating.id] = session.query(User).filter(
-            User.id == rating.toUser
-        ).one().username
-        fo = session.query(Order).filter(
-            Order.id == rating.forOrder
-        ).one().name
-        bonus["ForOrder"][rating.id] = f"""{fo.orderedBy} --> {fo.orderedTo}"""
     return {
         "body": l,
-        "query": q,
-        "bonus": bonus
+        "query": q
     }
