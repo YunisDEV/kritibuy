@@ -213,9 +213,9 @@ def orders_get(sql=""):
 
 def couponcodes_get(sql=""):
     if not sql == "":
-        q = session.query(Order).filter(text(sql))
+        q = session.query(CouponCode).filter(text(sql))
     else:
-        q = session.query(Order)
+        q = session.query(CouponCode)
     l = q.all()
     return {
         "body": l,
