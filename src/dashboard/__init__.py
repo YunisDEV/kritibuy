@@ -59,7 +59,26 @@ def personal_wallet_create(user):
         owner=user.id
     ))
     session.commit()
-    return f"""window.open('/dashboard/personal/wallet/,'_self')"""
+    return f"""<script>window.open('/dashboard/personal/wallet/,'_self')</script>"""
+
+
+@dashboard.route('/personal/wallet/apply-coupon-code/', methods=['POST'])
+@authorize('Personal')
+@confirmed
+def personal_wallet_apply(user):
+    couponCode = session.query(CouponCode).filter(CouponCode.code == request.form["code"]).first()
+    if not couponCode:
+        return f"""<script>window.alert('This coupon code is not exists');window.open('/dashboard/personal/wallet/','_self')</script>"""
+    if couponCode.active:
+        wallet = session.query(Wallet).filter(Wallet.owner == user.id).one()
+        wallet.balance += couponCode.amount
+        couponCode.used += 1
+        if couponCode.used >= couponCode.usable:
+            couponCode.active = False
+    else:
+        return f"""<script>window.alert('This coupon code is not active');window.open('/dashboard/personal/wallet/','_self')</script>"""
+    session.commit()
+    return f"""<script>window.open('/dashboard/personal/wallet/','_self')</script>"""
 
 
 #! Business
