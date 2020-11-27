@@ -17,15 +17,17 @@
         float: left;
         height: fit-content;
     }
-    button {
-        float: right;
+    .btns {
         width: fit-content;
+        display: inline;
+        float: right;
     }
 }
 
 .dashboard-body > div {
     float: left;
     display: block;
+    color:black;
 }
 
 table {
@@ -53,5 +55,15 @@ table {
         td.negative {
             color: red;
         }
+    }
+}
+.create-wallet{
+    text-align: center;
+    h2{
+        color: #aaa;
+    }
+    h1{
+        color:var(--primary-color);
+        font-weight: 900;
     }
 }

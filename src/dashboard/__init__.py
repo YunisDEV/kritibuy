@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, make_response, request, abort, url_for
-from sqlalchemy.util.langhelpers import methods_equivalent
+from flask import Blueprint, render_template, make_response, request, abort
 from ..account.security import authorize, confirmed, hashPassword, checkPassword, generateToken
+from ..db import *
+
+# Panel data providers
 from .admin_panel import adminDashboardTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
-from ..db import session, Message, Permission, Country, City, User, PasswordRecover, Order
 from .business_panel import businessDashboardTree, business_data_get
+
 import json
 from werkzeug.utils import secure_filename
 from ..account.utils import make_square
@@ -19,37 +21,44 @@ def dashboard_main(user):
     permissionName = session.query(Permission).filter(
         Permission.id == user.permission
     ).one().name
-    if permissionName == 'Personal':
-        return f"""<script>window.open('/dashboard/personal','_self')</script>"""
-    if permissionName == 'Business':
-        return f"""<script>window.open('/dashboard/business','_self')</script>"""
-    if permissionName == 'Admin':
-        return f"""<script>window.open('/dashboard/admin','_self')</script>"""
+    if permissionName in ['Personal', 'Business', 'Admin']:
+        return f"""<script>window.open('/dashboard/{permissionName.lower()}','_self')</script>"""
+    abort(401)
 
 
 #! Personal
 @dashboard.route('/personal/')
-@dashboard.route('/personal/order/')
+@dashboard.route('/personal/chat/')
 @authorize('Personal')
 @confirmed
-def personal_main_order(user):
+def personal_main_chat(user):
     messages = session.query(Message).filter(Message.user == user.id).all()
     return render_template('personal/index.html', messages=messages)
 
 
-@dashboard.route('/personal/stats/')
+@dashboard.route('/personal/orders/')
 @authorize('Personal')
 @confirmed
-def personal_stats(user):
-    return render_template('personal/stats.html')
+def personal_orders(user):
+    return render_template('personal/orders.html')
 
 
 @dashboard.route('/personal/wallet/')
 @authorize('Personal')
 @confirmed
 def personal_wallet(user):
-    return render_template('personal/wallet.html')
+    wallet = session.query(Wallet).filter(Wallet.owner == user.id).first()
+    return render_template('personal/wallet.html', wallet=wallet)
 
+@dashboard.route('/personal/wallet/create',methods=['GET'])
+@authorize('Personal')
+@confirmed
+def personal_wallet_create(user):
+    session.add(Wallet(
+        owner=user.id
+    )) 
+    session.commit()
+    return f"""window.open('/dashboard/personal/wallet/,'_self')"""
 
 #! Business
 @dashboard.route('/business/')

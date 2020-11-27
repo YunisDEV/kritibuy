@@ -11,5 +11,6 @@ from .models import (
     Wallet,
     Order,
     PasswordRecover,
+    CouponCode,
     ServerError
 )

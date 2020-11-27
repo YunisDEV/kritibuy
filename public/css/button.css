@@ -20,18 +20,18 @@
 .btn-primary {
   color: #fff !important;
   background: var(--primary-color) !important;
-  border: none !important;
+  border: 2px solid var(--primary-color) !important;
   outline: none !important;
   box-shadow: none !important; }
   .btn-primary:active {
     color: #fff !important;
     background: var(--primary-color) !important;
-    border: none !important;
     outline: none !important;
     box-shadow: none !important; }
   .btn-primary:hover {
     color: #fff !important;
-    background: var(--primary-dark) !important; }
+    background: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important; }
   .btn-primary:focus {
     color: #fff !important;
     background: var(--primary-dark) !important; }

@@ -14,13 +14,15 @@
     font-weight: bold;
     float: left;
     height: fit-content; }
-  .budget button {
-    float: right;
-    width: fit-content; }
+  .budget .btns {
+    width: fit-content;
+    display: inline;
+    float: right; }
 
 .dashboard-body > div {
   float: left;
-  display: block; }
+  display: block;
+  color: black; }
 
 table {
   color: black !important;
@@ -40,3 +42,11 @@ table {
     color: green; }
   table tbody td.negative {
     color: red; }
+
+.create-wallet {
+  text-align: center; }
+  .create-wallet h2 {
+    color: #aaa; }
+  .create-wallet h1 {
+    color: var(--primary-color);
+    font-weight: 900; }
