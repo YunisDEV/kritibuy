@@ -2,7 +2,7 @@ from ..email import send_mail
 from flask import Blueprint, render_template, request, make_response, abort
 import json
 from .security import authorize, encodeToken, hashPassword, checkPassword, generateToken
-from ..db import session, Country, City, User, Permission, AuthToken, PasswordRecover
+from ..db import session, Country, City, User, Permission, AuthToken, PasswordRecover, Wallet
 import os
 import config
 from werkzeug.utils import secure_filename
@@ -73,6 +73,12 @@ def signup():
                 token=authToken
             ))
             session.commit()
+            if data['permission'] == 'Business':
+                session.add(Wallet(
+                    owner=created_user.id
+                ))
+                session.commit()
+                print('Wallet create for '+created_user.username)
             confirmation_link = f'{request.url_root}confirmation/{created_user.username}/{created_user.confirmationKey}'
             print(confirmation_link)
             if not created_user.confirmed:

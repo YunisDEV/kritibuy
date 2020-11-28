@@ -54,7 +54,7 @@
 <script type="text/html" id="send-money-template">
     <form id="send-money-form">
         <input name="receiver" type="text" class="form-control mb-4" placeholder="Username of receiver..." />
-        <input name="amount" type="number" class="form-control mb-4" placeholder="Amount of money..." />
+        <input name="amount" type="number" class="form-control mb-4" placeholder="Amount of money..." step=".01" min="0.01"/>
         <button name="subBtn" type="submit" class="btn btn-primary">Send</button>
     </form>
 </script>

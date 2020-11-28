@@ -1,0 +1,32 @@
+{%extends "admin/dashboard_base.html"%} {%block content%}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">{%block analytics_body%}{%endblock%}</div>
+        </div>
+    </div>
+</div>
+{%endblock%} {%block css%} {%assets filters="cssmin",output="bundles/template_database_plugin_bundle.css",
+"template/plugins/datatables/buttons.bootstrap4.min.css","template/plugins/datatables/dataTables.bootstrap4.min.css",'template/plugins/datatables/responsive.bootstrap4.min.css'%}
+<link rel="stylesheet" href="{{ASSET_URL}}" />
+{%endassets%}
+<style>
+    td.positive {
+        color: green;
+    }
+    td.negative {
+        color: red;
+    }
+</style>
+{%endblock%} {%block scripts%} {%assets filters='jsmin',output="bundles/template_database_plugin_bundle_business.js", "template/plugins/datatables/jquery.dataTables.min.js",
+"template/plugins/datatables/dataTables.bootstrap4.min.js", "https://yunisdev.github.io/table2csv/table2csv.min.js","template/plugins/datatables/dataTables.responsive.min.js" %}
+<script src="{{ASSET_URL}}"></script>
+{%endassets%} {%endblock%} {%block bodyend%}
+<script>
+    $(document).ready(() => {
+        $("#datatable").DataTable({
+            responsive: true,
+        });
+    });
+</script>
+{%endblock%}

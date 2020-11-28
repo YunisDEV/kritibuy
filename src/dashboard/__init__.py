@@ -68,6 +68,32 @@ def send_money(user):
         return make_response({"success": False, "error": str(e)})
 
 
+@dashboard.route('/apply-coupon-code', methods=['POST'])
+@authorize('Personal', 'Business')
+@confirmed
+def wallet_apply_coupon_code(user):
+    couponCode = session.query(CouponCode).filter(
+        CouponCode.code == request.form["code"]).first()
+    if not couponCode:
+        return make_response({"success": False, "error": 'This coupon code does not exists.'})
+    if couponCode.active:
+        wallet = session.query(Wallet).filter(Wallet.owner == user.id).one()
+        wallet.balance += couponCode.amount
+        couponCode.used += 1
+        if couponCode.used >= couponCode.usable:
+            couponCode.active = False
+        session.add(Payment(
+            fromUser=session.query(User).filter(
+                User.username == 'admin').one().id,
+            toUser=user.id,
+            amount=couponCode.amount
+        ))
+    else:
+        return make_response({"success": False, "error": 'This coupon code is not active.'})
+    session.commit()
+    return make_response({"success": True})
+
+
 #! Personal
 @dashboard.route('/personal/')
 @dashboard.route('/personal/chat/')
@@ -101,37 +127,11 @@ def personal_wallet(user):
 def personal_wallet_create(user):
     try:
         session.add(Wallet(
-        owner=user.id
-    ))
+            owner=user.id
+        ))
         session.commit()
     except Exception as e:
         print(e)
-    return f"""<script>window.open('/dashboard/personal/wallet/','_self')</script>"""
-
-
-@dashboard.route('/personal/wallet/apply-coupon-code/', methods=['POST'])
-@authorize('Personal')
-@confirmed
-def personal_wallet_apply(user):
-    couponCode = session.query(CouponCode).filter(
-        CouponCode.code == request.form["code"]).first()
-    if not couponCode:
-        return f"""<script>window.alert('This coupon code is not exists');window.open('/dashboard/personal/wallet/','_self')</script>"""
-    if couponCode.active:
-        wallet = session.query(Wallet).filter(Wallet.owner == user.id).one()
-        wallet.balance += couponCode.amount
-        couponCode.used += 1
-        if couponCode.used >= couponCode.usable:
-            couponCode.active = False
-        session.add(Payment(
-            fromUser=session.query(User).filter(
-                User.username == 'admin').one().id,
-            toUser=user.id,
-            amount=couponCode.amount
-        ))
-    else:
-        return f"""<script>window.alert('This coupon code is not active');window.open('/dashboard/personal/wallet/','_self')</script>"""
-    session.commit()
     return f"""<script>window.open('/dashboard/personal/wallet/','_self')</script>"""
 
 
@@ -147,7 +147,7 @@ def business_main(user):
 @authorize('Business')
 @confirmed
 def business_folder(user, folder):
-    return render_template(f'business/page_index.html', pageTitle=folder, tree=businessDashboardTree, user=user)
+    return render_template(f'business/page_index.html', pageTitle=folder.lower(), tree=businessDashboardTree, user=user)
 
 
 @dashboard.route('/business/inbox/<page>/')
@@ -293,6 +293,15 @@ def order_info_page(user, id):
     return render_template('business/invoice.html', data=data)
 
 
+@dashboard.route('/business/analytics/wallet/')
+@authorize('Business')
+@confirmed
+def business_account_wallet(user):
+    wallet = session.query(Wallet).filter(Wallet.owner == user.id).one()
+    pms = session.query(Payment).all()
+    return render_template(f'business/analytics/wallet.html', user=user, wallet=wallet, payments=processPayments(pms, user), pageTitle='Wallet', pageParent='Analytics', tree=adminDashboardTree)
+
+
 #! Admin
 @dashboard.route('/admin/')
 @authorize('Admin')
@@ -303,7 +312,7 @@ def admin_main(user):
 @dashboard.route('/admin/<folder>/')
 @authorize('Admin')
 def admin_folder(user, folder):
-    return render_template(f'admin/page_index.html', pageTitle=folder, tree=adminDashboardTree)
+    return render_template(f'admin/page_index.html', pageTitle=folder.lower(), tree=adminDashboardTree)
 
 
 @dashboard.route('/admin/settings/account-settings/', methods=['GET', 'POST'])
@@ -388,6 +397,14 @@ def admin_database_page(user, table, id=None):
     elif request.method == 'PATCH':
         resp = admin_data_update[db_name](request)
         return resp
+
+
+@dashboard.route('/admin/analytics/wallet/')
+@authorize('Admin')
+def admin_account_wallet(user):
+    wallet = session.query(Wallet).filter(Wallet.owner == user.id).one()
+    pms = session.query(Payment).all()
+    return render_template(f'admin/analytics/wallet.html', wallet=wallet, payments=processPayments(pms, user), pageTitle='Wallet', pageParent='Analytics', tree=adminDashboardTree)
 
 
 @dashboard.route('/admin/<folder>/<page>/')

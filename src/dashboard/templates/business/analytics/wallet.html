@@ -1,0 +1,107 @@
+{%extends "business/analytics/analytics_base.html"%}{%block analytics_body%}
+<div class="card-body">
+    <h4 class="title-text mt-0">Balance</h4>
+    <div class="d-flex justify-content-between">
+        <h2 class="font-weight-bold">${{wallet.balance}}</h2>
+    </div>
+</div>
+<div class="card-body">
+    <h4 class="title-text mt-0">Wallet operations</h4>
+    <div class="d-flex">
+        <button class="btn btn-primary send-money-btn">Send Money</button>
+        <button class="btn btn-primary coupon-code-btn ml-4">Add balance</button>
+    </div>
+</div>
+<div class="card-body">
+    <table id="transactions-table" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Account</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for payment in payments%}
+            <tr>
+                <td>{{payment["id"]}}</td>
+                <td>{{payment["account"]}}</td>
+                {%if payment['amount']>0%}
+                <td class="positive">+{{payment["amount"]}}$</td>
+                {%else%}
+                <td class="negative">{{payment["amount"]}}$</td>
+                {%endif%}
+                <td>{{payment["date"]}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+<script>
+    document.querySelector(".send-money-btn").addEventListener("click", (e) => {
+        Swal.fire({
+            showConfirmButton: false,
+            html: document.getElementById("send-money-template").innerHTML,
+        });
+        document.getElementById("send-money-form").addEventListener("submit", (e) => {
+            e.preventDefault()
+            fetch("/dashboard/send-money", {
+                method: "POST",
+                body: new FormData(e.target),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.success) location.reload();
+                    else
+                        Swal.fire({
+                            icon: "error",
+                            text: data.error,
+                        });
+                });
+        });
+    });
+    document.querySelector(".coupon-code-btn").addEventListener("click", (e) => {
+        Swal.fire({
+            showConfirmButton: false,
+            html: document.getElementById("coupon-code-template").innerHTML,
+        });
+        document.getElementById("apply-coupon-code").addEventListener("submit", (e) => {
+            e.preventDefault()
+            fetch("/dashboard/apply-coupon-code", {
+                method: "POST",
+                body: new FormData(e.target),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.success) location.reload();
+                    else
+                        Swal.fire({
+                            icon: "error",
+                            text: data.error,
+                        });
+                });
+        });
+    });
+</script>
+<script type="text/html" id="send-money-template">
+    <form id="send-money-form">
+        <input name="receiver" type="text" class="form-control mb-4" placeholder="Username of receiver..." />
+        <input name="amount" type="number" class="form-control mb-4" placeholder="Amount of money..." step=".01" min="0.01" />
+        <button name="subBtn" type="submit" class="btn btn-primary">Send</button>
+    </form>
+</script>
+<script type="text/html" id="coupon-code-template">
+    <form id="apply-coupon-code">
+        <input name="code" type="text" class="form-control mb-4" placeholder="Enter Coupon Code..." />
+        <button name="subBtn" type="submit" class="btn btn-primary">Apply</button>
+    </form>
+</script>
+<script defer>
+    $(document).ready(function () {
+        $("#transactions-table").DataTable({
+            responsive:true
+        });
+    });
+</script>
+{%endblock%}

@@ -10,6 +10,12 @@ businessDashboardTree = {
                 "name": 'Dashboard',
                 "url": '/dashboard',
                 "icon": 'dripicons-meter'
+            },
+            {
+
+                "name": 'Wallet',
+                "url": '/wallet',
+                "icon": 'dripicons-wallet'
             }
         ]
     },

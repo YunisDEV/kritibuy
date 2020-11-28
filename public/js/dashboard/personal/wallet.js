@@ -20,7 +20,10 @@ document.getElementById('send-money-btn').addEventListener('click', e => {
         }).then(res => res.json())
             .then(data=>{
                 if(data.success) location.reload()
-                else window.alert(data.error)
+                else Swal.fire({
+                    icon:'error',
+                    text:data.error
+                })
             })
     })
 })
