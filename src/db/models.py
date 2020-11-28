@@ -169,7 +169,7 @@ class Message(Base):
 class Wallet(Base):
     __tablename__ = 'Wallets'
     balance = Column(Float, default=0.0, nullable=False)
-    owner = Column(Integer, ForeignKey(User.id), nullable=False)
+    owner = Column(Integer, ForeignKey(User.id), nullable=False,unique=True)
 
 
 class CouponCode(Base):

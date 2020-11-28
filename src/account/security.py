@@ -42,16 +42,18 @@ def authorize(*allowed):
             permissionName = None
             if token:
                 token_body = decodeToken(token)
-                q = session.query(AuthToken).filter(AuthToken.user == session.query(
-                    User).filter(User.username == token_body["username"]).one().id)
-                tokens = [i.token for i in q.all()]
-                if token in tokens and token_body["permission"] in allowed:
-                    isauth = True
-                    q = session.query(User).filter(
-                        User.username == token_body["username"])
-                    user_data = q.one()
-                    if not user_data.active:
-                        abort(423)
+                authUser = session.query(
+                User).filter(User.username == token_body["username"]).first()
+                if authUser:
+                    q = session.query(AuthToken).filter(AuthToken.user == authUser.id)
+                    tokens = [i.token for i in q.all()]
+                    if token in tokens and token_body["permission"] in allowed:
+                        isauth = True
+                        q = session.query(User).filter(
+                            User.username == token_body["username"])
+                        user_data = q.one()
+                        if not user_data.active:
+                            abort(423)
             if not isauth:
                 abort(401)
             return f(user_data, *args, **kwargs)
@@ -68,16 +70,18 @@ def isauth(f):
         permissionName = None
         if token:
             token_body = decodeToken(token)
-            q = session.query(AuthToken).filter(AuthToken.user == session.query(
-                User).filter(User.username == token_body["username"]).one().id)
-            tokens = [i.token for i in q.all()]
-            if token in tokens:
-                isauth = True
-                q = session.query(User).filter(
-                    User.username == token_body["username"])
-                user_data = q.one()
-                if not user_data.active:
-                    isauth = False
+            authUser = session.query(
+                User).filter(User.username == token_body["username"]).first()
+            if authUser:
+                q = session.query(AuthToken).filter(AuthToken.user == authUser.id)
+                tokens = [i.token for i in q.all()]
+                if token in tokens:
+                    isauth = True
+                    q = session.query(User).filter(
+                        User.username == token_body["username"])
+                    user_data = q.one()
+                    if not user_data.active:
+                        isauth = False
         if not isauth:
             user_data = None
         return f(user_data, *args, **kwargs)

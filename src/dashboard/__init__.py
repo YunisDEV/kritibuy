@@ -99,11 +99,14 @@ def personal_wallet(user):
 @authorize('Personal')
 @confirmed
 def personal_wallet_create(user):
-    session.add(Wallet(
+    try:
+        session.add(Wallet(
         owner=user.id
     ))
-    session.commit()
-    return f"""<script>window.open('/dashboard/personal/wallet/,'_self')</script>"""
+        session.commit()
+    except Exception as e:
+        print(e)
+    return f"""<script>window.open('/dashboard/personal/wallet/','_self')</script>"""
 
 
 @dashboard.route('/personal/wallet/apply-coupon-code/', methods=['POST'])

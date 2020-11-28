@@ -53,7 +53,7 @@ for i in cities.items():
 
 adminProfile = User(
     username='admin',
-    password=hashPassword('admin123'),
+    password='Admin123',
     email='admin@kritibuy.com',
     permission=session.query(Permission).filter(
         Permission.name == 'Admin'
@@ -69,6 +69,7 @@ adminProfile = User(
 )
 
 session.add(adminProfile)
+session.commit()
 
 session.add(Wallet(
     owner=adminProfile.id
