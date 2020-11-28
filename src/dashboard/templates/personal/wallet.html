@@ -1,10 +1,14 @@
 {%extends "personal/dashboard_base.html"%} {%block head%}
 <link rel="stylesheet" href="/css/dashboard/personal/wallet.css" />
-<link rel="stylesheet" href="/template/plugins/sweet-alert2/sweetalert2.min.css">
+<link rel="stylesheet" href="/template/plugins/sweet-alert2/sweetalert2.min.css" />
 <script src="/template/plugins/sweet-alert2/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="/bundles/template_database_plugin_bundle.css">
+<script defer src="/template/plugins/datatables/jquery.dataTables.min.js"></script>
+<script defer src="/template/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<script defer src="//cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.js"></script>
+<link rel="stylesheet" href="//cdn.datatables.net/responsive/2.2.6/css/dataTables.responsive.css">
 <script defer src="/js/dashboard/personal/wallet.js"></script>
-{%endblock%} {%block body%}
-{%if wallet%}
+{%endblock%} {%block body%} {%if wallet%}
 <div class="col-md-12 budget">
     <h4 class="text-muted col-md-12 text-center mb-4">Wallet ID: {{wallet.id}}</h4>
     <div class="bank mb-4">
@@ -17,30 +21,50 @@
     </div>
 </div>
 <div class="col-md-12">
-    <table class="col-md-12">
+    <table id="transactions-table" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0;width:100%;">
         <thead>
             <tr>
+                <th>#</th>
                 <th>Account</th>
                 <th>Amount</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
+            {%for payment in payments%}
             <tr>
-                <td>Domino's Pizza</td>
-                <td class="positive">+10$</td>
+                <td>{{payment["id"]}}</td>
+                <td>{{payment["account"]}}</td>
+                {%if payment['amount']>0%}
+                <td class="positive">+{{payment["amount"]}}$</td>
+                {%else%}
+                <td class="negative">{{payment["amount"]}}$</td>
+                {%endif%}
+                <td>{{payment["date"]}}</td>
             </tr>
-            <tr>
-                <td>Domino's Pizza</td>
-                <td class="negative">-10$</td>
-            </tr>
+            {%endfor%}
         </tbody>
     </table>
 </div>
 <script type="text/html" id="coupon-code-template">
     <form id="apply-coupon-code" action="/dashboard/personal/wallet/apply-coupon-code/" method="POST">
-        <input name="code" type="text" class="form-control mb-4" placeholder="Enter Coupon Code...">
+        <input name="code" type="text" class="form-control mb-4" placeholder="Enter Coupon Code..." />
         <button name="subBtn" type="submit" class="btn btn-primary">Apply</button>
     </form>
+</script>
+<script type="text/html" id="send-money-template">
+    <form id="send-money-form">
+        <input name="receiver" type="text" class="form-control mb-4" placeholder="Username of receiver..." />
+        <input name="amount" type="number" class="form-control mb-4" placeholder="Amount of money..." />
+        <button name="subBtn" type="submit" class="btn btn-primary">Send</button>
+    </form>
+</script>
+<script defer>
+    $(document).ready(function () {
+        $("#transactions-table").DataTable({
+            responsive:true
+        });
+    });
 </script>
 {%else%}
 <div class="col-md-12 create-wallet">
@@ -48,5 +72,4 @@
     <h1 class="mb-4">Kritibuy Wallet</h1>
     <a class="mt-4 mb-4 btn btn-primary" href="/dashboard/personal/wallet/create">Create Wallet Now</a>
 </div>
-{%endif%}
-{%endblock%}
+{%endif%} {%endblock%}

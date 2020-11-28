@@ -31,7 +31,9 @@
 {%endassets%} {%endblock%} {%block bodyend%}
 <script>
     $(document).ready(() => {
-        $("#datatable").DataTable(datatable_options);
+        $("#datatable").DataTable({
+            responsive:true
+        });
     });
 </script>
 <script>

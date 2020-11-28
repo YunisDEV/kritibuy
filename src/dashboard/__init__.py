@@ -5,6 +5,7 @@ from ..db import *
 # Panel data providers
 from .admin_panel import adminDashboardTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
 from .business_panel import businessDashboardTree, business_data_get
+from .personal_panel import processPayments
 
 import json
 from werkzeug.utils import secure_filename
@@ -24,6 +25,47 @@ def dashboard_main(user):
     if permissionName in ['Personal', 'Business', 'Admin']:
         return f"""<script>window.open('/dashboard/{permissionName.lower()}','_self')</script>"""
     abort(401)
+
+
+@dashboard.route('/send-money', methods=['POST'])
+@authorize('Personal', 'Admin', 'Business')
+@confirmed
+def send_money(user):
+    try:
+        sender = user
+        try:
+            receiver = session.query(User).filter(
+                User.username == request.form['receiver']).one()
+            if not receiver:
+                raise Exception()
+        except Exception as e:
+            raise Exception('Can not find any receiver.')
+        senderWallet = session.query(Wallet).filter(
+            Wallet.owner == sender.id).one()
+        try:
+            receiverWallet = session.query(Wallet).filter(
+                Wallet.owner == receiver.id).one()
+            if not receiver:
+                raise Exception()
+        except Exception as e:
+            raise Exception('Receiver has not wallet to receive money.')
+        try:
+            amount = abs(float(request.form['amount']))
+        except Exception as e:
+            raise Exception('Amount of money must be number.')
+        if receiver.confirmed and receiver.active:
+            senderWallet.balance -= amount
+            receiverWallet.balance += amount
+            session.add(Payment(
+                fromUser=sender.id,
+                toUser=receiver.id,
+                amount=amount
+            ))
+            session.commit()
+        return make_response({"success": True})
+    except Exception as e:
+        print(e)
+        return make_response({"success": False, "error": str(e)})
 
 
 #! Personal
@@ -48,7 +90,9 @@ def personal_orders(user):
 @confirmed
 def personal_wallet(user):
     wallet = session.query(Wallet).filter(Wallet.owner == user.id).first()
-    return render_template('personal/wallet.html', wallet=wallet)
+    _payments = session.query(Payment).all()
+    payments = processPayments(_payments, user)
+    return render_template('personal/wallet.html', wallet=wallet, payments=payments)
 
 
 @dashboard.route('/personal/wallet/create', methods=['GET'])
@@ -66,7 +110,8 @@ def personal_wallet_create(user):
 @authorize('Personal')
 @confirmed
 def personal_wallet_apply(user):
-    couponCode = session.query(CouponCode).filter(CouponCode.code == request.form["code"]).first()
+    couponCode = session.query(CouponCode).filter(
+        CouponCode.code == request.form["code"]).first()
     if not couponCode:
         return f"""<script>window.alert('This coupon code is not exists');window.open('/dashboard/personal/wallet/','_self')</script>"""
     if couponCode.active:
@@ -75,6 +120,12 @@ def personal_wallet_apply(user):
         couponCode.used += 1
         if couponCode.used >= couponCode.usable:
             couponCode.active = False
+        session.add(Payment(
+            fromUser=session.query(User).filter(
+                User.username == 'admin').one().id,
+            toUser=user.id,
+            amount=couponCode.amount
+        ))
     else:
         return f"""<script>window.alert('This coupon code is not active');window.open('/dashboard/personal/wallet/','_self')</script>"""
     session.commit()
@@ -269,6 +320,7 @@ def admin_account_settings(user):
         user.city = session.query(City).filter(
             City.name == request.form['city']).one().id
         session.commit()
+        user.brandName = request.form["brandName"] or None
     user_country = session.query(Country).filter(
         Country.id == user.country).one()
     countries = session.query(Country)

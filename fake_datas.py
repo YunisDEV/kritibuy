@@ -3,7 +3,8 @@ from src.db import (
     Permission,
     Country,
     City,
-    User
+    User,
+    Wallet
 )
 from src.account.security import hashPassword
 
@@ -68,5 +69,9 @@ adminProfile = User(
 )
 
 session.add(adminProfile)
+
+session.add(Wallet(
+    owner=adminProfile.id
+))
 
 session.commit()

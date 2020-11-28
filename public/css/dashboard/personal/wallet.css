@@ -19,29 +19,29 @@
     display: inline;
     float: right; }
 
-.dashboard-body > div {
+.dashboard-body div {
   float: left;
   display: block;
   color: black; }
 
-table {
-  color: black !important;
-  position: relative !important; }
-  table thead {
-    font-size: 23px;
+.dashboard-body > div {
+  width: 100%; }
+
+.dataTables_wrapper {
+  width: 100%; }
+  .dataTables_wrapper > .row {
+    width: 100%; }
+  .dataTables_wrapper table thead tr th {
+    background-color: var(--primary-color);
     color: white;
-    background-color: var(--primary-color); }
-    table thead th {
-      padding: 10px;
-      border: 2px solid white; }
-  table tbody tr:nth-child(even) {
-    background-color: #eee; }
-  table tbody td {
-    padding: 10px; }
-  table tbody td.positive {
-    color: green; }
-  table tbody td.negative {
+    border-color: var(--primary-color); }
+  .dataTables_wrapper table td.negative {
     color: red; }
+  .dataTables_wrapper table td.positive {
+    color: green; }
+  .dataTables_wrapper .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color); }
 
 .create-wallet {
   text-align: center; }

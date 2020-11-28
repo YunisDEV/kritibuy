@@ -24,37 +24,39 @@
     }
 }
 
-.dashboard-body > div {
+.dashboard-body div {
     float: left;
     display: block;
     color: black;
 }
-
-table {
-    color: black !important;
-    position: relative !important;
-    thead {
-        font-size: 23px;
-        color: white;
-        background-color: var(--primary-color);
-        th {
-            padding: 10px;
-            border: 2px solid white;
+.dashboard-body > div {
+    width: 100%;
+}
+.dataTables_wrapper {
+    width: 100%;
+    > .row {
+        width: 100%;
+    }
+    table {
+        thead {
+            tr {
+                th {
+                    background-color: var(--primary-color);
+                    color: white;
+                    border-color: var(--primary-color);
+                }
+            }
+        }
+        td.negative{
+            color:red;
+        }
+        td.positive{
+            color:green;
         }
     }
-    tbody {
-        tr:nth-child(even) {
-            background-color: #eee;
-        }
-        td {
-            padding: 10px;
-        }
-        td.positive {
-            color: green;
-        }
-        td.negative {
-            color: red;
-        }
+    .page-item.active .page-link {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
     }
 }
 .create-wallet {
@@ -75,14 +77,21 @@ table {
             justify-content: space-between;
             margin-bottom: 20px;
         }
-        .bank{
+        .bank {
             display: block;
             width: 100%;
             text-align: center;
-            h2{
+            h2 {
                 display: inline;
                 float: none;
             }
         }
     }
 }
+// .dataTables_info {
+//     width: 50%;
+// }
+// .transactions-table_wrapper{
+//     width: 100%;
+//     display: block;
+// }
