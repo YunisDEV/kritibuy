@@ -64,3 +64,11 @@
     .budget .bank h2 {
       display: inline;
       float: none; } }
+
+span.badge {
+  background-color: gray;
+  color: white; }
+  span.badge.badge-soft-success {
+    background-color: green !important; }
+  span.badge.badge-soft-danger {
+    background-color: #ff3e3e !important; }

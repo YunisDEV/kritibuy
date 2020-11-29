@@ -95,3 +95,13 @@
 //     width: 100%;
 //     display: block;
 // }
+span.badge{
+    background-color:gray;
+    color:white;
+    &.badge-soft-success{
+        background-color:green!important;
+    }
+    &.badge-soft-danger{
+        background-color:rgb(255, 62, 62)!important;
+    }
+}

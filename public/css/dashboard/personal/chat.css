@@ -2,7 +2,7 @@
   width: 100%;
   position: relative;
   overflow: hidden !important;
-  height: calc(100% - 68px);
+  height: 100%;
   border-radius: 20px;
   border: 5px solid var(--primary-dark);
   background-color: var(--primary-dark); }

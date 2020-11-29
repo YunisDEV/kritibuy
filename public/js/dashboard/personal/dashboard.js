@@ -22,7 +22,7 @@ var navLinks = document.querySelectorAll('.nav-item.nav-link')
 var pathToPage = {
     '/dashboard/personal/': 'Chat',
     '/dashboard/personal/chat/': 'Chat',
-    '/dashboard/personal/stats/': 'Orders',
+    '/dashboard/personal/orders/': 'Orders',
     '/dashboard/personal/wallet/': 'Wallet',
     '/dashboard/personal/contact/': 'Contact'
 }

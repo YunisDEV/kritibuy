@@ -5,7 +5,7 @@ from ..db import *
 # Panel data providers
 from .admin_panel import adminDashboardTree, admin_data_get, admin_data_post, admin_data_delete, admin_data_update
 from .business_panel import businessDashboardTree, business_data_get
-from .personal_panel import processPayments
+from .personal_panel import processPayments, processOrders
 
 import json
 from werkzeug.utils import secure_filename
@@ -54,7 +54,8 @@ def send_money(user):
         except Exception as e:
             raise Exception('Amount of money must be number.')
         if not amount < senderWallet.balance:
-            raise Exception('You have not enough balance to realize this payment.')
+            raise Exception(
+                'You have not enough balance to realize this payment.')
         if receiver.confirmed and receiver.active:
             senderWallet.balance -= amount
             receiverWallet.balance += amount
@@ -110,7 +111,9 @@ def personal_main_chat(user):
 @authorize('Personal')
 @confirmed
 def personal_orders(user):
-    return render_template('personal/orders.html')
+    orders = session.query(Order).filter(
+        Order.orderedBy == user.id).order_by(Order.createdAt.desc()).all()
+    return render_template('personal/orders.html', orders=orders)
 
 
 @dashboard.route('/personal/wallet/')

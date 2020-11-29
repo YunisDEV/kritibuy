@@ -1,5 +1,7 @@
 from ..db import session, User, Permission
 
+def processOrders(orders):
+    return orders
 
 def processPayments(payments, user):
     pms = []
