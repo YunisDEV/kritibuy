@@ -12,7 +12,7 @@
     <h4 class="text-muted col-md-12 text-center mb-4">Wallet ID: {{wallet.id}}</h4>
     <div class="bank mb-4">
         <h2 class="">Your Balance:</h2>
-        <h2 class="money-left">${{wallet.balance}}</h2>
+        <h2 class="money-left">${{'{0:.2f}'.format(wallet.balance)}}</h2>
     </div>
     <div class="btns">
         <button class="btn btn-secondary" id="send-money-btn">Send money</button>
@@ -46,7 +46,7 @@
     </table>
 </div>
 <script type="text/html" id="coupon-code-template">
-    <form id="apply-coupon-code" action="/dashboard/personal/wallet/apply-coupon-code/" method="POST">
+    <form id="apply-coupon-code">
         <input name="code" type="text" class="form-control mb-4" placeholder="Enter Coupon Code..." />
         <button name="subBtn" type="submit" class="btn btn-primary">Apply</button>
     </form>

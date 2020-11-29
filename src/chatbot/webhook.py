@@ -1,6 +1,7 @@
 from ..db import session, User, Order, ServerError, Permission
 from .utils import getCompany
-
+from ..email import send_mail
+from ..dashboard.business_panel import business_data_get
 webhook_placeholder = {
     "fulfillmentMessages": [
         {
@@ -44,6 +45,10 @@ def order_to_company(data):
             )
             session.add(order)
             session.commit()
+            send_mail(
+                Subject='Kritibuy - New Order',
+                To=company.email,
+                Template={"name":'email_invoice',"data":business_data_get["invoice"](order.id)})
         except Exception as e:
             raise Exception('Order can not be created', 18)
         if not response:

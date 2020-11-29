@@ -53,6 +53,8 @@ def send_money(user):
             amount = abs(float(request.form['amount']))
         except Exception as e:
             raise Exception('Amount of money must be number.')
+        if not amount < senderWallet.balance:
+            raise Exception('You have not enough balance to realize this payment.')
         if receiver.confirmed and receiver.active:
             senderWallet.balance -= amount
             receiverWallet.balance += amount

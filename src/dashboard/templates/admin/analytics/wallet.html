@@ -2,7 +2,7 @@
 <div class="card-body">
     <h4 class="title-text mt-0">Balance</h4>
     <div class="d-flex justify-content-between">
-        <h2 class="font-weight-bold">${{wallet.balance}}</h2>
+        <h2 class="font-weight-bold">${{'{0:.2f}'.format(wallet.balance)}}</h2>
     </div>
 </div>
 <div class="card-body">
@@ -44,6 +44,7 @@
             html: document.getElementById("send-money-template").innerHTML,
         });
         document.getElementById("send-money-form").addEventListener("submit", (e) => {
+            e.preventDefault()
             fetch("/dashboard/send-money", {
                 method: "POST",
                 body: new FormData(e.target),

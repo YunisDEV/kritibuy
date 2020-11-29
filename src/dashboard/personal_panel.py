@@ -36,4 +36,6 @@ def processPayments(payments, user):
             else:
                 pObj["account"] = pFrom.brandName
             pms.append(pObj)
+    pms = sorted(pms,key=lambda item:item["id"],reverse=True)
+    print(pms)
     return pms
