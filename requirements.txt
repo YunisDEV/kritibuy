@@ -1,6 +1,7 @@
 alembic==1.4.3
 autopep8==1.5.4
 bcrypt==3.2.0
+blinker==1.4
 cachetools==4.1.1
 certifi==2020.6.20
 cffi==1.14.3
@@ -11,6 +12,7 @@ cssmin==0.2.0
 dialogflow==1.1.0
 Flask==1.1.2
 Flask-Assets==2.0
+Flask-Mail==0.9.1
 google-api-core==1.22.4
 google-auth==1.22.1
 googleapis-common-protos==1.52.0
