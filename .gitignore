@@ -2,5 +2,5 @@
 .vscode
 .venv
 google_services_key.json
-env.py
+/env.py
 alembic.ini

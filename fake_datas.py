@@ -6,14 +6,13 @@ from src.db import (
     User,
     Wallet
 )
-from src.account.security import hashPassword
 
 # Creating Permissions
 permissions = ['Admin', 'Personal', 'Business']
 
 for i in permissions:
     session.add(Permission(name=i))
-
+session.commit()
 # Creating Countries
 countries = {
     "Azerbaijan": ['AZ', 'AZE', '/countryflags/aze_flag.png'],
@@ -28,7 +27,7 @@ for i in countries.items():
         alpha3=i[1][1],
         flagPath=i[1][2],
     ))
-
+session.commit()
 # Creating Cities
 cities = {
     "Baku": "Azerbaijan",
@@ -50,7 +49,7 @@ for i in cities.items():
         name=i[0],
         country=session.query(Country).filter(Country.name == i[1]).one().id
     ))
-
+session.commit()
 adminProfile = User(
     username='admin',
     password='Admin123',
