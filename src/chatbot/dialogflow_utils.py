@@ -32,8 +32,10 @@ class DialogflowResponse:
         self.queryText = response.query_result.query_text
         self.detectedIntent = response.query_result.intent.display_name
         self.detectedIntentConfidence = response.query_result.intent_detection_confidence
-        self.fulfillmentText = response.query_result.fulfillment_messages[0].text.text[0]
-
+        try:
+            self.fulfillmentText = str(response.query_result.fulfillment_messages[0].text.text[0])
+        except Exception as e:
+            self.fulfillmentText = ''
 
 class WebhookRequest:
     def __init__(self, data):

@@ -44,14 +44,22 @@ def chatbot_query(user):
 @chatbot.route('/webhook', methods=['POST', 'GET'])
 @auth_webhook
 def webhook_main():
-    if request.method == 'GET':
-        return make_response({"api_version": 1})
-    data = WebhookRequest(json.loads(request.data))
-    resp = webhook[data.intent](data)
-    old = []
-    with open('src/chatbot/webhook.debug.json') as f:
-        old = json.load(f)
-        old.append({'query':data.query_text,'response':resp["fulfillmentMessages"][0]["text"]["text"][0]})
-    with open('src/chatbot/webhook.debug.json','w') as f:
-        json.dump(old,f)
-    return make_response(resp)
+    try:
+        if request.method == 'GET':
+            return make_response({"api_version": 1})
+        data = WebhookRequest(json.loads(request.data))
+        resp = webhook[data.intent](data)
+        print(data)
+        return make_response(resp)
+    except Exception as e:
+        return make_response({
+        "fulfillmentMessages": [
+            {
+                "text": {
+                    "text": [
+                        "Webhook problem occured. Contact admin of application"
+                    ]
+                }
+            }
+        ]
+    })
