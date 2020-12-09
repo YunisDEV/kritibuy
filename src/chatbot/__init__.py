@@ -12,28 +12,32 @@ chatbot = Blueprint('chatbot', __name__)
 @chatbot.route('/query', methods=['POST'])
 @authorize('Personal')
 def chatbot_query(user):
-    data = json.loads(request.data)
-    cli = DialogflowClient(
-        project_id='kritibuy-mbhb',
-        session_id=user.id,
-        language='en'
-    )
-    response = cli.query(data["queryText"])
-    response = DialogflowResponse(response)
-    session.add_all([
-        Message(
-            user=user.id,
-            type='me',
-            message=data["queryText"]
-        ),
-        Message(
-            user=user.id,
-            type='you',
-            message=response.fulfillmentText
+    try:
+        data = json.loads(request.data)
+        cli = DialogflowClient(
+            project_id='kritibuy-mbhb',
+            session_id=user.id,
+            language='en'
         )
-    ])
-    session.commit()
-    return {"response": response.fulfillmentText}
+        response = cli.query(data["queryText"])
+        response = DialogflowResponse(response)
+        session.add_all([
+            Message(
+                user=user.id,
+                type='me',
+                message=data["queryText"]
+            ),
+            Message(
+                user=user.id,
+                type='you',
+                message=response.fulfillmentText
+            )
+        ])
+        session.commit()
+        return {"response": response.fulfillmentText}
+    except Exception as e:
+        print(e)
+        return {"response": str(e)}
 
 
 # Order handling
